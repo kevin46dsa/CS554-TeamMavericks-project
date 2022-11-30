@@ -1,12 +1,18 @@
 const router = require('express').Router();
-//const authFunctions = require('../data/auth');
+const authFunctions = require('../data/auth');
 //const dataValidation = require('../data/dataValidation');
 //var xss = require('xss');
 
 router.post('/newuser', async (req, res) => {
 	//route used to create a new user from the signup page in frontend
+	
+	authFunctions('kevin46dsa','kevin@102')
+	
+	
 	/*
     let data = undefined;
+	
+
 
 	try {
 		if (req.body) data = req.body;
@@ -53,7 +59,7 @@ router.post('/newuser', async (req, res) => {
     */
 });
 
-router.get('/review', async (req, res) => {
+router.post('/signup', async (req, res) => {
 	/*
     let UserID = req.userId;
 

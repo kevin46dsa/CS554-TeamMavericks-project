@@ -1,22 +1,29 @@
 const axios = require('axios');
+
+
 const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
+
+/*
 const { 
     getAuth, 
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
    } = require("firebase/auth");
 
-const auth = getAuth();
+//const auth = getAuth();
 
 
+to get logged in user information after it passes the middle ware 
+const {uid} = req.user;
+*/
 
 
 async function signup(username,password){
     // data validation
     
-
+    console.log(auth)
 	
     // Add firebase code 
     //createUserWithEmailAndPassword(auth, email, password);
