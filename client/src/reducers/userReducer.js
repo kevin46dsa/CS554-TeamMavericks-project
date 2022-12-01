@@ -8,6 +8,7 @@ const initalState = [
 		followers: [],
 		following: [],
 		description: '',
+		profilePicture: '',
 	},
 ];
 
@@ -20,6 +21,7 @@ const userReducer = (state = initalState, action) => {
 	switch (type) {
 		case 'CREATE_USER':
 			console.log('payload', payload);
+			//logic to update the state in firebase
 			return [
 				...state,
 				{
