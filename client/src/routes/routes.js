@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes as Switch, Route as Routing } from "react-router-dom";
+import { Routes as Switch, Route as Routing, Navigate } from "react-router-dom";
 
 
 import Login from "../Components/login/login";
@@ -12,7 +12,7 @@ const Routesr = () => {
       
         <Switch>
           
-          
+          <Routing exact path="/" element={ <Navigate to="/login" /> }/>
           <Routing exact path="/login" element={<Login />} />
           <Routing exact path="/signup" element={<Signup />} />
           <Routing exact path="/home" element={<Home />} />
