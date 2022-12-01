@@ -6,6 +6,7 @@ const initalState = [
 		description: '',
 		userWhoLiked: [],
 		liked: false,
+		image: '',
 	},
 ];
 
