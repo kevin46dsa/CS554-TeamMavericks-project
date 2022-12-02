@@ -12,10 +12,10 @@ const Routesr = () => {
       
         <Switch>
           
-          <Routing exact path="/" element={ <Navigate to="/login" /> }/>
+          <Routing exact path="/" element={ <Home /> }/>
           <Routing exact path="/login" element={<Login />} />
           <Routing exact path="/signup" element={<Signup />} />
-          <Routing exact path="/home" element={<Home />} />
+          
           
         </Switch>
     </>
