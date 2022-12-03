@@ -62,7 +62,7 @@ const Signup = () => {
 				<div className={styles.right}>
 				<form className={styles.form_container} onSubmit={handleSubmit}>
 						<h1>Create a new Account</h1>
-						<label htmlFor="name">Name</label>
+						<label htmlFor="name">Name:</label>
 						<input
 							id="name"
 							type="text"
@@ -71,7 +71,7 @@ const Signup = () => {
 							value={name}
 							className={styles.input}
 						/>
-						<label htmlFor="email">Email</label>
+						<label htmlFor="email">Email:</label>
 						<input
 							id="email"
 							type="email"
@@ -80,7 +80,7 @@ const Signup = () => {
 							value={email}
 							className={styles.input}
 						/>
-						<label htmlFor="password">Password</label>
+						<label htmlFor="password">Password:</label>
 						<input
 							id="password"
 							type="password"
@@ -95,6 +95,14 @@ const Signup = () => {
 						<div className="divider d-flex align-items-center my-4">
             				<p className="text-center fw-bold mx-3 mb-0">Or</p>
           				</div>
+
+						<div className="divider d-flex align-items-center my-4">
+            				<p className="text-center fw-bold mx-3 mb-0">Have an account?</p>
+          				</div>
+
+						<button className="btn btn-success btn-round-lg btn-lg ">
+							<span>Login</span>
+						</button>
 						
 					</form>
 				</div>
