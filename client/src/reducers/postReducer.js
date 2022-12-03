@@ -19,6 +19,7 @@ const postReducer = (state = initalState, action) => {
 	switch (type) {
 		case 'CREATE_POST':
 			console.log('payload', payload);
+
 			return [
 				...state,
 				{
