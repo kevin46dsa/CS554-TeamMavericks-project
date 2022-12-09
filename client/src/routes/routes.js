@@ -7,6 +7,8 @@ import Home from "../Components/Home";
 import Signup from "../Components/Signup/Signup";
 import Profile from "../Components/profile/profile";
 import CreatePost from "../Components/CreatePost/CreatePost";
+import EditProfile from "../Components/EditProfile/EditProfile";
+import Search from "../Components/Search/Search";
 
 const Routesr = () => {
 
@@ -21,8 +23,10 @@ const Routesr = () => {
           <Routing exact path="/login" element={<Login />} />
           <Routing exact path="/signup" element={<Signup />} />          
           <Routing exact path="/profile" element={<Profile />} />
+          <Routing exact path="/EditProfile" element={<EditProfile />} />
           <Routing exact path="/CreatePost" element={<CreatePost setAlert={setAlert}/>} />
           {/* <Routing exact path="/CreatePost" element={<CreatePost />} /> */}
+          <Routing exact path="/Search" element={<Search />} />
 
 
           

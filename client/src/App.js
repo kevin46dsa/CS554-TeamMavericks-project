@@ -2,7 +2,14 @@ import React from 'react';
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import Routesr from "./routes/routes";
-
+import Login from './Components/login/login';
+import Signup from './Components/Signup/Signup';
+import Home from './Components/Home';
+import Profile from './Components/profile/profile';
+import CreatePost from './Components/CreatePost/CreatePost';
+import EditProfile from './Components/EditProfile/EditProfile';
+import ProfileItem from './Components/ProfileItem/ProfileItem';
+ 
 /// temp stored this here to access fire base
 
 import { initializeApp } from "firebase/app";
@@ -29,6 +36,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routesr />
+
+      {/* <header className="App-header">
+         <h1 className="App-title"> InstaBuzz</h1>
+      </header>
+          <br /> */}
+
     </BrowserRouter>
   );
 }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import { Link, useNavigate } from 'react-router-dom';
 //import OAuth from '../OAuth/OAuth';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-import "../CreatePost/CreatePost";
+import "../css/CreatePost.css";
 
 
 export default function CreatePost({ user, setAlert }) {

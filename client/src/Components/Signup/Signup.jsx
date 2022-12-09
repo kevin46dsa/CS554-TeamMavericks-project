@@ -100,8 +100,12 @@ const Signup = () => {
             				<p className="text-center fw-bold mx-3 mb-0">Have an account?</p>
           				</div>
 
-						<button className="btn btn-success btn-round-lg btn-lg ">
+						{/* <button className="btn btn-success btn-round-lg btn-lg ">
 							<span>Login</span>
+						</button> */}
+
+						<button className="btn btn-success btn-round-lg btn-lg ">
+							<Link to="/login">Login</Link>
 						</button>
 						
 					</form>
