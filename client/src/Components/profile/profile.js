@@ -2,21 +2,37 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 //import OAuth from '../OAuth/OAuth';
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import {getAuth } from "firebase/auth";
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import EditProfile from '../EditProfile/EditProfile';
 import "../css/profile.css";
+import useUser from '../../hooks/useUser';
 
 
-
-export default function Profile({ user, setAlert }) {
+export default function Profile({ setAlert }) {
     const [profileData, setProfileData] = useState({});
     const [posts, setPosts] = useState({});
     const [following, setFollowing] = useState(false);
     const [owner, setOwner] = useState(false);
     const [editing, setEditing] = useState(false);
     const params = useParams();
+    const auth = getAuth();
+    const navigate = useNavigate();
+    //Custom Hook 
+    const {user,isLoading} = useUser()
+    console.log(user)
+    
+    
+    function onLogout() {
+      auth.signOut().then(()=>{
+      alert("User Signed out")
+      navigate("/login");
+      }).catch(()=>{
+      alert("Error with signning out")
+      })
+      
+    }
   
     useEffect(() => {
         // console.log(params,"<------")
@@ -102,7 +118,10 @@ export default function Profile({ user, setAlert }) {
           setAlert={setAlert}
         />
         <div className="profile-banner">
-          <h4>@{profileData.email}</h4>
+          
+          {/*Change this to User Name*/}
+        {user ? <h1>{user.email}</h1>: null}
+        <button type="button" className="btn btn-danger btn-lg" onClick={onLogout}>Log Out</button>
           <div className="profile-data">
             <img
               src={

@@ -31,7 +31,7 @@ const Login = () => {
 			password
 		  );
 		  if (userCredential.user) {
-			navigate("/home");
+			navigate("/");
 		  }
 		} catch (error) {
 		  alert("Bad user credentials");

@@ -22,7 +22,7 @@ export default function Search() {
             <Form.Control
               type="text"
               onInput={(e) => updateSearchText(e.target.value)}
-              placeholder="Search for a username"
+              placeholder="Search for a Name"
             />
           </Form.Group>
           <Button variant="primary" onClick={search}>
