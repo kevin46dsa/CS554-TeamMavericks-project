@@ -39,19 +39,11 @@ const Login = () => {
 	  }
 	return (
 
-		// <div className={App-header}>
-		// 	<header className="App-header">
-        //  		<h1 className="App-title"> InstaBuzz</h1>
-      	// 	</header>
-		// </div>
 
 		
 		<div className={styles.login_container}>
           		
 
-			{/* <header className="App-header">
-         			<h1 className="App-title"> InstaBuzz</h1>
-      		</header> */}
 			<div className={styles.login_form_container}>
 				<div className={styles.left}>
 					<form className={styles.form_container} onSubmit={onSubmit}>
