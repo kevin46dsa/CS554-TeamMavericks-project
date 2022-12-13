@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {getAuth } from "firebase/auth";
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
-// import EditProfile from "./EditProfile";
+import EditProfile from '../EditProfile/EditProfile';
 import "../css/profile.css";
 import useUser from '../../hooks/useUser';
 
@@ -35,7 +35,9 @@ export default function Profile({ setAlert }) {
     }
   
     useEffect(() => {
+        // console.log(params,"<------")
       updateProfile(params.email);
+    //   updateProfile("achal@instabuzz.com");
     }, [params.email, user]);
   
     function updateFollowing(profile) {
@@ -108,13 +110,13 @@ export default function Profile({ setAlert }) {
   
     return (
       <div className="profile">
-        {/* <EditProfile
+        <EditProfile
           user={user}
           show={editing}
           hideCallback={hideEditCallback}
           profileData={profileData}
           setAlert={setAlert}
-        /> */}
+        />
         <div className="profile-banner">
           
           {/*Change this to User Name*/}

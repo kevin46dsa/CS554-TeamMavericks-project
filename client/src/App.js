@@ -2,7 +2,15 @@ import React from 'react';
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import Routesr from "./routes/routes";
-
+import Login from './Components/login/login';
+import Signup from './Components/Signup/Signup';
+import Home from './Components/Home';
+import Profile from './Components/profile/profile';
+import CreatePost from './Components/CreatePost/CreatePost';
+import EditProfile from './Components/EditProfile/EditProfile';
+import ProfileItem from './Components/ProfileItem/ProfileItem';
+// import Logo from './Components/css/logo.png'
+ 
 /// temp stored this here to access fire base
 
 import { initializeApp } from "firebase/app";
@@ -28,6 +36,15 @@ export const db = getFirestore()
 function App() {
   return (
     <BrowserRouter>
+
+
+      <header className="App-header">
+         {/* <h1 className="App-title" src={Logo}> InstaBuzz</h1> */}
+         <img alt="instabuzz" src={require('./Components/css/logo4.png')} /> 
+         {/* <h1 className="App-title" img alt="instabuzz" src={require('./Components/css/logo2.png')}>  InstaBuzz </h1> */}
+        
+      </header>
+          <br />
       <Routesr />
     </BrowserRouter>
   );

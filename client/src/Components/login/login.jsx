@@ -38,7 +38,12 @@ const Login = () => {
 		}
 	  }
 	return (
+
+
+		
 		<div className={styles.login_container}>
+          		
+
 			<div className={styles.login_form_container}>
 				<div className={styles.left}>
 					<form className={styles.form_container} onSubmit={onSubmit}>
@@ -76,8 +81,16 @@ const Login = () => {
             				<p className="text-center fw-bold mx-3 mb-0">Don't have an account?</p>
           				</div>
 
-						<button className="btn btn-success btn-round-lg btn-lg ">
+						{/* <button className="btn btn-success btn-round-lg btn-lg ">
 							<span>Sign up</span>
+						</button> */}
+
+						{/* <small className="form-text text-muted">
+          					 <Link to="/Signup">Signup</Link>
+        				</small> */}
+
+						<button className="btn btn-success btn-round-lg btn-lg ">
+							<Link to="/Signup">Signup</Link>
 						</button>
 						
 					</form>

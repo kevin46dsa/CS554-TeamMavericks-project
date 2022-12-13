@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import { Link, useNavigate } from 'react-router-dom';
 //import OAuth from '../OAuth/OAuth';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import "../css/CreatePost.css";
 import "../CreatePost/CreatePost";
 import useUser from '../../hooks/useUser';
 
