@@ -1,11 +1,14 @@
 const apiRoutes = require('./authRoutes');
+const dataRoutes = require("./dataRoutes")
 
 const constructorMethod = (app) => {
 	
 	app.use('/auth', apiRoutes); 
+
+	app.use('/data',dataRoutes);
 	
 	app.use('*', (req, res) => {
-		res.status(404).json({ Welcome: 'Hello World this is Marvel CS554_API Lab 2'});
+		res.status(404).json({ Welcome: 'Hello World this is Instabuzz API'});
 	});
 };
 
