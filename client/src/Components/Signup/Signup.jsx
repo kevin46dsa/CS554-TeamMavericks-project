@@ -62,6 +62,7 @@ const Signup = () => {
 				<div className={styles.right}>
 				<form className={styles.form_container} onSubmit={handleSubmit}>
 						<h1>Create a new Account</h1>
+						<br></br> <br></br> <br></br>
 						<label htmlFor="name">Name:</label>
 						<input
 							id="name"
@@ -89,16 +90,20 @@ const Signup = () => {
 							value={password}
 							className={styles.input}
 						/>
+						<br></br>
 						<button className="btn btn-success btn-round-lg btn-lg ">
 							<span>Sign up</span>
 						</button>
+						<br></br>
 						<div className="divider d-flex align-items-center my-4">
             				<p className="text-center fw-bold mx-3 mb-0">Or</p>
           				</div>
+						  <br></br>
 
 						<div className="divider d-flex align-items-center my-4">
             				<p className="text-center fw-bold mx-3 mb-0">Have an account?</p>
           				</div>
+						  <br></br>
 
 						{/* <button className="btn btn-success btn-round-lg btn-lg ">
 							<span>Login</span>
