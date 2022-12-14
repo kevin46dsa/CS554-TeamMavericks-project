@@ -1,12 +1,12 @@
 import React from 'react';
 import './Header.css';
 import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
 	NavLink,
+	useNavigate,
 } from 'react-router-dom';
-import { useState } from 'react';
+import useUser from '../../hooks/useUser';
+import { getAuth } from 'firebase/auth';
+
 
 const Login = () => {
 	return (
@@ -20,16 +20,37 @@ const Login = () => {
 		</>
 	);
 };
-const Logout = () => {
+const Logout = (props) => {
+	let auth = props.auth
+	let navigate = props.navigate
+	function onLogout() {
+	
+		auth.signOut().then(()=>{
+		alert("User Signed out")
+		navigate("/login");
+		}).catch(()=>{
+		alert("Error with signning out")
+		})
+		
+	  }
+	
 	return (
-		<NavLink className="navlink" to="/logout">
-			<button className="text__button">Logout</button>
-		</NavLink>
+		<button
+			className="text__button"
+			onClick={onLogout}
+			
+		>
+			Logout
+		</button>
 	);
 };
 
 const Header = () => {
-	const [login, setLogin] = useState(true);
+	const { user, isLoading } = useUser();
+	console.log(user);
+	const auth = getAuth();
+    const navigate = useNavigate();
+	
 	return (
 		<div className="app">
 			<div className="app__header">
@@ -42,7 +63,7 @@ const Header = () => {
 					</NavLink>
 
 					<div className="app__headerButtons">
-						{login ? <Login /> : <Logout />}
+						{!user ? <Login /> : <Logout auth={auth} navigate={navigate}/>}
 					</div>
 				</div>
 			</div>
