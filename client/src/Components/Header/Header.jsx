@@ -2,11 +2,24 @@ import React from 'react';
 import './Header.css';
 import {
 	BrowserRouter as Router,
-	Routes,
-	Route,
 	NavLink,
+	useNavigate,
 } from 'react-router-dom';
-import { useState } from 'react';
+import useUser from '../../hooks/useUser';
+import { getAuth } from 'firebase/auth';
+const OnLogout = () => {
+	const auth = getAuth();
+	const navigate = useNavigate();
+	auth
+		.signOut()
+		.then(() => {
+			alert('User Signed out');
+			navigate('/login');
+		})
+		.catch(() => {
+			alert('Error with signning out');
+		});
+};
 
 const Login = () => {
 	return (
@@ -22,14 +35,20 @@ const Login = () => {
 };
 const Logout = () => {
 	return (
-		<NavLink className="navlink" to="/logout">
-			<button className="text__button">Logout</button>
-		</NavLink>
+		<button
+			className="text__button"
+			onClick={() => {
+				OnLogout();
+			}}
+		>
+			Logout
+		</button>
 	);
 };
 
 const Header = () => {
-	const [login, setLogin] = useState(true);
+	const { user, isLoading } = useUser();
+
 	return (
 		<div className="app">
 			<div className="app__header">
@@ -42,7 +61,7 @@ const Header = () => {
 					</NavLink>
 
 					<div className="app__headerButtons">
-						{login ? <Login /> : <Logout />}
+						{!user ? <Login /> : <Logout />}
 					</div>
 				</div>
 			</div>
