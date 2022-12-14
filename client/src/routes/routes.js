@@ -28,6 +28,7 @@ const Routesr = () => {
             <Routing exact path="/profile" element={<Profile />} />
           </Routing>
           <Routing exact path="/EditProfile" element={<EditProfile />} />
+          
           <Routing path="/createpost" element={<PrivateRoute />}>
             <Routing exact path="/createpost" element={<CreatePost setAlert={setAlert}/>} />
           </Routing>
