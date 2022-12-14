@@ -12,7 +12,7 @@ body {
 }
 .app {
 	background-color: #fafafa;
-	min-height: 100vh;
+	/* min-height: 100vh; */
 }
 .app__header {
 	position: sticky;
