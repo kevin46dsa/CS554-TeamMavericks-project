@@ -5,7 +5,7 @@ const port = 8000;
 const configRoutes = require("./routes");
 //const data = require("./data/userFunctions")
 const cors = require('cors');
-
+require('./firebase')
 //const dataVal = require("./data/api")
 const redis = require('redis');
 const client = redis.createClient();
@@ -13,7 +13,13 @@ client.connect().then(() => {});
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-/*
+
+
+
+
+
+
+
 const whitelist = ["https://betclient.herokuapp.com","http://localhost:3000"]; //Refrence: https://www.codingdeft.com/posts/nodejs-react-cors-error/
 const corsOptions = {
   origin: function (origin, callback) {
@@ -25,7 +31,7 @@ const corsOptions = {
   },
   credentials: true,
 };
-*/
+
 app.use(cors());
   // logging middle ware
 app.use(async(req,res,next)=>{
