@@ -22,6 +22,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
+
 export const db = getFirestore();
 
 //////// end of temp code

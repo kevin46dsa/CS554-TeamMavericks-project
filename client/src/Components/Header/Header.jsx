@@ -64,7 +64,11 @@ const Header = () => {
 
 					<div className="app__headerButtons">
 						{!user ? <Login /> : <Logout auth={auth} navigate={navigate}/>}
+						<NavLink className="navlink" to="/profile">
+							<button className="text__button">Profile</button>
+						</NavLink>
 					</div>
+					
 				</div>
 			</div>
 		</div>

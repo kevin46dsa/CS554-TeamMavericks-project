@@ -6,7 +6,7 @@ import {getAuth } from "firebase/auth";
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import EditProfile from '../EditProfile/EditProfile';
-import "../css/profile.css";
+import "../profile/profile.css";
 import useUser from '../../hooks/useUser';
 
 

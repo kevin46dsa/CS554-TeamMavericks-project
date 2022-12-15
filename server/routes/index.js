@@ -8,7 +8,9 @@ const constructorMethod = (app) => {
 	app.use('/data',dataRoutes);
 	
 	app.use('*', (req, res) => {
+
 		res.status(404).json({ Welcome: 'Hello World this is Instabuzz API'});
+
 	});
 };
 
