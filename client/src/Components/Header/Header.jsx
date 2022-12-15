@@ -41,6 +41,9 @@ const Logout = (props) => {
 			<NavLink className="navlink" to="/profile">
 				<button className="text__button">Profile</button>
 			</NavLink>
+			<NavLink className="navlink" to="/UploadImage">
+				<button className="text__button">Upload</button>
+			</NavLink>
 		</>
 	);
 };
