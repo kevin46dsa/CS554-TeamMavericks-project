@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import useUser from '../hooks/useUser';
 import axios from 'axios';
 
-import { Link } from "react-router-dom";
-import { Card } from "react-bootstrap";
+import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 import Post from './Post/Post';
 
 const Home = () => {
@@ -38,7 +38,7 @@ const Home = () => {
 
 		{
 			username: 'Achal',
-			caption: "Ankara Messi :)",
+			caption: 'Ankara Messi :)',
 			imageUrl:
 				'https://cdn.vox-cdn.com/thumbor/PcCY52M3SwG0vKlhPpMRSV6Pkyg=/0x0:7053x4702/1200x800/filters:focal(3235x0:4363x1128)/cdn.vox-cdn.com/uploads/chorus_image/image/71705677/1245337015.0.jpg',
 		},
