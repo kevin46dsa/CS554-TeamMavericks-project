@@ -34,7 +34,6 @@ const Logout = (props) => {
 
 	return (
 		<>
-			<Search></Search>
 			<button className="text__button" onClick={onLogout}>
 				Logout
 			</button>
@@ -43,6 +42,9 @@ const Logout = (props) => {
 			</NavLink>
 			<NavLink className="navlink" to="/UploadImage">
 				<button className="text__button">Upload</button>
+			</NavLink>
+			<NavLink className="navlink" to="/Search">
+				<button className="text__button">Search</button>
 			</NavLink>
 		</>
 	);

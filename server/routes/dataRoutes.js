@@ -68,6 +68,28 @@ router.get('/getAllUsers', async (req, res) => {
 	}
 });
 
+router.get('/getSearchUser/:search', async (req, res) => {
+	try {
+		let search = req.params.search.toLocaleLowerCase()
+		let ans = [];
+		//get data from cloud fianstore
+		const snapshot = await firestore.collection('users').get();
+
+		snapshot.forEach((doc) => {
+			let data = doc.data()
+			if(data.name.toLowerCase().includes(search)){
+				ans.push({
+					...data,
+					"id": doc.id
+				})
+			}
+		});
+		res.status(200).send({ data: ans });
+	} catch (e) {
+		res.status(404).json({ Error: e });
+	}
+});
+
 // *************************************************
 
 data = {
