@@ -12,6 +12,7 @@ import PrivateRoute from "../PrivateRoute";
 import DisableIfAuth from "../DisableIfAuth";
 import LostTrack from "../Components/LostTrack";
 import UploadImage from "../Components/Uploadimage/UploadImage";
+import UserPosts from "../Components/UserPosts/UserPosts";
 
 const Routesr = () => {
 
@@ -57,6 +58,7 @@ const Routesr = () => {
           <Routing exact path="/signup" element={<Signup />} /> 
           </Routing>
           
+          <Routing path='/userPosts' element={<UserPosts/>}/>
           <Routing exact path="*" element={<LostTrack />} />
           
         </Switch>
