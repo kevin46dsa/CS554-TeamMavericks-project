@@ -5,7 +5,7 @@ const port = 8000;
 const configRoutes = require("./routes");
 //const data = require("./data/userFunctions")
 const cors = require('cors');
-require('./firebase')
+
 //const dataVal = require("./data/api")
 const redis = require('redis');
 const client = redis.createClient();
