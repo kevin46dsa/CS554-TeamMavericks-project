@@ -3,6 +3,7 @@ import './Header.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
 import { getAuth } from 'firebase/auth';
+import Search from '../Search/Search';
 
 const Login = () => {
 	return (
@@ -33,7 +34,7 @@ const Logout = (props) => {
 
 	return (
 		<>
-			<h1>Search here</h1>
+			<Search></Search>
 			<button className="text__button" onClick={onLogout}>
 				Logout
 			</button>
