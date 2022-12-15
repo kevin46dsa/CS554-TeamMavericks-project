@@ -8,6 +8,7 @@ import { Button } from "react-bootstrap";
 import EditProfile from '../EditProfile/EditProfile';
 import "../profile/profile.css";
 import useUser from '../../hooks/useUser';
+import UserPosts from '../UserPosts/UserPosts';
 
 
 export default function Profile({ setAlert }) {
@@ -179,12 +180,14 @@ export default function Profile({ setAlert }) {
         <div className="break"></div>
         <div className="profile-posts-wrapper">
           <div className="profile-posts">
-            {posts && posts.length > 0
+         
+            {/* {posts && posts.length > 0
               ? posts.map((post, idx) => {
                   return <img src={post.photo.asset.url} key={idx} />;
                 })
-              : null}
+              : null} */}
           </div>
+          <UserPosts/>
         </div>
       </div>
     );
