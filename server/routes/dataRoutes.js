@@ -1,8 +1,10 @@
 const router = require('express').Router();
+const path = require("path");
+const imageMagicFunction = require('../data/imagemagic')
 //const data = require('../data/api')
 const { firestore, storage } = require('../firebase');
 const { ref, uploadBytes, listAll, deleteObject } = require('firebase/storage');
-
+var imagefilename = undefined
 //const data = require('../data/userFunctions');
 //const dataVal = require('../data/dataValidation');
 //var xss = require('xss');
@@ -15,20 +17,40 @@ const Mstorage = multer.diskStorage({
 		cb(null, 'public');
 	},
 	filename: (req, file, cb) => {
-		cb(null, Date.now() + '-' + file.originalname);
+		imagefilename =  Date.now() + '-' + file.originalname
+		cb(null, imagefilename);
 	},
 });
 
 const upload = multer({ storage: Mstorage }).single('file');
 
-router.post('/upload', (req, res) => {
-	upload(req, res, (err) => {
-		//image magic processing and upload to fire base logic
+router.post('/upload',async (req, res) => {
+	
+	upload(req, res, async (err) => {
+		//image magic processing 
 		if (err) {
 			res.sendStatus(500);
 		}
+		
+		//logic for imagemagic
+		
+		
+		
+		
+		// logic to add image to firebase storage
+		let dir = __dirname
+		dir = dir.split("/")
+		dir.pop();
+		dir = dir.join("/")
+		let imageFilepath = `${dir}/public/${imagefilename}`
+		//imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
+		
+		let item = await storage.upload(imageFilepath);
+		//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`
+		//console.log(publicUrl)
 		res.send(req.file);
 	});
+	
 });
 
 router.get('/getAllUsers', async (req, res) => {
@@ -70,11 +92,17 @@ router.get('/createpost', async (req, res) => {
 
 router.get('/uploadImage', async (req, res) => {
 	//let imageFileNames={};
-	let imageFilepath =
-		'/Users/kevindsa/Documents/Course work Stevens/WP2Project/CS554/CS554-TeamMavericks-project/server/assets/937ea8284ca0fed7ddcb933dde4c56b3-uncropped_scaled_within_1536_1152.webp';
-	let imageUID = uuidv4();
+	let dir = __dirname
+	dir = dir.split("/")
+	dir.pop();
+	dir = dir.join("/")
+	let imageFilepath = `${dir}/public/1671080350803-937ea8284ca0fed7ddcb933dde4c56b3-uncropped_scaled_within_1536_1152.webp`
+		let imageUID = uuidv4();
 	let imagename = 'test1';
-	await storage.upload(imageFilepath);
+	let item = await storage.upload(imageFilepath);
+	//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item[0].bucket.id}/o/${item[0].id}?alt=media`
+		//console.log(publicUrl)
+	
 });
-
 module.exports = router;
+

@@ -6,7 +6,7 @@ const configRoutes = require('./routes');
 //const data = require("./data/userFunctions")
 const cors = require('cors');
 app.use(express.static('public'));
-//const dataVal = require("./data/api")
+//const dataVal = require("./data/api")  
 const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
