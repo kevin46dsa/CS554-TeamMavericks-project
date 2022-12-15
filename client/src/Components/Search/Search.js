@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Form, Button, ListGroup, Card } from "react-bootstrap";
 import ProfileItem from "../ProfileItem/ProfileItem";
 import "../Search/Search.css";
+import axios from 'axios';
 
 export default function Search() {
   const [searchText, updateSearchText] = useState("");
@@ -15,6 +16,26 @@ export default function Search() {
       .catch((err) => console.error(err));
   }
 
+  const handleInp = async (event) => {
+    event.preventDefault()
+    let value = event.target.value
+    updateSearchText(value)
+
+    if(value != "") {
+      let url = 'http://localhost:8000/data/getSearchUser/'+value
+      await axios.get(url)
+      .then(async (data)=>{
+        let d = data.data.data
+        updateSearchResults(d)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    } else {
+      updateSearchResults([])
+    }
+  }
+
   return (
     <div className="search">
       <div className="search-wrapper">
@@ -22,20 +43,21 @@ export default function Search() {
           <Form.Group className="search-field">
             <Form.Control
               type="text"
-              onInput={(e) => updateSearchText(e.target.value)}
+              onInput={handleInp}
               placeholder="Search Here"
             />
           </Form.Group>
-          <Button variant="primary" onClick={search}>
+          {/* <Button variant="primary" onClick={search}>
             Search
-          </Button>
+          </Button> */}
         </Form>
         {searchResults.length > 0 ? (
           <div className="search-results-wrapper">
             <Card style={{ width: "100%" }}>
               <ListGroup variant="flush">
                 {searchResults.map((item, idx) => (
-                  <ProfileItem {...item} idx={idx} />
+                  // <ProfileItem {...item} idx={idx} />
+                  <li>{item.name}</li>
                 ))}
               </ListGroup>
             </Card>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 const App = () => {
 	const [image, uploadImage] = useState('');
 
@@ -19,10 +20,14 @@ const App = () => {
 	return (
 		<>
 			<h1>Upload file</h1>
-			<form onSubmit={uploadHandle}>
-				<input type="file" name="file" onChange={setImage} />
-				<button type="submit">Submit</button>
+			
+			<form className="post-form" onSubmit={uploadHandle}>
+			<div className="create-post">
+				<input  type="file" name="file" onChange={setImage}/>
+				<button className="post-button" type="submit">Post</button>
+			</div>
 			</form>
+			
 		</>
 	);
 };
