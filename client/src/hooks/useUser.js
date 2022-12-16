@@ -11,7 +11,7 @@ const useUser = ()=>{
             setisLoading(false);
         })
         return unsubscribe
-     },[])
+     },[user])
      return {user,isLoading}
 }
 

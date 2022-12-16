@@ -58,7 +58,7 @@ import {
   
 
 
-  const userFollowingPostsHome = () =>{
+  const userFollowingPostsHome = (userFollowing) =>{
     // still working on this 
    // const usersRef = doc(db, "users", "SF");
    // const docSnap = await getDoc(docRef);
@@ -69,14 +69,16 @@ import {
 				//Calling the clean function for all the data
 				//const userFollowingPostsData = cleanData(querySnapshot);
     
-    //let currentUserFollowing = ["IFR4fxh3SGU6bzkxCWH3rutwFr83"]
 
-    return query(
+
+      return query(
         postCollectionRef,
-        where("userRef","in",["IFR4fxh3SGU6bzkxCWH3rutwFr83"]),
+        where("userRef","in",userFollowing),
         orderBy("timestamp", "desc")
       );
-  } 
+    } 
+    
+  //} 
   
   
   
