@@ -244,7 +244,10 @@ export default function Profile({ setAlert }) {
 								<p>
 									<strong>Posts</strong>
 								</p>
-								<h4>{posts ? userData.posts : 0}</h4>
+								<h4>
+									{' '}
+									{udata2[0].posts !== undefined ? udata2[0].posts.length : 0}
+								</h4>
 							</div>
 							<div className="vertical-data">
 								<p>
@@ -252,7 +255,7 @@ export default function Profile({ setAlert }) {
 								</p>
 								<h4>
 									{console.log('DATAAAAAA::')}
-									{console.log(udata2[0].userfollowing.length)}
+									{console.log(udata2[0])}
 									{udata2[0].userfollowers !== undefined
 										? udata2[0].userfollowers.length
 										: 0}
@@ -303,8 +306,6 @@ export default function Profile({ setAlert }) {
                   return <img src={post.photo.asset.url} key={idx} />;
                 })
               : null} */}
-							{userData.posts} hello{userData.userfollowers}
-							{userData.userfollowing}
 						</div>
 						<UserPosts />
 					</div>
