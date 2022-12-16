@@ -18,7 +18,7 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
+  getDoc,
   orderBy,
   query,
   updateDoc,
@@ -32,12 +32,15 @@ export default function Profile({ setAlert }) {
     const [owner, setOwner] = useState(false);
     const [editing, setEditing] = useState(false);
     const [userData, setUserData] = useState({})
+    const {user, isLoading} = useUser()
+    const [userFollowingPosts, setUserFollowingPosts] = useState([])
     const params = useParams();
     const auth = getAuth();
+
     const navigate = useNavigate();
     //Custom Hook 
-    const {user,isLoading} = useUser()
-    console.log(user)
+
+    
     
     
     function onLogout() {
@@ -49,39 +52,104 @@ export default function Profile({ setAlert }) {
       })
       
     }
+    const cleanData = (array) => {
+      const posts = [];
+      array.forEach((doc) => {
+        return posts.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      
+      return posts;
+    };
+    // useEffect(() => {
+    //   async function fetchUserData() {
+    //     try{
+    //     if(user.uid){
+    //     // const listingRef = collection(db, "users");
+    //     const q = doc(db, "users", user.uid)
+    //     const query = await getDoc(q);
 
+    //     const userData = cleanData(query)
+    //       console.log(query)
 
 
     useEffect(() => {
       async function fetchUserData() {
-        const listingRef = collection(db, "users");
-        const q = query(
-          listingRef,
-          where("userRef", "==", auth.currentUser.uid),
-          orderBy("timestamp", "desc")
-        );
-        const querySnap = await getDocs(q);
-        let data = [];
-        querySnap.forEach((data) => {
-          return data.push({
-            posts: data.posts,
-            followers: data.followers,
-            following: data.uid.following
-          });
-        });
-        console.log(data)
-        setUserData(data);
-        // setLoading(false);
-      }
+      
+        // execute the query
+				// create query to get user following array of this specific user.uid
+				if(user.uid){
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+          let usersData = undefined
+          if (docSnap.exists()) {
+            usersData = docSnap.data()
+          }
+          
+          
+          //Calling the clean function for all the data
+          
+          
+          console.log(usersData)
+          console.log(usersData.userfollowers.length)
+          let uData = []
+          if(userData){
+          
+            uData.push({
+              posts: usersData.posts,
+              userfollowers: usersData.userfollowers,
+              userfollowing: usersData.userfollowing
+
+            })
+
+            console.log(uData)
+          }
+
+
+      }}
       //setCurrentUser(auth.currentUser.username)
-      fetchUserData();
-    }, [auth.currentUser.uid]);
+      fetchUserData(userData);
+
+    }, [user]);
+        // let uData = [];
+
+        // if(query.exists()){
+        //   let userData = query.data()
+        //   uData.push({
+        //   posts : userData.posts,
+        //   userfollowing : userData.userfollowing,
+        //   userfollowers : userData.userfollowers
+        // })
+
+        // querySnap.forEach((data) => {
+        //   return data.push({
+        //     posts: data.posts,
+        //     followers: data.followers,
+        //     following: data.uid.following
+        //   });
+        // });
+        // console.log(uData)
+      //   setUserData(uData);
+      //   console.log(userData)
+      
+      //   // setLoading(false);
+      //   }
+      // }
+    
   
-    useEffect(() => {
-        // console.log(params,"<------")
-      updateProfile(params.email);
-    //   updateProfile("achal@instabuzz.com");
-    }, [params.email, user]);
+      //setCurrentUser(auth.currentUser.username)
+    //   fetchUserData();
+    // }, [user]);
+  
+  
+
+    // useEffect(() => {
+    //     // console.log(params,"<------")
+    //   updateProfile(params.email);
+    // //   updateProfile("achal@instabuzz.com");
+    // }, [params.email, user]);
   
     function updateFollowing(profile) {
       for (let follower of profile.followers) {
@@ -93,79 +161,83 @@ export default function Profile({ setAlert }) {
       setFollowing(false);
     }
   
-    function updateProfile(email) {
-      fetch("/getProfile?user=" + email)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.length === 0) {
-            setAlert({
-              variant: "danger",
-              message: "Profile does not exist.",
-            });
-            return;
-          }
-          fetch("/getPosts?user=" + email)
-            .then((res) => res.json())
-            .then((posts) => {
-              setProfileData(data[0]);
-              setPosts(posts);
-              updateFollowing(data[0]);
-              setOwner(user === data[0].email);
-            });
-        })
-        .catch((err) => console.error(err));
-    }
+    // function updateProfile(email) {
+    //   fetch("/getProfile?user=" + email)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       if (data.length === 0) {
+    //         setAlert({
+    //           variant: "danger",
+    //           message: "Profile does not exist.",
+    //         });
+    //         return;
+    //       }
+    //       fetch("/getPosts?user=" + email)
+    //         .then((res) => res.json())
+    //         .then((posts) => {
+    //           setProfileData(data[0]);
+    //           setPosts(posts);
+    //           updateFollowing(data[0]);
+    //           setOwner(user === data[0].email);
+    //         });
+    //     })
+    //   .catch((err) => console.error(err));
+    // }
   
-    function followClick() {
-      if (owner) return;
+    // function followClick() {
+    //   if (owner) return;
   
-      if (!following) {
-        const requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: user, id: profileData._id }),
-        };
-        fetch("/addFollower", requestOptions)
-          .then((res) => res.json())
-          .then((_data) => updateProfile(params.email));
-      } else {
-        const requestOptions = {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: user, id: profileData._id }),
-        };
-        fetch("/removeFollower", requestOptions)
-          .then((res) => res.json())
-          .then((_data) => updateProfile(params.email));
-      }
-    }
+    //   if (!following) {
+    //     const requestOptions = {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ user: user, id: profileData._id }),
+    //     };
+    //     fetch("/addFollower", requestOptions)
+    //       .then((res) => res.json())
+    //       .then((_data) => updateProfile(params.email));
+    //   } else {
+    //     const requestOptions = {
+    //       method: "DELETE",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ user: user, id: profileData._id }),
+    //     };
+    //     fetch("/removeFollower", requestOptions)
+    //       .then((res) => res.json())
+    //       .then((_data) => updateProfile(params.email));
+    //   }
+    // }
   
-    function hideEditCallback() {
-      updateProfile(params.email);
-      setEditing(false);
-    }
-  
+    // function hideEditCallback() {
+    //   updateProfile(params.email);
+    //   setEditing(false);
+    // }
+
+ 
     if (profileData == {}) return null;
-  
+    console.log(userData)
     return (
+      <div>
+      {
+
       <div className="profile">
-        <EditProfile
+        {/* <EditProfile
           user={user}
           show={editing}
           hideCallback={hideEditCallback}
           profileData={profileData}
           setAlert={setAlert}
-        />
+        /> */}
         <div className="profile-banner">
           
           {/*Change this to User Name*/}
         {user ? <h1>{user.displayName}</h1>: null}
         <br/>
-        {/* <button type="button" className="btn btn-danger btn-lg" onClick={onLogout}>Log Out</button> */}
+        <button type="button" className="btn btn-danger btn-lg" onClick={onLogout}>Log Out</button>
           <div className="profile-data">
             <img
               src={
@@ -179,25 +251,25 @@ export default function Profile({ setAlert }) {
               <p>
                 <strong>Posts</strong>
               </p>
-              <h4>{posts ? posts.length : 0}</h4>
+              <h4>{posts ? userData.posts: 0}</h4>
             </div>
             <div className="vertical-data">
               <p>
                 <strong>Followers</strong>
               </p>
-              <h4>{profileData.followers ? profileData.followers.length : 0}</h4>
+              <h4>{userData.userfollowers ? userData.userfollowers.length : 0}</h4>
             </div>
             <div className="vertical-data">
               <p>
                 <strong>Following</strong>
               </p>
-              <h4>{profileData.following ? profileData.following : 0}</h4>
+              <h4>{userData.userfollowing ? userData.userfollowing : 0}</h4>
             </div>
             <div className="follow-button">
               {user && !owner ? (
                 <Button
                   variant={following ? "danger" : "success"}
-                  onClick={followClick}
+                  // onClick={followClick}
                 >
                   {following ? "Unfollow" : "Follow"}
                 </Button>
@@ -229,9 +301,18 @@ export default function Profile({ setAlert }) {
                   return <img src={post.photo.asset.url} key={idx} />;
                 })
               : null} */}
+              
+
+              {userData.posts} hello{userData.userfollowers}{userData.userfollowing}
           </div>
           <UserPosts/>
         </div>
       </div>
-    );
+    }) </div>);
+
+
+
+
+            
+  
 }
