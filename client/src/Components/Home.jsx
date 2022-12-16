@@ -2,7 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import useUser from '../hooks/useUser';
 import axios from 'axios';
-
+import queries from '../queries/queries';
+import { getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import Post from './Post/Post';
@@ -10,19 +11,9 @@ import Post from './Post/Post';
 const Home = () => {
 	const { user, isLoading } = useUser();
 	const [data, setData] = useState(null);
-
-	useEffect(() => {
-		axios
-			.get('http://localhost:4000/action/getnames')
-			.then((response) => {
-				setData(response);
-			})
-			.catch(() => {
-				console.log('Error with use effect');
-			});
-	}, []);
-
-	const [posts, setPosts] = useState([
+	const [userFollowingPosts, setUserFollowingPosts] = useState([]);
+		/*
+		[
 		{
 			username: 'blessingthebobo',
 			caption: "Wow, I'm Amazing!",
@@ -42,17 +33,47 @@ const Home = () => {
 			imageUrl:
 				'https://cdn.vox-cdn.com/thumbor/PcCY52M3SwG0vKlhPpMRSV6Pkyg=/0x0:7053x4702/1200x800/filters:focal(3235x0:4363x1128)/cdn.vox-cdn.com/uploads/chorus_image/image/71705677/1245337015.0.jpg',
 		},
-	]);
+	]
+	*/
+
+	const cleanData = (array) => {
+		const posts = [];
+		array.forEach((doc) => {
+			return posts.push({
+				id: doc.id,
+				data: doc.data(),
+			});
+		});
+		return posts;
+	};
+
+	useEffect(() => {
+		async function fetchUserFollowingPosts() {
+			try {
+				// execute the query
+				// create query to get user following array and send it to  userFollowingPostsHome()
+				const querySnapshot = await getDocs(queries.userFollowingPostsHome());
+				
+				//Calling the clean function for all the data
+				const userFollowingPostsData = cleanData(querySnapshot);
+			
+				setUserFollowingPosts(userFollowingPostsData);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		fetchUserFollowingPosts();
+	}, []);
+
+
 
 	return (
 		<>
 			{/* <div>{user ? <h1>Home user logged in {data}</h1> : <h1>No user</h1>}</div> */}
 			<div className="timeline">
-				{posts.map((post) => (
-					<Post
-						username={post.username}
-						caption={post.caption}
-						imageUrl={post.imageUrl}
+				{userFollowingPosts.map((post) => (
+					<Post 
+						allData={post}
 					/>
 				))}
 			</div>

@@ -2,10 +2,14 @@ import React from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
 
-const Post = ({ username, caption, imageUrl }) => {
+const Post = ({ allData }) => {
+	let username=allData.data.ownerName
+	let caption=allData.data.caption
+	let imageUrl=allData.data.imgURL
+	
 	return (
 		<>
-			<div className="post">
+			<div className="post" key={allData.id}>
 				<div className="post__header">
 					{/* Header: avatar with username */}
 					<Avatar alt={username} src="/static/images/avatar/1.jpg" />
