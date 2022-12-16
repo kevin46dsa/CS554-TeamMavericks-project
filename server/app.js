@@ -1,4 +1,6 @@
 const express = require('express');
+// const multer = require('multer');
+// const upload = multer();
 const app = express();
 app.use(express.json());
 const port = 8000;
@@ -6,13 +8,16 @@ const configRoutes = require('./routes');
 //const data = require("./data/userFunctions")
 const cors = require('cors');
 app.use(express.static('public'));
-//const dataVal = require("./data/api")  
+//const dataVal = require("./data/api")
 const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// // for parsing multipart/form-data
+// app.use(upload.array());
 
 const whitelist = ['https://betclient.herokuapp.com', 'http://localhost:3000']; //Refrence: https://www.codingdeft.com/posts/nodejs-react-cors-error/
 const corsOptions = {
