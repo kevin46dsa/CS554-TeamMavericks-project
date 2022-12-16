@@ -1,15 +1,29 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+
 //import OAuth from '../OAuth/OAuth';
-import {getAuth } from "firebase/auth";
+
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import EditProfile from '../EditProfile/EditProfile';
 import "../profile/profile.css";
 import useUser from '../../hooks/useUser';
 import UserPosts from '../UserPosts/UserPosts';
+import { getAuth, updateProfile } from "firebase/auth";
 
+import { Link, useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
+
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 export default function Profile({ setAlert }) {
     const [profileData, setProfileData] = useState({});
@@ -17,6 +31,7 @@ export default function Profile({ setAlert }) {
     const [following, setFollowing] = useState(false);
     const [owner, setOwner] = useState(false);
     const [editing, setEditing] = useState(false);
+    const [userData, setUserData] = useState({})
     const params = useParams();
     const auth = getAuth();
     const navigate = useNavigate();
@@ -34,6 +49,33 @@ export default function Profile({ setAlert }) {
       })
       
     }
+
+
+
+    useEffect(() => {
+      async function fetchUserData() {
+        const listingRef = collection(db, "users");
+        const q = query(
+          listingRef,
+          where("userRef", "==", auth.currentUser.uid),
+          orderBy("timestamp", "desc")
+        );
+        const querySnap = await getDocs(q);
+        let data = [];
+        querySnap.forEach((data) => {
+          return data.push({
+            posts: data.posts,
+            followers: data.followers,
+            following: data.uid.following
+          });
+        });
+        console.log(data)
+        setUserData(data);
+        // setLoading(false);
+      }
+      //setCurrentUser(auth.currentUser.username)
+      fetchUserData();
+    }, [auth.currentUser.uid]);
   
     useEffect(() => {
         // console.log(params,"<------")
@@ -45,7 +87,7 @@ export default function Profile({ setAlert }) {
       for (let follower of profile.followers) {
         if (follower.email === user) {
           setFollowing(true);
-          return;
+          return userData.following;
         }
       }
       setFollowing(false);
@@ -121,8 +163,9 @@ export default function Profile({ setAlert }) {
         <div className="profile-banner">
           
           {/*Change this to User Name*/}
-        {user ? <h1>{user.email}</h1>: null}
-        <button type="button" className="btn btn-danger btn-lg" onClick={onLogout}>Log Out</button>
+        {user ? <h1>{user.displayName}</h1>: null}
+        <br/>
+        {/* <button type="button" className="btn btn-danger btn-lg" onClick={onLogout}>Log Out</button> */}
           <div className="profile-data">
             <img
               src={

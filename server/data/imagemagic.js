@@ -8,16 +8,18 @@ const im = require('imagemagick')
 
 const ImageMagic=(path, filename) =>{
     let img = path
-    im.identify(img, function(err, features){
-        if (err) throw err;
-        console.log("features=>",features);
-        // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
-      });
+    let updtImg
+    // im.identify(img, function(err, features){
+    //     if (err) throw err;
+    //     console.log("features=>",features);
+    //     // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
+    //   });
     
-    im.convert([img, '-resize', '500x500', img],
+    im.crop({srcPath: img, width: 500, height: 500},
     function(err, stdout){
         if(err)
             throw err
+        console.log("Success")
         console.log("stdout=>",stdout)
     })
 }
