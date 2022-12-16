@@ -4,14 +4,17 @@ import { Link, useParams } from "react-router-dom";
 
 import {
   Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-  makeStyles,
-  Button,
-} from "@material-ui/core";
+  CardActionArea,CardContent, CardMedia, Grid, Typography, Button
+  // Card,
+  // CardActionArea,
+  // CardContent,
+  // CardMedia,
+  // Grid,
+  // Typography,
+  // makeStyles,
+  // Button,
+} from "@mui/material";
+import {makeStyles} from '@mui/styles'
 
 
 
