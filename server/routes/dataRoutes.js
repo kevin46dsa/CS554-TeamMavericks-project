@@ -43,9 +43,10 @@ router.post('/upload',async (req, res) => {
 		dir.pop();
 		dir = dir.join("/")
 		let imageFilepath = `${dir}/public/${imagefilename}`
-		//imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
+	
+		imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
 		
-		let item = await storage.upload(imageFilepath);
+	await storage.upload(imageFilepath);
 		//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`
 		//console.log(publicUrl)
 		res.send(req.file);

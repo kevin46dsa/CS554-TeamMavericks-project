@@ -89,8 +89,11 @@ const Home = () => {
 				{userFollowingPosts.map((post) => (
 					<Post 
 						allData={post}
+					
 					/>
 				))}
+
+			
 			</div>
 		</>
 	);
