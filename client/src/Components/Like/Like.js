@@ -48,7 +48,7 @@ const Like = ({ id }) => {
 
 
   const handleLikeClick = () => {
-    const post = database.collection("posts").doc(id);
+    const post = database.collection("Posts").doc(id);
     if (liked) {
       database
         .collection("posts")
