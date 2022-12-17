@@ -13,12 +13,14 @@ import { getAuth, updateProfile } from 'firebase/auth';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
-
+import useUserData from '../../hooks/useUserData'
 import {
 	collection,
 	deleteDoc,
 	doc,
 	getDoc,
+	getDocs,
+
 	orderBy,
 	query,
 	updateDoc,
@@ -27,17 +29,20 @@ import {
 
 export default function Profile({ setAlert }) {
 	const [profileData, setProfileData] = useState({});
-	const [posts, setPosts] = useState({});
+	const [posts, setPosts] = useState(null);
 	const [following, setFollowing] = useState(false);
 	const [owner, setOwner] = useState(false);
 	const [editing, setEditing] = useState(false);
-	const [userData, setUserData] = useState({});
+	
+	
+	//const [userData, setUserData] = useState({});
 	const { user, isLoading } = useUser();
 	const [userFollowingPosts, setUserFollowingPosts] = useState([]);
 	const [udata2, setUdata2] = useState([]);
 	const params = useParams();
 	const auth = getAuth();
-
+	const {userData,isUserDataLoading} = useUserData()
+	
 	const navigate = useNavigate();
 	//Custom Hook
 
@@ -52,51 +57,35 @@ export default function Profile({ setAlert }) {
 				alert('Error with signning out');
 			});
 	}
-	const cleanData = (array) => {
-		const posts = [];
-		array.forEach((doc) => {
-			return posts.push({
-				id: doc.id,
-				data: doc.data(),
-			});
+
+
+
+useEffect(() => {
+	async function fetchUserListings() {
+	  const postRef = collection(db, "Posts");
+	  
+	  const q = query(
+	    postRef,
+		where("userRef", "==", userData.uid),
+		orderBy("timestamp", "desc")
+	  );
+
+	  const querySnap = await getDocs(q);
+	 
+	  let post = [];
+	  querySnap.forEach((doc) => {
+		return post.push({
+		  id: doc.id,
+		  data: doc.data(),
 		});
-
-		return posts;
-	};
-
-	useEffect(() => {
-		async function fetchUserData() {
-			// execute the query
-			// create query to get user following array of this specific user.uid
-			if (user.uid) {
-				const docRef = doc(db, 'users', user.uid);
-				const docSnap = await getDoc(docRef);
-				let usersData = undefined;
-				if (docSnap.exists()) {
-					usersData = docSnap.data();
-				}
-
-				//Calling the clean function for all the data
-
-				console.log(usersData);
-				console.log(usersData.userfollowers.length);
-				let uData = [];
-
-				if (userData) {
-					uData.push({
-						posts: usersData.posts,
-						userfollowers: usersData.userfollowers,
-						userfollowing: usersData.userfollowing,
-					});
-					console.log(uData);
-				}
-				setUdata2(uData);
-			}
-		}
-		//setCurrentUser(auth.currentUser.username)
-		fetchUserData(userData);
-	}, [user]);
-	
+	  });
+	  
+	  setPosts(post);
+	  //setLoading(false);
+	}
+	//setCurrentUser(auth.currentUser.displayName)
+	fetchUserListings();
+  }, [auth.currentUser.uid]);
 
 	function updateFollowing(profile) {
 		for (let follower of profile.followers) {
@@ -111,7 +100,7 @@ export default function Profile({ setAlert }) {
 
 
 	if (profileData == {}) return null;
-	console.log(udata2);
+	
 	return (
 		<div>
 			{
@@ -149,8 +138,8 @@ export default function Profile({ setAlert }) {
 								</p>
 								<h4>
 									
-									{udata2.length != 0 && udata2[0].posts != []
-										? udata2[0].posts.length
+									{userData && userData.result && userData.result.posts
+										? userData.result.posts.length
 										: 0}
 								</h4>
 							</div>
@@ -159,10 +148,9 @@ export default function Profile({ setAlert }) {
 									<strong>Followers</strong>
 								</p>
 								<h4>
-									{console.log('DATAAAAAA::')}
-									{console.log(udata2.userfollowing)}
-									{udata2.length != 0 && udata2[0].userfollowers != []
-										? udata2[0].userfollowers.length
+							
+									{userData && userData.result && userData.result.userfollowers
+										? userData.result.userfollowers.length
 										: 0}
 								</h4>
 							</div>
@@ -172,8 +160,8 @@ export default function Profile({ setAlert }) {
 								</p>
 								<h4>
 										
-								{udata2.length != 0 && udata2[0].userfollowing != []
-										? udata2[0].userfollowing.length
+								{userData && userData.result && userData.result.userfollowing
+										? userData.result.userfollowing.length
 										: 0}
 								</h4>
 							</div>
@@ -213,7 +201,7 @@ export default function Profile({ setAlert }) {
                 })
               : null} */}
 						</div>
-						<UserPosts />
+						<UserPosts alluserPosts={posts}/>
 					</div>
 				</div>
 			}
