@@ -36,7 +36,7 @@ const Routesr = () => {
           <Routing path="/createpost" element={<PrivateRoute />}>
             <Routing exact path="/createpost" element={<CreatePost setAlert={setAlert}/>} />
           </Routing>
-            <Routing path="/follow" element={<Follow/>}></Routing>
+            <Routing exact path="/follow" element={<Follow/>}></Routing>
           {/* <Routing exact path="/CreatePost" element={<CreatePost />} /> */}
           <Routing exact path="/Search" element={<Search />} />
 

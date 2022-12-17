@@ -10,7 +10,7 @@ var imagefilename = undefined;
 //var xss = require('xss');
 const { v4: uuidv4 } = require('uuid');
 
-let userData = undefined;
+var createPostUserData = undefined;
 const multer = require('multer');
 const Mstorage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -29,8 +29,8 @@ const upload = multer({ storage: Mstorage }).single('file');
 router.post('/upload', async (req, res) => {
 	upload(req, res, async (err) => {
 		//image magic processing
-		let user = userData;
-		userData = undefined;
+		let user = createPostUserData;
+		//userData = undefined;
 		if (err) {
 			res.sendStatus(500);
 		}
@@ -44,17 +44,46 @@ router.post('/upload', async (req, res) => {
 		dir = dir.join('/');
 		let imageFilepath = `${dir}/public/${imagefilename}`;
 		//imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
-
+		console.log("Here ==>", imageFilepath , user)
 		let item = await storage.upload(imageFilepath);
 		//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`
 		//console.log(publicUrl)
-		res.send(req.file);
+		const publicUrl = "https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671146214650-6d0272ffe043eb5bbbe3a1120db2c29e-cc_ft_768.webp?alt=media&token=a68e6a1c-55a0-4fe1-81b1-139475c1b4e8"
+
+		data = {
+			userRef: user.uuid,
+			ownerName: user.name,
+			likes: [],
+			imgURL: publicUrl,
+			caption: "best post of mine",
+			comment: {},
+			//timestamp: user.timestamp
+
+		};
+
+		try {
+			//let newUID = uuidv4();
+			const uploadRes = await firestore.collection('Posts').add(data);
+			console.log('Here==>',uploadRes)
+			if (!res.id) throw 'error while creating post';
+	
+			res.status(200).send({ data: res.id });
+		} catch (e) {
+			res.status(404).json({ Error: e });
+		}
+
+
+
+
+
+		//res.send(req.file);
 	});
 });
 
 router.post('/upload2', async (req, res) => {
 	console.log(req.body);
-	userData = req.body;
+	//console.log(req)
+	createPostUserData = req.body;
 	res.send('Success');
 });
 
