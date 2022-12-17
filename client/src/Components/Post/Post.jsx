@@ -8,7 +8,7 @@ const Post = ({ allData }) => {
 	let username=allData.data.ownerName
 	let caption=allData.data.caption
 	let imageUrl=allData.data.imgURL
-	console.log(allData.id)
+	// console.log(allData.id)
 	return (
 		<>
 			<div className="post" key={allData.id}>
