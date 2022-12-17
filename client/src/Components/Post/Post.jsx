@@ -6,6 +6,7 @@ import { getFirestore, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 // import Like from '../Like/Like';
 import useUser from '../../hooks/useUser';
+var moment = require('moment');
 
 const Post = ({ allData }) => {
 	//const [comments, setComments] = useState([]);
@@ -30,7 +31,7 @@ const Post = ({ allData }) => {
 
 		let currentComment = {
 			comments: comment,
-			timeStamp: Date.now(),
+			timeStamp: moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a'),
 			userId: user.uid,
 			username: user.displayName,
 		};
