@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import firebase from "firebase";
-import { database } from "../firebase/firebase";
+import { db } from "../../firebase";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-
+// import firebase from "firebase";
 
 const Like = ({ id }) => {
-  const increment = firebase.firestore.FieldValue.increment(1);
-  const decrement = firebase.firestore.FieldValue.increment(-1);
+  const increment = 1
+  const decrement = -1
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
 
-  firebase.auth().onAuthStateChanged(function (user) {
+  db.auth().onAuthStateChanged(function (user) {
     if (user) {
       // eslint-disable-next-line
       likes.map(({ username }) => {
-        if (username === firebase.auth().currentUser.displayName) {
+        if (username === db.auth().currentUser.displayName) {
           setLiked(true);
         }
       });
@@ -24,10 +23,10 @@ const Like = ({ id }) => {
 
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
+    db.auth().onAuthStateChanged(function (user) {
       if (user) {
         if (id) {
-          database
+          db.firestore()
             .collection("posts")
             .doc(id)
             .collection("likes")
@@ -48,13 +47,13 @@ const Like = ({ id }) => {
 
 
   const handleLikeClick = () => {
-    const post = database.collection("Posts").doc(id);
+    const post = db.firestore().collection("Posts").doc(id);
     if (liked) {
-      database
+        db.firestore()
         .collection("posts")
         .doc(id)
         .collection("likes")
-        .doc(firebase.auth().currentUser.displayName)
+        .doc(db.auth().currentUser.displayName)
         .delete()
         .then(() => {
           post.update({ likes: decrement });
@@ -64,14 +63,14 @@ const Like = ({ id }) => {
           console.error("Error removing user: ", error);
         });
     } else {
-      database
+        db.firestore()
         .collection("posts")
         .doc(id)
         .collection("likes")
-        .doc(firebase.auth().currentUser.displayName)
+        .doc(db.auth().currentUser.displayName)
         .set({
-          username: firebase.auth().currentUser.displayName,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username: db.auth().currentUser.displayName,
+          timestamp: db.firestore.FieldValue.serverTimestamp(),
         });
       post.update({ likes: increment });
       setLiked(true);
