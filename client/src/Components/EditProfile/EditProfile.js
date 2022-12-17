@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Profile from '../profile/profile';
-// import { Link, useNavigate } from 'react-router-dom';
-//import OAuth from '../OAuth/OAuth';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
 

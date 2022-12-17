@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './styles.module.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import OAuth from '../OAuth/OAuth';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
 const Login = () => {
@@ -85,14 +84,6 @@ const Login = () => {
             				<p className="text-center fw-bold mx-3 mb-0">Don't have an account?</p>
           				</div>
 						  <br></br>
-
-						{/* <button className="btn btn-success btn-round-lg btn-lg ">
-							<span>Sign up</span>
-						</button> */}
-
-						{/* <small className="form-text text-muted">
-          					 <Link to="/Signup">Signup</Link>
-        				</small> */}
 
 						<button className="btn btn-success btn-round-lg btn-lg ">
 							<Link to="/Signup">Signup</Link>
