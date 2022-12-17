@@ -63,16 +63,6 @@ export default function Profile({ setAlert }) {
 
 		return posts;
 	};
-	// useEffect(() => {
-	//   async function fetchUserData() {
-	//     try{
-	//     if(user.uid){
-	//     // const listingRef = collection(db, "users");
-	//     const q = doc(db, "users", user.uid)
-	//     const query = await getDoc(q);
-
-	//     const userData = cleanData(query)
-	//       console.log(query)
 
 	useEffect(() => {
 		async function fetchUserData() {
@@ -118,61 +108,7 @@ export default function Profile({ setAlert }) {
 		setFollowing(false);
 	}
 
-	// function updateProfile(email) {
-	//   fetch("/getProfile?user=" + email)
-	//     .then((res) => res.json())
-	//     .then((data) => {
-	//       if (data.length === 0) {
-	//         setAlert({
-	//           variant: "danger",
-	//           message: "Profile does not exist.",
-	//         });
-	//         return;
-	//       }
-	//       fetch("/getPosts?user=" + email)
-	//         .then((res) => res.json())
-	//         .then((posts) => {
-	//           setProfileData(data[0]);
-	//           setPosts(posts);
-	//           updateFollowing(data[0]);
-	//           setOwner(user === data[0].email);
-	//         });
-	//     })
-	//   .catch((err) => console.error(err));
-	// }
 
-	// function followClick() {
-	//   if (owner) return;
-
-	//   if (!following) {
-	//     const requestOptions = {
-	//       method: "POST",
-	//       headers: {
-	//         "Content-Type": "application/json",
-	//       },
-	//       body: JSON.stringify({ user: user, id: profileData._id }),
-	//     };
-	//     fetch("/addFollower", requestOptions)
-	//       .then((res) => res.json())
-	//       .then((_data) => updateProfile(params.email));
-	//   } else {
-	//     const requestOptions = {
-	//       method: "DELETE",
-	//       headers: {
-	//         "Content-Type": "application/json",
-	//       },
-	//       body: JSON.stringify({ user: user, id: profileData._id }),
-	//     };
-	//     fetch("/removeFollower", requestOptions)
-	//       .then((res) => res.json())
-	//       .then((_data) => updateProfile(params.email));
-	//   }
-	// }
-
-	// function hideEditCallback() {
-	//   updateProfile(params.email);
-	//   setEditing(false);
-	// }
 
 	if (profileData == {}) return null;
 	console.log(udata2);
