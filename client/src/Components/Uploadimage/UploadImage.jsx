@@ -14,7 +14,8 @@ const App = () => {
 		uploadImage(data);
 	};
 	let currenttimestamp= serverTimestamp()
-	const uploadHandle = async () => {
+	const uploadHandle = async (e) => {
+		e.preventDefault();
 		let data = {
 			uuid: userData.uid,
 			name: userData.result.name,
@@ -28,6 +29,7 @@ const App = () => {
 				console.log('Executed 1st block');
 				axios.post(' http://localhost:8000/data/upload', image).then((res) => {
 					console.log('done');
+					
 				});
 			})
 			.catch((e) => {
