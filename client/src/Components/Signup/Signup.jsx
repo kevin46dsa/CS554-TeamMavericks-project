@@ -45,7 +45,14 @@ const Signup = () => {
       const user = userCredential.user;
       const formDataCopy = { ...formData };
       delete formDataCopy.password;
-      formDataCopy.timestamp = serverTimestamp();
+      // Add data to this object to initiate blank field on signup
+	  formDataCopy.timestamp = serverTimestamp();
+	  formDataCopy.bio = ""
+	  formDataCopy.posts = []
+	  formDataCopy.isPrivate = false
+	  formDataCopy.userfollowers = []
+	  formDataCopy.userfollowing = []
+
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       navigate("/");
