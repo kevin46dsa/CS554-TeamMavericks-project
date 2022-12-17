@@ -149,7 +149,7 @@ export default function Profile({ setAlert }) {
 								</p>
 								<h4>
 									
-									{udata2.posts != []
+									{udata2.length != 0 && udata2[0].posts != []
 										? udata2[0].posts.length
 										: 0}
 								</h4>
@@ -161,7 +161,7 @@ export default function Profile({ setAlert }) {
 								<h4>
 									{console.log('DATAAAAAA::')}
 									{console.log(udata2.userfollowing)}
-									{udata2.userfollowers != []
+									{udata2.length != 0 && udata2[0].userfollowers != []
 										? udata2[0].userfollowers.length
 										: 0}
 								</h4>
@@ -172,7 +172,7 @@ export default function Profile({ setAlert }) {
 								</p>
 								<h4>
 										
-								{udata2.userfollowing != []
+								{udata2.length != 0 && udata2[0].userfollowing != []
 										? udata2[0].userfollowing.length
 										: 0}
 								</h4>
