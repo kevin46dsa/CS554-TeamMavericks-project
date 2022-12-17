@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './styles.module.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import OAuth from '../OAuth/OAuth';
 import { db } from "../../App"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import {
@@ -111,10 +110,6 @@ const Signup = () => {
             				<p className="text-center fw-bold mx-3 mb-0">Have an account?</p>
           				</div>
 						  <br></br>
-
-						{/* <button className="btn btn-success btn-round-lg btn-lg ">
-							<span>Login</span>
-						</button> */}
 
 						<button className="btn btn-success btn-round-lg btn-lg ">
 							<Link to="/login">Login</Link>

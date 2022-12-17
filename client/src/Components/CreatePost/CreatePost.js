@@ -2,11 +2,8 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-// import { Link, useNavigate } from 'react-router-dom';
-//import OAuth from '../OAuth/OAuth';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import "../CreatePost/CreatePost.css"
-// import "../CreatePost/CreatePost";
 import useUser from '../../hooks/useUser';
 
 export default function CreatePost({  setAlert }) {
