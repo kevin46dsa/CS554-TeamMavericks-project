@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import useUserData from '../../hooks/useUserData';
+import {  serverTimestamp  } from "firebase/firestore";
 
 const App = () => {
 	const [image, uploadImage] = useState('');
+	const {userData,isUserDataLoading} = useUserData()
 
 	const setImage = (event) => {
 		const data = new FormData();
@@ -10,12 +13,15 @@ const App = () => {
 		data.append('file', event.target.files[0]);
 		uploadImage(data);
 	};
-
+	let currenttimestamp= serverTimestamp()
 	const uploadHandle = async () => {
 		let data = {
-			uuid: '123234',
-			name: 'Deep',
+			uuid: userData.uid,
+			name: userData.result.name,
+			//timestamp: currenttimestamp
 		};
+		console.log(data)
+
 		axios
 			.post(' http://localhost:8000/data/upload2', data)
 			.then((res) => {
