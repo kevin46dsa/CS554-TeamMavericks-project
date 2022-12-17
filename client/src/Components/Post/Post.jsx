@@ -5,9 +5,11 @@ import { Avatar } from '@mui/material';
 import { getFirestore, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 // import Like from '../Like/Like';
+import useUser from '../../hooks/useUser';
 
 const Post = ({ allData }) => {
 	//const [comments, setComments] = useState([]);
+	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
@@ -17,13 +19,20 @@ const Post = ({ allData }) => {
 	let comments = allData.data.comments;
 	// console.log('All Data');
 	console.log(allData);
-
+	console.log('id');
+	console.log(user);
+	// console.log('displayName');
+	// console.log(user.displayName);
 	const postComment = (e) => {
 		e.preventDefault();
 
 		const docRef = doc(db, 'Posts', postId);
+
 		let currentComment = {
-			data: comment,
+			comments: comment,
+			timeStamp: Date.now(),
+			userId: user.uid,
+			username: user.displayName,
 		};
 		comments.push(currentComment);
 		const data = {
@@ -40,6 +49,7 @@ const Post = ({ allData }) => {
 		setComment('');
 		// logic to come
 	};
+
 	//alldata.data.comments --> array of objects {userid:{}}
 
 	// const postComment = (e) => {
