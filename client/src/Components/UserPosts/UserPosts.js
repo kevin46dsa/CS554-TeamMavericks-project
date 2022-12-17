@@ -7,8 +7,12 @@ import {
 	CardMedia,
 	Grid,
 } from '@mui/material';
-//import { makeStyles } from '@mui/styles';
+
 import { makeStyles } from '@mui/styles';
+import { db } from '../../firebase';
+import queries from '../../queries/queries';
+import { getDocs, doc, getDoc } from 'firebase/firestore';
+import useUser from '../../hooks/useUser';
 
 const useStyles = makeStyles({
 	card: {
@@ -39,10 +43,82 @@ const useStyles = makeStyles({
 	},
 });
 
-const UserPosts = () => {
+const UserPosts = ({alluserPosts}) => {
+	console.log(alluserPosts)
 	const regex = /(<([^>]+)>)/gi;
 	const classes = useStyles();
 	const [loading, setLoading] = useState(true);
+
+
+	//My code test
+
+	const {user, isLoading} = useUser();
+	const [posts, setPosts] = useState({})
+	const [postData, setPostData] = useState({})
+	const [pData1, setpData1] = useState([])
+
+
+
+	const cleanData = (array)=>{
+		const posts= [];
+
+		array.forEach((doc) => {
+			return posts.push({
+				id: doc.id,
+				data: doc.data()
+			})
+			
+		});
+
+
+		return posts
+	}
+
+
+	useEffect(()=>{
+		async function fetchPostData(){
+
+
+
+			if(user.uid){
+				const docRef = doc(db, 'posts',)
+				console.log(docRef[0].uid)
+				const docSnap = await getDoc(docRef.id)
+				console.log(docSnap)
+				let postsData = undefined
+
+				if(docSnap.exists()){
+					postsData = docSnap.data()
+				}
+
+
+				console.log(postData)
+
+				let pData = []
+
+				if(postData){
+					if(user.uid === docRef[0].id){
+					pData.push({
+						uid: postData.uid,
+						imageUrl: postData.imgUrl
+					})
+				}
+					console.log(pData)
+				}
+
+				setpData1(pData)
+			}
+
+
+		}
+
+
+		fetchPostData(postData)
+	}, [user])
+
+
+	//end of my code test
+
 
 	const [userPost, setUserPost] = useState([
 		{
@@ -106,35 +182,35 @@ const UserPosts = () => {
 	//       <Grid
 
 	//             {post.imageUrl}
-	{
-		/* <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt={post.name}
-             image={
-                post.imageUrl
-             }
+	// {
+	// 	<CardActionArea>
+    //         <CardMedia
+    //           className={classes.media}
+    //           component="img"
+    //           alt={post.name}
+    //          image={
+    //             post.imageUrl
+    //          }
             
-            />
+    //         />
           
-              <CardContent>
-                <Typography
-                  className={classes.titleHead}
-                  gutterBottom
-                  variant="h6"
-                  component="h2"
-                >
-                  {post.username}
-                </Typography>
-                <Typography color="textSecondary" component="p">
-                  {post.caption}
-                </Typography>
+    //           <CardContent>
+    //             <Typography
+    //               className={classes.titleHead}
+    //               gutterBottom
+    //               variant="h6"
+    //               component="h2"
+    //             >
+    //               {post.username}
+    //             </Typography>
+    //             <Typography color="textSecondary" component="p">
+    //               {post.caption}
+    //             </Typography>
                 
-              </CardContent>
+    //           </CardContent>
           
-          </CardActionArea> */
-	}
+    //       </CardActionArea> 
+	// }
 	//         </Card>
 	//       </Grid>
 	//     );
@@ -183,8 +259,8 @@ const UserPosts = () => {
 	};
 
 	card =
-		userPost &&
-		userPost.map((post) => {
+		pData1 &&
+		pData1.map((post) => {
 			return buildCard(post);
 		});
 

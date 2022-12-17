@@ -40,7 +40,7 @@ const Routesr = () => {
           {/* <Routing exact path="/CreatePost" element={<CreatePost />} /> */}
           <Routing exact path="/Search" element={<Search />} />
 
-
+          <Routing path='/userPosts' element={<UserPosts/>}/>
           
           
        
@@ -59,7 +59,7 @@ const Routesr = () => {
           <Routing exact path="/signup" element={<Signup />} /> 
           </Routing>
           
-          <Routing path='/userPosts' element={<UserPosts/>}/>
+        
           <Routing exact path="*" element={<LostTrack />} />
           
         </Switch>

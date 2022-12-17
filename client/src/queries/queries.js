@@ -11,6 +11,7 @@ import {
   import { db } from "../firebase";
   const postCollectionRef = collection(db, "Posts");
   const userCollectionRef = collection(db,"users")
+
   
   //temp delete line once all queries are done  this line does nothing just a place holder for listing ref
  /*
@@ -79,9 +80,13 @@ import {
     } 
     
   //} 
-  
-  
-  
+  /*
+  const getCurrentUserPosts= query(
+      postCollectionRef,
+      where("userRef","===",user.uid),
+      orderBy("timestamp", "desc")
+     )
+   */  
   /*
   
   query(
@@ -90,13 +95,13 @@ import {
     orderBy("timestamp", "desc")
   );
 
-
   */
 
 
   const queries = {
     
     userFollowingPostsHome,
+    //getCurrentUserPosts
     
     
 }
