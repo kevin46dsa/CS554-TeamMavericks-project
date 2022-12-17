@@ -2,11 +2,13 @@ import React from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
 
+
+
 const Post = ({ allData }) => {
 	let username=allData.data.ownerName
 	let caption=allData.data.caption
 	let imageUrl=allData.data.imgURL
-	
+	console.log(allData.id)
 	return (
 		<>
 			<div className="post" key={allData.id}>
@@ -21,6 +23,7 @@ const Post = ({ allData }) => {
 				<h4 className="post__text">
 					<strong>{username}</strong> {caption}
 				</h4>
+				
 			</div>
 		</>
 	);

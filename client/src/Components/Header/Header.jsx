@@ -62,8 +62,9 @@ const Header = () => {
 				<div className="app__headerWrapper">
 					<NavLink to="/">
 						<img
-							src=" https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-							alt="Instagram original logo"
+							// src=" https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+							src="https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/IBlogo.png?alt=media&token=545dfcde-8396-4668-9c08-fd63325cce9a"
+							alt="instaBuzz original logo"
 						/>
 					</NavLink>
 

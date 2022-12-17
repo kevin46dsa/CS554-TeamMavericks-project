@@ -6,6 +6,7 @@ import Profile from '../profile/profile';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
 
+
 export default function EditProfile({
   show,
   hideCallback,
