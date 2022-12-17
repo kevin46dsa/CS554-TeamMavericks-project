@@ -8,7 +8,7 @@ import {
 
 const useUserData = ()=>{
     const { user, isLoading } = useUser();
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({});
     const [isUserDataLoading, setUserDataLoading] = useState(true);
 
     useEffect(()=>{
@@ -19,9 +19,10 @@ const useUserData = ()=>{
                  
               const docRef = doc(db, "users", user.uid);
               const docSnap = await getDoc(docRef);
-              let data = undefined
+              let data = {}
               if (docSnap.exists()) {
-                data = docSnap.data()
+                data.result = docSnap.data()
+                data.uid = docSnap.id
               }
               
               
