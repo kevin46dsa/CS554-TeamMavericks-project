@@ -2,7 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const imageMagicFunction = require('../data/imagemagic');
 //const data = require('../data/api')
-const { firestore, storage } = require('../firebase');
+const { firestore, storage, bucket } = require('../firebase');
 const { ref, uploadBytes, listAll, deleteObject } = require('firebase/storage');
 var imagefilename = undefined;
 //const data = require('../data/userFunctions');
@@ -43,19 +43,26 @@ router.post('/upload', async (req, res) => {
 		dir.pop();
 		dir = dir.join('/');
 		let imageFilepath = `${dir}/public/${imagefilename}`;
+		let imageUID = uuidv4();
 		//imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
 		console.log("Here ==>", imageFilepath , user)
-		let item = await storage.upload(imageFilepath);
-		//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`
-		//console.log(publicUrl)
-		const publicUrl = "https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671146214650-6d0272ffe043eb5bbbe3a1120db2c29e-cc_ft_768.webp?alt=media&token=a68e6a1c-55a0-4fe1-81b1-139475c1b4e8"
+		let item = await bucket.upload(imageFilepath, {
+			metadata: {
+			  cacheControl: "max-age=31536000",
+			  // "custom" metadata:
+			  metadata: {
+				firebaseStorageDownloadTokens: imageUID, // Can technically be anything you want
+			  },
+			},
+		  });
+		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`
 
 		data = {
 			userRef: user.uuid,
 			ownerName: user.name,
 			likes: [],
 			imgURL: publicUrl,
-			caption: "best post of mine",
+			caption: "best post of mine with public url",
 			comment: {},
 			//timestamp: user.timestamp
 
@@ -149,15 +156,26 @@ router.get('/createpost', async (req, res) => {
 
 router.get('/uploadImage', async (req, res) => {
 	//let imageFileNames={};
+	console.log("request recieved")
 	let dir = __dirname;
 	dir = dir.split('/');
 	dir.pop();
 	dir = dir.join('/');
-	let imageFilepath = `${dir}/public/1671080350803-937ea8284ca0fed7ddcb933dde4c56b3-uncropped_scaled_within_1536_1152.webp`;
+	let imageFilepath = `${dir}/public/1671336395686-instaBuzz(1).png`;
 	let imageUID = uuidv4();
+	console.log("Here=>>>",imageUID)
 	let imagename = 'test1';
-	let item = await storage.upload(imageFilepath);
-	//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item[0].bucket.id}/o/${item[0].id}?alt=media`
+	let item = await bucket.upload(imageFilepath, {
+		metadata: {
+		  cacheControl: "max-age=31536000",
+		  // "custom" metadata:
+		  metadata: {
+			firebaseStorageDownloadTokens: imageUID, // Can technically be anything you want
+		  },
+		},
+	  });
+	//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671336395686-instaBuzz(1).png?alt=media&token=ce6dea92-ce20-4864-9d84-7438f2a8ba81`
+	//https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671336395686-instaBuzz(1).png?alt=media&token=ce6dea92-ce20-4864-9d84-7438f2a8ba81
 	//console.log(publicUrl)
 });
 module.exports = router;
