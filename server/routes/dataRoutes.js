@@ -66,7 +66,8 @@ router.post('/upload', async (req, res) => {
 			likes: [],
 			imgURL: publicUrl,
 			caption: user.caption,
-			comment: [],
+			comments: [],
+			timestamp: user.timestamp,
 			//timestamp: user.timestamp
 		};
 

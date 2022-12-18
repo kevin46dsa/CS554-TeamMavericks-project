@@ -25,18 +25,25 @@ const App = () => {
 		};
 
 		console.log(data);
-
-		axios
-			.post(' http://localhost:8000/data/upload2', data)
-			.then((res) => {
-				console.log('Executed 1st block');
-				axios.post(' http://localhost:8000/data/upload', image).then((res) => {
-					console.log('done');
+		if (caption) {
+			axios
+				.post(' http://localhost:8000/data/upload2', data)
+				.then((res) => {
+					setCaption('');
+					// this.fileInput.value = '';
+					console.log('Executed 1st block');
+					axios
+						.post(' http://localhost:8000/data/upload', image)
+						.then((res) => {
+							console.log('done');
+						});
+				})
+				.catch((e) => {
+					console.log(e);
 				});
-			})
-			.catch((e) => {
-				console.log(e);
-			});
+		} else {
+			alert('Enter Caption to create a post.');
+		}
 	};
 
 	return (
@@ -48,9 +55,15 @@ const App = () => {
 					<input
 						type="text"
 						placeholder="Enter a Caption"
+						value={caption}
 						onChange={(e) => setCaption(e.target.value)}
 					/>
-					<input type="file" name="file" onChange={setImage} />
+					<input
+						type="file"
+						name="file"
+						onChange={setImage}
+						// ref={(ref) => (this.fileInput = ref)}
+					/>
 					<button className="post-button" type="submit">
 						Post
 					</button>
