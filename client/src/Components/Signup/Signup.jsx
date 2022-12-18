@@ -9,6 +9,8 @@ import {
 	createUserWithEmailAndPassword,
 	updateProfile,
   } from "firebase/auth";
+import SignUp from './Signup.avif'
+
 
 const Signup = () => {
 	const [formData, setFormData] = useState({
@@ -63,8 +65,16 @@ const Signup = () => {
     }
 	};
 	return (
+
+
 		<div className={styles.signup_container}>
-			<div className={styles.signup_form_container}>
+
+
+<div className={styles.signup_image}>
+             <img src={SignUp} width="300" style={{position: 'relative'}} alt="signup"/>
+            </div>	
+
+			<div className={styles.signup_form}>
 				<div className={styles.right}>
 				<form className={styles.form_container} onSubmit={handleSubmit}>
 						<h1>Create a new Account</h1>
@@ -112,7 +122,7 @@ const Signup = () => {
 						  <br></br>
 
 						<button className="primary__button">
-							<Link to="/login">Login</Link>
+							<Link to="/login" style={{textDecoration: 'none'}} >Login</Link>
 						</button>
 						
 					</form>
