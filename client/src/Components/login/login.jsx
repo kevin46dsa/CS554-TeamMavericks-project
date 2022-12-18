@@ -94,7 +94,7 @@ const Login = () => {
 						  <br></br>
 
 						<button className="primary__button">
-							<Link to="/Signup">Signup</Link>
+							<Link to="/Signup" style={{textDecoration: 'none' }}>Signup</Link>
 						</button>
 						
 					</form>
