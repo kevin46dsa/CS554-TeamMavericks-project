@@ -3,6 +3,7 @@ import styles from './styles.module.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import login from "./login.png"
 
 const Login = () => {
 	const [formData, setFormData] = useState({
@@ -38,16 +39,23 @@ const Login = () => {
 	  }
 	return (
 
-
 		
+
+
 		<div className={styles.login_container}>
-          		
+			
+
+          	<div className={styles.login_image}>
+             <img src={login} width="300" style={{position: 'relative'}} alt="login"/>
+            </div>	
 
 			<div className={styles.login_form_container}>
+			
 				<div className={styles.left}>
-					<form className={styles.form_container} onSubmit={onSubmit}>
-						<h1>Login to Your Account</h1>
-						<br></br> <br></br> <br></br>
+					<form className={styles.form_container} onSubmit={onSubmit}> <br></br> <br></br>
+						<h1>Welcome Back to instaBuzz!</h1> <br></br> <br></br>
+						<h3>Login to Your Account to see Activitys</h3>
+						<br></br> 
 						<label htmlFor="email">Email:</label>
 						<input
 							id="email"
@@ -70,7 +78,7 @@ const Login = () => {
 						<Link to="/forgot-password" className="">Forgot password?</Link>
 						<br/>
 				
-						<button className="btn btn-success btn-round-lg btn-lg ">
+						<button className="primary__button">
 							<span>Login</span>
 						</button>
 						<br></br>
@@ -85,7 +93,7 @@ const Login = () => {
           				</div>
 						  <br></br>
 
-						<button className="btn btn-success btn-round-lg btn-lg ">
+						<button className="primary__button">
 							<Link to="/Signup">Signup</Link>
 						</button>
 						
@@ -94,6 +102,8 @@ const Login = () => {
 				</div>
 			</div>
 		</div>
+	
+
 	);
 };
 
