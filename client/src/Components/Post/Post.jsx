@@ -5,6 +5,7 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Timestamp } from '@firebase/firestore';
 import timeAgo from 'epoch-timeago';
+import Like from '../Like/Like';
 //import { db } from '../../App';
 import {
 	getDocs,
@@ -14,7 +15,6 @@ import {
 	collection,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-// import Like from '../Like/Like';
 import useUser from '../../hooks/useUser';
 var moment = require('moment');
 
@@ -110,6 +110,11 @@ const Post = ({ allData }) => {
 					style={{ marginRight: 8, width: 20, cursor: 'pointer' }}
 				/>
 				<br></br>
+
+				{/* End of Like Here*/}
+
+{/* -----------------------------------------------------------------------------------------------------*/}
+
 				{/* Start of comments */}
 				<h3 class="text-success">Comments:</h3> <br></br>
 				{
