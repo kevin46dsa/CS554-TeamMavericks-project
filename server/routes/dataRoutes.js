@@ -62,20 +62,21 @@ router.post('/upload', async (req, res) => {
 		};
 
 		try {
-			//let newUID = uuidv4();
-			const uploadRes = await firestore.collection('Posts').add(data);
-			console.log('Here==>',uploadRes)
-			if (!res.id) throw 'error while creating post';
-	
-			res.status(200).send({ data: res.id });
+			let createdPostID = undefined
+			firestore.collection('Posts').add(data).then(function(docRef) {
+				createdPostID= docRef.id
+				console.log(createdPostID)
+			})
+			.catch(function(error) {
+				console.error("Error adding document: ", error);
+			});
+			
+			// createdPostID gets the created post id will be used to add to user collection in the post feilds
+
+		res.status(200).json({ data: createdPostID});
 		} catch (e) {
 			res.status(404).json({ Error: e });
 		}
-
-
-
-
-
 		//res.send(req.file);
 	});
 });
