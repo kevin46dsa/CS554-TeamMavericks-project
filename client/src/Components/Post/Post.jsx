@@ -3,6 +3,8 @@ import './Post.css';
 import { Avatar } from '@mui/material';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Timestamp } from '@firebase/firestore';
+import timeAgo from 'epoch-timeago';
 //import { db } from '../../App';
 import {
 	getDocs,
@@ -54,10 +56,13 @@ const Post = ({ allData }) => {
 
 		let currentComment = {
 			comment: comment,
-			timeStamp: moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a'),
+			// timeStamp: moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a'),
+			timeStamp: Timestamp.fromDate(new Date()),
 			userId: user.uid,
 			username: user.displayName,
 		};
+		console.log('$$$$$');
+		console.log(currentComment);
 		comments.push(currentComment);
 		const data = {
 			comments: comments,
@@ -74,18 +79,6 @@ const Post = ({ allData }) => {
 		setComment('');
 		// logic to come
 	};
-
-	//alldata.data.comments --> array of objects {userid:{}}
-
-	// const postComment = (e) => {
-	// 	e.preventDefault();
-	// 	db.collection('Posts').doc(postId).collection('comments').add({
-	// 		text: comment,
-	// 		username: user.displayName,
-	// timestamp: fb.firestore.FieldValue.serverTimestamp(),
-	// 	});
-	// 	setComment('');
-	// };
 
 	return (
 		<>
@@ -124,7 +117,10 @@ const Post = ({ allData }) => {
 						{comments.map((comment) => (
 							<p class="meta">
 								<strong>{comment.username}</strong> {comment.comment} <br></br>
-								<p class="meta-2">{comment.timeStamp} </p>
+								{/* <p class="meta-2">{comment.timeStamp} </p> */}
+								<p class="meta-2">
+									{timeAgo(comment.timeStamp.seconds * 1000)}{' '}
+								</p>
 							</p>
 						))}
 					</div>

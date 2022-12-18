@@ -39,23 +39,26 @@ router.post('/upload', async (req, res) => {
 
 		// logic to add image to firebase storage
 		let dir = __dirname;
+		let diri = process.cwd();
+		console.log(diri);
 		dir = dir.split('/');
 		dir.pop();
-		dir = dir.join('/');
-		let imageFilepath = `${dir}/public/${imagefilename}`;
+		// dir = dir.join('/');
+		// let imageFilepath = `${dir}/public/${imagefilename}`;
+		let imageFilepath = `${diri}/public/${imagefilename}`;
 		let imageUID = uuidv4();
 		//imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
-		console.log("Here ==>", imageFilepath , user)
+		console.log('Here ==>', imageFilepath, user);
 		let item = await bucket.upload(imageFilepath, {
 			metadata: {
-			  cacheControl: "max-age=31536000",
-			  // "custom" metadata:
-			  metadata: {
-				firebaseStorageDownloadTokens: imageUID, // Can technically be anything you want
-			  },
+				cacheControl: 'max-age=31536000',
+				// "custom" metadata:
+				metadata: {
+					firebaseStorageDownloadTokens: imageUID, // Can technically be anything you want
+				},
 			},
-		  });
-		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`
+		});
+		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`;
 
 		data = {
 			userRef: user.uuid,
@@ -65,22 +68,24 @@ router.post('/upload', async (req, res) => {
 			caption: user.caption,
 			comment: [],
 			//timestamp: user.timestamp
-
 		};
 
 		try {
-			let createdPostID = undefined
-			firestore.collection('Posts').add(data).then(function(docRef) {
-				createdPostID= docRef.id
-				console.log(createdPostID)
-			})
-			.catch(function(error) {
-				console.error("Error adding document: ", error);
-			});
-			
+			let createdPostID = undefined;
+			firestore
+				.collection('Posts')
+				.add(data)
+				.then(function (docRef) {
+					createdPostID = docRef.id;
+					console.log(createdPostID);
+				})
+				.catch(function (error) {
+					console.error('Error adding document: ', error);
+				});
+
 			// createdPostID gets the created post id will be used to add to user collection in the post feilds
 
-		res.status(200).json({ data: createdPostID});
+			res.status(200).json({ data: createdPostID });
 		} catch (e) {
 			res.status(404).json({ Error: e });
 		}
@@ -156,24 +161,24 @@ router.get('/createpost', async (req, res) => {
 
 router.get('/uploadImage', async (req, res) => {
 	//let imageFileNames={};
-	console.log("request recieved")
+	console.log('request recieved');
 	let dir = __dirname;
 	dir = dir.split('/');
 	dir.pop();
 	dir = dir.join('/');
 	let imageFilepath = `${dir}/public/1671336395686-instaBuzz(1).png`;
 	let imageUID = uuidv4();
-	console.log("Here=>>>",imageUID)
+	console.log('Here=>>>', imageUID);
 	let imagename = 'test1';
 	let item = await bucket.upload(imageFilepath, {
 		metadata: {
-		  cacheControl: "max-age=31536000",
-		  // "custom" metadata:
-		  metadata: {
-			firebaseStorageDownloadTokens: imageUID, // Can technically be anything you want
-		  },
+			cacheControl: 'max-age=31536000',
+			// "custom" metadata:
+			metadata: {
+				firebaseStorageDownloadTokens: imageUID, // Can technically be anything you want
+			},
 		},
-	  });
+	});
 	//const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671336395686-instaBuzz(1).png?alt=media&token=ce6dea92-ce20-4864-9d84-7438f2a8ba81`
 	//https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671336395686-instaBuzz(1).png?alt=media&token=ce6dea92-ce20-4864-9d84-7438f2a8ba81
 	//console.log(publicUrl)
