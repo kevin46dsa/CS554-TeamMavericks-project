@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import useUserData from '../../hooks/useUserData';
 import { Timestamp } from '@firebase/firestore';
-
 const App = () => {
 	const [image, uploadImage] = useState('');
-	const [caption, setCaption] = useState(null);
+	const [caption, setCaption] = useState('');
+	const [preview, setPreview] = useState('');
 	const { userData, isUserDataLoading } = useUserData();
 
-	const setImage = (event) => {
-		const data = new FormData();
+	const imageInputRef = React.useRef();
 
+	const setImage = (event) => {
+		setPreview(event.target.files[0]);
+		const data = new FormData();
 		data.append('file', event.target.files[0]);
 		uploadImage(data);
 	};
@@ -25,12 +27,14 @@ const App = () => {
 		};
 
 		console.log(data);
-		if (caption) {
+		if (image) {
 			axios
 				.post(' http://localhost:8000/data/upload2', data)
 				.then((res) => {
 					setCaption('');
-					// this.fileInput.value = '';
+					imageInputRef.current.value = '';
+
+					uploadImage(null);
 					console.log('Executed 1st block');
 					axios
 						.post(' http://localhost:8000/data/upload', image)
@@ -42,7 +46,7 @@ const App = () => {
 					console.log(e);
 				});
 		} else {
-			alert('Enter Caption to create a post.');
+			alert('Upload an Image to create new post');
 		}
 	};
 
@@ -58,15 +62,32 @@ const App = () => {
 						value={caption}
 						onChange={(e) => setCaption(e.target.value)}
 					/>
-					<input
+					{/* <input
 						type="file"
 						name="file"
+						accept="image/*"
 						onChange={setImage}
-						// ref={(ref) => (this.fileInput = ref)}
+						ref={imageInputRef}
+					/> */}
+					<input
+						type="file"
+						accept=".jpg,.png,.jpeg,.webp"
+						onChange={setImage}
+						ref={imageInputRef}
+						multiple
 					/>
 					<button className="post-button" type="submit">
 						Post
 					</button>
+					{image && (
+						<>
+							<h2>Preview</h2>
+							<img
+								src={image ? URL.createObjectURL(preview) : null}
+								className="post-image"
+							/>
+						</>
+					)}
 				</div>
 			</form>
 		</>
