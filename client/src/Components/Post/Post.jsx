@@ -1,36 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
 //import { db } from '../../App';
-import { getFirestore, doc, updateDoc } from 'firebase/firestore';
+import { getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 // import Like from '../Like/Like';
 import useUser from '../../hooks/useUser';
 var moment = require('moment');
 
 const Post = ({ allData }) => {
-	//const [comments, setComments] = useState([]);
 	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
+	//const [commentPull, setCommentPull] = useState([]);
+
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
 	let imageUrl = allData.data.imgURL;
 	let postId = allData.id;
 	let posterId = allData.data.userRef;
 	let comments = allData.data.comments;
-	// console.log('All Data');
-	console.log(allData);
-	console.log('id');
-	console.log(user);
-	// console.log('displayName');
-	// console.log(user.displayName);
+
+	useEffect(() => {
+		var getComments = async () => {
+			const docRef = doc(db, 'Posts', postId);
+			const docSnap = await getDocs(docRef);
+			let CommentPull = docSnap.data();
+			let comments = CommentPull.comments;
+			console.log(docSnap.data());
+		};
+
+		getComments();
+	}, []);
+
+	//	console.log(allData);
+
 	const postComment = (e) => {
 		e.preventDefault();
 
 		const docRef = doc(db, 'Posts', postId);
 
 		let currentComment = {
-			comments: comment,
+			comment: comment,
 			timeStamp: moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a'),
 			userId: user.uid,
 			username: user.displayName,
@@ -42,6 +52,7 @@ const Post = ({ allData }) => {
 		updateDoc(docRef, data)
 			.then((docRef) => {
 				console.log('Value of an Existing Document Field has been updated');
+				//console.log(commentPull.comments);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -82,6 +93,17 @@ const Post = ({ allData }) => {
 				{/* <Like id={allData.id} /> */}
 
 				{/* Start of comments */}
+
+				{
+					<div className={comments.length > 0 ? 'post__comments' : ''}>
+						{comments.map((comment) => (
+							<p>
+								<strong>{comment.username}</strong> {comment.comment}
+								{comment.timeStamp}
+							</p>
+						))}
+					</div>
+				}
 
 				<form className="comment__form">
 					<div className="comment__wrapper">
