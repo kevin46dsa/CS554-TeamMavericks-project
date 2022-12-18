@@ -32,5 +32,6 @@ admin.initializeApp({
 
 const firestore = getFirestore();
 const storage = getStorage().bucket();
+const bucket = admin.storage().bucket();
 
-module.exports = { firestore, storage };
+module.exports = { firestore, storage ,bucket};
