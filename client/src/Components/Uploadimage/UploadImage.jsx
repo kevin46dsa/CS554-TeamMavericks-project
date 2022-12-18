@@ -5,6 +5,7 @@ import {  serverTimestamp  } from "firebase/firestore";
 
 const App = () => {
 	const [image, uploadImage] = useState('');
+	const [caption, setCaption] = useState(null)
 	const {userData,isUserDataLoading} = useUserData()
 
 	const setImage = (event) => {
@@ -19,8 +20,10 @@ const App = () => {
 		let data = {
 			uuid: userData.uid,
 			name: userData.result.name,
+			caption: caption
 			//timestamp: currenttimestamp
 		};
+		
 		console.log(data)
 
 		axios
@@ -43,6 +46,9 @@ const App = () => {
 
 			<form className="post-form" onSubmit={uploadHandle}>
 				<div className="create-post">
+					<input type="text"
+            		placeholder="Enter a Caption"
+            		onChange={(e) => setCaption(e.target.value) }/>
 					<input type="file" name="file" onChange={setImage} />
 					<button className="post-button" type="submit">
 						Post
