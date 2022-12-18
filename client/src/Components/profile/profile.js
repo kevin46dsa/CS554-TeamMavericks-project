@@ -13,14 +13,13 @@ import { getAuth, updateProfile } from 'firebase/auth';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
-import useUserData from '../../hooks/useUserData'
+import useUserData from '../../hooks/useUserData';
 import {
 	collection,
 	deleteDoc,
 	doc,
 	getDoc,
 	getDocs,
-
 	orderBy,
 	query,
 	updateDoc,
@@ -33,58 +32,43 @@ export default function Profile() {
 	const [following, setFollowing] = useState(false);
 	const [owner, setOwner] = useState(false);
 	const [editing, setEditing] = useState(false);
-	
-	
+
 	//const [userData, setUserData] = useState({});
 	const { user, isLoading } = useUser();
 	const [userFollowingPosts, setUserFollowingPosts] = useState([]);
 	const [udata2, setUdata2] = useState([]);
 	const params = useParams();
 	const auth = getAuth();
-	const {userData,isUserDataLoading} = useUserData()
-	
+	const { userData, isUserDataLoading } = useUserData();
+
 	const navigate = useNavigate();
 	//Custom Hook
 
-	function onLogout() {
-		auth
-			.signOut()
-			.then(() => {
-				alert('User Signed out');
-				navigate('/login');
-			})
-			.catch(() => {
-				alert('Error with signning out');
+	useEffect(() => {
+		async function fetchUserListings() {
+			const postRef = collection(db, 'Posts');
+
+			const q = query(
+				postRef,
+				where('userRef', '==', userData.uid),
+				orderBy('timestamp', 'desc')
+			);
+
+			const querySnap = await getDocs(q);
+			let post = [];
+			querySnap.forEach((doc) => {
+				return post.push({
+					id: doc.id,
+					data: doc.data(),
+				});
 			});
-	}
+			setPosts(post);
 
-
-
-useEffect(() => {
-	async function fetchUserListings() {
-	  const postRef = collection(db, "Posts");
-	  
-	  const q = query(
-	    postRef,
-		where("userRef", "==", userData.uid),
-		orderBy("timestamp", "desc")
-	  );
-
-	  const querySnap = await getDocs(q);
-	  let post = [];
-	  querySnap.forEach((doc) => {
-		return post.push({
-		  id: doc.id,
-		  data: doc.data(),
-		});
-	  });
-	  setPosts(post);
-	  
-	  //setLoading(false);
-	}
-	//setCurrentUser(auth.currentUser.displayName)
-	fetchUserListings();
-  }, [userData]);
+			//setLoading(false);
+		}
+		//setCurrentUser(auth.currentUser.displayName)
+		fetchUserListings();
+	}, [userData]);
 
 	function updateFollowing(profile) {
 		for (let follower of profile.followers) {
@@ -96,10 +80,8 @@ useEffect(() => {
 		setFollowing(false);
 	}
 
-
-
 	if (profileData == {}) return null;
-	
+
 	return (
 		<div>
 			{
@@ -115,13 +97,7 @@ useEffect(() => {
 						{/*Change this to User Name*/}
 						{user ? <h1>{user.displayName}</h1> : null}
 						<br />
-						<button
-							type="button"
-							className="btn btn-danger btn-lg"
-							onClick={onLogout}
-						>
-							Log Out
-						</button>
+
 						<div className="profile-data">
 							<img
 								src={
@@ -136,7 +112,6 @@ useEffect(() => {
 									<strong>Posts</strong>
 								</p>
 								<h4>
-									
 									{userData && userData.result && userData.result.posts
 										? userData.result.posts.length
 										: 0}
@@ -147,7 +122,6 @@ useEffect(() => {
 									<strong>Followers</strong>
 								</p>
 								<h4>
-							
 									{userData && userData.result && userData.result.userfollowers
 										? userData.result.userfollowers.length
 										: 0}
@@ -158,8 +132,7 @@ useEffect(() => {
 									<strong>Following</strong>
 								</p>
 								<h4>
-										
-								{userData && userData.result && userData.result.userfollowing
+									{userData && userData.result && userData.result.userfollowing
 										? userData.result.userfollowing.length
 										: 0}
 								</h4>
@@ -200,9 +173,8 @@ useEffect(() => {
                 })
               : null} */}
 						</div>
-				
-						<UserPosts alluserPosts={posts}/>
-						
+
+						<UserPosts alluserPosts={posts} />
 					</div>
 				</div>
 			}
