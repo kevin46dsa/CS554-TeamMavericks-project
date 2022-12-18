@@ -27,7 +27,7 @@ import {
 	where,
 } from 'firebase/firestore';
 
-export default function Profile({ setAlert }) {
+export default function Profile() {
 	const [profileData, setProfileData] = useState({});
 	const [posts, setPosts] = useState(null);
 	const [following, setFollowing] = useState(false);
@@ -71,7 +71,7 @@ useEffect(() => {
 	  );
 
 	  const querySnap = await getDocs(q);
-	 
+		console.log(querySnap)
 	  let post = [];
 	  querySnap.forEach((doc) => {
 		return post.push({
@@ -79,13 +79,14 @@ useEffect(() => {
 		  data: doc.data(),
 		});
 	  });
-	  
+	  console.log(post)
 	  setPosts(post);
+	  
 	  //setLoading(false);
 	}
 	//setCurrentUser(auth.currentUser.displayName)
 	fetchUserListings();
-  }, [auth.currentUser.uid]);
+  }, [userData]);
 
 	function updateFollowing(profile) {
 		for (let follower of profile.followers) {
@@ -201,7 +202,9 @@ useEffect(() => {
                 })
               : null} */}
 						</div>
+				
 						<UserPosts alluserPosts={posts}/>
+						
 					</div>
 				</div>
 			}
