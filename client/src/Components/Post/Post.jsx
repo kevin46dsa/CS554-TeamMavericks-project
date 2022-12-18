@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 //import { db } from '../../App';
 import {
 	getDocs,
@@ -44,7 +44,7 @@ const Post = ({ allData }) => {
 		getComments();
 	}, [docRef]);
 
-	//	console.log(allData);
+	////	console.log(allData);
 
 	console.log(testData);
 	const postComment = (e) => {
@@ -104,28 +104,21 @@ const Post = ({ allData }) => {
 				</h4>
 				{/* <Like></Like> */}
 				{/* <Like id={allData.id} /> */}
-
 				{/* Like Shit Here*/}
-
 				<h3 class="text-success">Likes:</h3> <br></br>
-
 				<FavoriteIcon
-                //   onClick={() => handleLikeClick()}
-                  color="secondary"
-                  style={{ marginRight: 8, width: 20, cursor: "pointer" }}
-                />
+					//   onClick={() => handleLikeClick()}
+					color="secondary"
+					style={{ marginRight: 8, width: 20, cursor: 'pointer' }}
+				/>
+				<FavoriteBorder
+					//   onClick={() => handleLikeClick()}
 
-                <FavoriteBorder
-                //   onClick={() => handleLikeClick()}
-                  
-                  style={{ marginRight: 8, width: 20, cursor: "pointer" }}
-                />
+					style={{ marginRight: 8, width: 20, cursor: 'pointer' }}
+				/>
 				<br></br>
-
 				{/* Start of comments */}
-
 				<h3 class="text-success">Comments:</h3> <br></br>
-
 				{
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (
@@ -135,9 +128,7 @@ const Post = ({ allData }) => {
 							</p>
 						))}
 					</div>
-					
 				}
-
 				<form className="comment__form">
 					<div className="comment__wrapper">
 						<input
@@ -157,7 +148,6 @@ const Post = ({ allData }) => {
 						</button>
 					</div>
 				</form>
-
 				{/* End of comments */}
 			</div>
 		</>
