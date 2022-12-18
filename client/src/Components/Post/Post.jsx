@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ClearIcon from '@mui/icons-material/Clear';
 import { Timestamp } from '@firebase/firestore';
 import timeAgo from 'epoch-timeago';
 //import { db } from '../../App';
