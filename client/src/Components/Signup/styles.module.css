@@ -96,3 +96,19 @@
 	color: white;
 	margin: 10px;
 }
+
+
+button {
+	font-size: 14px;
+	line-height: 18px;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+.primary__button {
+	background-color: #007acb;
+	border-radius: 4px;
+	color: #fff;
+	padding: 5px 9px;
+	font-weight: 600;
+	text-align: center;
+}

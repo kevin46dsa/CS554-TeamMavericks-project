@@ -97,7 +97,7 @@ const Signup = () => {
 							className={styles.input}
 						/>
 						<br></br>
-						<button className="btn btn-success btn-round-lg btn-lg ">
+						<button className="primary__button">
 							<span>Sign up</span>
 						</button>
 						<br></br>
@@ -111,7 +111,7 @@ const Signup = () => {
           				</div>
 						  <br></br>
 
-						<button className="btn btn-success btn-round-lg btn-lg ">
+						<button className="primary__button">
 							<Link to="/login">Login</Link>
 						</button>
 						

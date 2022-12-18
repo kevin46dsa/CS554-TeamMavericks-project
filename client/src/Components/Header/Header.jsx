@@ -12,7 +12,7 @@ const Login = () => {
 				<button className="primary__button">Log in</button>
 			</NavLink>
 			<NavLink className="navlink" to="/signup">
-				<button className="text__button">Sign up</button>
+				<button className="primary__button">Sign up</button>
 			</NavLink>
 		</>
 	);

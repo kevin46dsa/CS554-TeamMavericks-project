@@ -14,6 +14,7 @@ const Home = () => {
 	const [data, setData] = useState(null);
 	const [userFollowingPosts, setUserFollowingPosts] = useState([]);
 
+
 	const cleanData = (array) => {
 		const posts = [];
 		array.forEach((doc) => {
