@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
 //import { db } from '../../App';
-import { getDocs, doc, updateDoc } from 'firebase/firestore';
+import {
+	getDocs,
+	doc,
+	onSnapshot,
+	updateDoc,
+	collection,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 // import Like from '../Like/Like';
 import useUser from '../../hooks/useUser';
@@ -11,6 +17,9 @@ var moment = require('moment');
 const Post = ({ allData }) => {
 	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
+	const [comments, setComments] = useState(allData.data.comments);
+	const [testData, setTestData] = useState([]);
+
 	//const [commentPull, setCommentPull] = useState([]);
 
 	let username = allData.data.ownerName;
@@ -18,22 +27,24 @@ const Post = ({ allData }) => {
 	let imageUrl = allData.data.imgURL;
 	let postId = allData.id;
 	let posterId = allData.data.userRef;
-	let comments = allData.data.comments;
 
+	let docRef;
 	useEffect(() => {
-		var getComments = async () => {
-			const docRef = doc(db, 'Posts', postId);
+		setComments(allData.data.comments);
+		const getComments = async () => {
+			docRef = onSnapshot(doc(db, 'Posts', postId));
 			const docSnap = await getDocs(docRef);
 			let CommentPull = docSnap.data();
-			let comments = CommentPull.comments;
+
+			setComments(CommentPull.comments);
 			console.log(docSnap.data());
 		};
-
 		getComments();
-	}, []);
+	}, [docRef]);
 
 	//	console.log(allData);
 
+	console.log(testData);
 	const postComment = (e) => {
 		e.preventDefault();
 
