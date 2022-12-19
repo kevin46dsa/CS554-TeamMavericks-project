@@ -26,11 +26,10 @@ import {
 	where,
 } from 'firebase/firestore';
 import { Avatar } from '@mui/material';
-import { userCollection } from '../../firebase.collection';
+import { postCollection, userCollection } from '../../firebase.collection';
 import { onSnapshot } from 'firebase/firestore';
 
 export default function PublicProfile() {
-    const params = useParams();
 	const [profileData, setProfileData] = useState({});
 	const [posts, setPosts] = useState(null);
 	const [following, setFollowing] = useState(false);
@@ -41,53 +40,31 @@ export default function PublicProfile() {
 	const { user, isLoading } = useUser();
 	const [userFollowingPosts, setUserFollowingPosts] = useState([]);
 	const [udata2, setUdata2] = useState([]);
-	
+
 	const auth = getAuth();
 	const { userData, isUserDataLoading } = useUserData();
 	const [snapUser, setSnapUser] = useState(undefined);
+	const [snapPosts, setSnapPosts] = useState(undefined);
 	const [snapUserData, setSnapUserData] = useState(undefined);
 
 	const navigate = useNavigate();
 	//Custom Hook
+	let { id } = useParams();
 
 	useEffect(() => {
-		 function fetchUserListings() {
-			let data = {
-                uuid: params.id
-            };
-            
-            axios
-				.get('http://localhost:8000/data/getUserPosts', data)
-				.then((res) => {
-					console.log('Executed 1st block');
-					console.log(res)
-				})
-				.catch((e) => {
-					console.log(e);
-				});
+		async function fetchData() {
+			try {
+				const { data } = await axios.get(
+					` http://localhost:8000/data/getUserPosts/${id}`
+				);
 
-
-            /*
-			const q = query(
-				postRef,
-				where('userRef', '==', userData.uid),
-				orderBy('timestamp', 'desc')
-			);
-
-			const querySnap = await getDocs(q);
-			let post = [];
-			querySnap.forEach((doc) => {
-				return post.push({
-					id: doc.id,
-					data: doc.data(),
-				});
-			});
-			setPosts(post);
-            */
+				setPosts(data);
+			} catch (e) {
+				console.log(e);
+			}
 		}
-
-		fetchUserListings();
-	}, []);
+		fetchData();
+	}, [id]);
 
 	//snapshot user
 	useEffect(() => {
@@ -98,12 +75,27 @@ export default function PublicProfile() {
 					data: doc.data(),
 				}))
 			);
+			flushRedis();
 		});
-
 		return () => {
 			unsubscribe();
 		};
 	}, []);
+	useEffect(() => {
+		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
+			setSnapPosts(
+				snapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
+			flushRedis();
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
 	useEffect(() => {
 		//let liket = dataForLike;
 		if (snapUser) {
@@ -113,10 +105,22 @@ export default function PublicProfile() {
 			let userIndex = idArray.indexOf(user.uid);
 			let userData = snapUser[userIndex].data;
 			setSnapUserData(userData);
-			console.log(snapUserData);
+			//		console.log(snapUserData);
 		}
 		return () => {};
 	}, [snapUser]);
+
+	const flushRedis = async () => {
+		try {
+			const { data } = await axios.get(
+				` http://localhost:8000/data/flushRedis`
+			);
+
+			console.log('Redis Flushed');
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	function updateFollowing(profile) {
 		for (let follower of profile.followers) {

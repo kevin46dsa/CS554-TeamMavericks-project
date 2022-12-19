@@ -122,9 +122,9 @@ router.get('/getAllUsers', async (req, res) => {
 	}
 });
 
-router.get('/getUserPosts', async (req, res) => {
+router.get('/getUserPosts/:id', async (req, res) => {
 	try {
-		let uuid = req.body.uuid;
+		let uuid = req.params.id;
 		let exists = await client.exists(uuid);
 		if (exists) {
 			console.log('userPosts exists in cache');
