@@ -73,7 +73,9 @@ const Signup = () => {
             />
           </div>
           <form className={styles.form_container} onSubmit={handleSubmit}>
-            <h2>Create a new account</h2>
+			<h1></h1>
+            <h2>Hello, Friend!</h2> <br></br>
+			<h3>Signup to start journey with us</h3>
 			<br></br>
             <input
               id="name"
