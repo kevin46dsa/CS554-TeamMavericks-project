@@ -28,14 +28,18 @@ const Routesr = () => {
           <Routing exact path="/login" element={<Login />} />
           <Routing exact path="/signup" element={<Signup />} /> 
           <Routing exact path="/uploadimage" element={<UploadImage />} /> 
+          
+
           <Routing path="/profile" element={<PrivateRoute />} >           
             <Routing exact path="/profile" element={<Profile />} />
           </Routing>
+
           <Routing exact path="/EditProfile" element={<EditProfile />} />
           
           <Routing path="/createpost" element={<PrivateRoute />}>
             <Routing exact path="/createpost" element={<CreatePost setAlert={setAlert}/>} />
           </Routing>
+          
             <Routing exact path="/follow" element={<Follow/>}></Routing>
           {/* <Routing exact path="/CreatePost" element={<CreatePost />} /> */}
           <Routing exact path="/Search" element={<Search />} />
