@@ -51,7 +51,7 @@ const Signup = () => {
       formDataCopy.posts = [];
       formDataCopy.isPrivate = false;
       formDataCopy.userfollowers = [];
-      formDataCopy.userfollowing = [];
+      formDataCopy.userfollowing = [user.uid];
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       navigate("/");
