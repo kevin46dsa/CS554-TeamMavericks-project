@@ -25,6 +25,9 @@ import {
 	updateDoc,
 	where,
 } from 'firebase/firestore';
+import { Avatar } from '@mui/material';
+import { userCollection } from '../../firebase.collection';
+import { onSnapshot } from 'firebase/firestore';
 
 export default function Profile() {
 	const [profileData, setProfileData] = useState({});
@@ -40,6 +43,8 @@ export default function Profile() {
 	const params = useParams();
 	const auth = getAuth();
 	const { userData, isUserDataLoading } = useUserData();
+	const [snapUser, setSnapUser] = useState(undefined);
+	const [snapUserData, setSnapUserData] = useState(undefined);
 
 	const navigate = useNavigate();
 	//Custom Hook
@@ -63,12 +68,39 @@ export default function Profile() {
 				});
 			});
 			setPosts(post);
-
-			//setLoading(false);
 		}
-		//setCurrentUser(auth.currentUser.displayName)
+
 		fetchUserListings();
 	}, [userData]);
+
+	//snapshot user
+	useEffect(() => {
+		const unsubscribe = onSnapshot(userCollection, (snapshot) => {
+			setSnapUser(
+				snapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+	useEffect(() => {
+		//let liket = dataForLike;
+		if (snapUser) {
+			let idArray = snapUser.map((doc) => {
+				return doc.id;
+			});
+			let userIndex = idArray.indexOf(user.uid);
+			let userData = snapUser[userIndex].data;
+			setSnapUserData(userData);
+			console.log(snapUserData);
+		}
+		return () => {};
+	}, [snapUser]);
 
 	function updateFollowing(profile) {
 		for (let follower of profile.followers) {
@@ -99,21 +131,18 @@ export default function Profile() {
 						<br />
 
 						<div className="profile-data">
-							<img
-								src={
-									profileData.photo
-										? profileData.photo.asset.url
-										: 'https://via.placeholder.com/80'
-								}
-								id="profile-img"
+							<Avatar
+								alt="Remy Sharp"
+								src={profileData.photo ? profileData.photo.asset.url : null}
+								sx={{ width: 100, height: 100 }}
 							/>
 							<div className="vertical-data">
 								<p>
 									<strong>Posts</strong>
 								</p>
 								<h4>
-									{userData && userData.result && userData.result.posts
-										? userData.result.posts.length
+									{snapUserData && snapUserData.posts
+										? snapUserData.posts.length
 										: 0}
 								</h4>
 							</div>
@@ -122,8 +151,8 @@ export default function Profile() {
 									<strong>Followers</strong>
 								</p>
 								<h4>
-									{userData && userData.result && userData.result.userfollowers
-										? userData.result.userfollowers.length
+									{snapUserData && snapUserData.userfollowers
+										? snapUserData.userfollowers.length
 										: 0}
 								</h4>
 							</div>
@@ -132,8 +161,8 @@ export default function Profile() {
 									<strong>Following</strong>
 								</p>
 								<h4>
-									{userData && userData.result && userData.result.userfollowing
-										? userData.result.userfollowing.length - 1
+									{snapUserData && snapUserData.userfollowing
+										? snapUserData.userfollowing.length - 1
 										: 0}
 								</h4>
 							</div>
@@ -142,9 +171,7 @@ export default function Profile() {
 									<Button
 										variant={following ? 'danger' : 'success'}
 										// onClick={followClick}
-									>
-										{following ? 'Unfollow' : 'Follow'}
-									</Button>
+									></Button>
 								) : null}
 								{user && owner ? (
 									<Button variant="primary" onClick={() => setEditing(true)}>

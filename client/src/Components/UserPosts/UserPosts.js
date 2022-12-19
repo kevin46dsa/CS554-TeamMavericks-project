@@ -80,7 +80,7 @@ const UserPosts = ({ alluserPosts }) => {
 	const closePost = () => setOpen(false);
 
 	const buildCard = (post) => {
-		console.log(post);
+		// console.log(post);
 		return (
 			<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={post.id}>
 				<Card sx={useStyles.card} variant="outlined">
