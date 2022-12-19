@@ -50,7 +50,16 @@ const Post = ({ allData }) => {
 	useEffect(() => {
 		//setComments(allData.data.comments);
 		if (dataForComment) {
-			let comments = dataForComment[0].data.comments;
+			let idArray = dataForComment.map((doc) => {
+				return doc.id;
+			});
+			let userIndex = idArray.indexOf(postId);
+			// console.log(dataForComment);
+
+			// console.log(idArray);
+			// console.log(user.uid);
+			// console.log(userIndex);
+			let comments = dataForComment[userIndex].data.comments;
 			setComments(comments);
 		}
 		//console.log(liket);
