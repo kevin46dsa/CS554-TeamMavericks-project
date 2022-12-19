@@ -22,7 +22,7 @@ const Post = ({ allData }) => {
 	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
 	const [comments, setComments] = useState(allData.data.comments);
-	const [testData, setTestData] = useState([]);
+	const [likeArray, setLikeArray] = useState(undefined);
 	const [dataForComment, setdataForComment] = useState(undefined);
 	const [uid, setUid] = useState(undefined);
 	//const [commentPull, setCommentPull] = useState([]);
@@ -62,9 +62,11 @@ const Post = ({ allData }) => {
 			// console.log(user.uid);
 			// console.log(userIndex);
 			let comments = dataForComment[userIndex].data.comments;
+			let likeArray = dataForComment[userIndex].data.likes;
 			// console.log(comments);
 			setUid(user.uid);
 			setComments(comments);
+			setLikeArray(likeArray);
 		}
 		//console.log(liket);
 		return () => {};
@@ -140,7 +142,8 @@ const Post = ({ allData }) => {
 				{/* <Like></Like> */}
 				{/* <Like id={allData.id} /> */}
 				{/* Like Shit Here*/}
-				<h3 class="text-success">Likes:</h3> <br></br>
+				<h3 class="text-success">Likes:{likeArray && likeArray.length}</h3>{' '}
+				<br></br>
 				<Like id={postId} className="post-iconItem" />
 				<br></br>
 				{/* End of Like Here*/}
@@ -151,7 +154,7 @@ const Post = ({ allData }) => {
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (
 							<p class="meta">
-								{console.log(comment)}
+								{/* {console.log(comment)} */}
 								<strong>{comment.username}</strong> {comment.comment}{' '}
 								{/* {console.log(comment)} */}
 								{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
