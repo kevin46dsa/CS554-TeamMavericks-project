@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ClearIcon from '@mui/icons-material/Clear';
+import { postCollection } from '../../firebase.collection';
 import { Timestamp } from '@firebase/firestore';
 import timeAgo from 'epoch-timeago';
 import Like from '../Like/Like';
@@ -23,8 +21,7 @@ const Post = ({ allData }) => {
 	const [comment, setComment] = useState('');
 	const [comments, setComments] = useState(allData.data.comments);
 	const [testData, setTestData] = useState([]);
-	const [likeTruth, setLikeTruth] = useState(false);
-
+	const [dataForComment, setdataForComment] = useState(undefined);
 	//const [commentPull, setCommentPull] = useState([]);
 
 	let username = allData.data.ownerName;
@@ -32,23 +29,47 @@ const Post = ({ allData }) => {
 	let imageUrl = allData.data.imgURL;
 	let postId = allData.id;
 	let posterId = allData.data.userRef;
-	const handleLikeClick = () => {
-		setLikeTruth(!likeTruth);
-	};
-	let docRef;
-	useEffect(() => {
-		setComments(allData.data.comments);
-		const getComments = async () => {
-			docRef = onSnapshot(doc(db, 'Posts', postId));
-			const docSnap = await getDocs(docRef);
-			let CommentPull = docSnap.data();
 
-			setComments(CommentPull.comments);
-			// console.log('DATATAAA');
-			// console.log(docSnap.data());
+	let docRef;
+
+	useEffect(() => {
+		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
+			setdataForComment(
+				snapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
+		});
+
+		return () => {
+			unsubscribe();
 		};
-		getComments();
 	}, []);
+
+	useEffect(() => {
+		//setComments(allData.data.comments);
+		if (dataForComment) {
+			let comments = dataForComment[0].data.comments;
+			setComments(comments);
+		}
+		//console.log(liket);
+		return () => {};
+	}, [dataForComment]);
+
+	// useEffect(() => {
+	// 	setComments(allData.data.comments);
+	// 	const getComments = async () => {
+	// 		docRef = onSnapshot(doc(db, 'Posts', postId));
+	// 		const docSnap = await getDocs(docRef);
+	// 		let CommentPull = docSnap.data();
+
+	// 		setComments(CommentPull.comments);
+	// 		// console.log('DATATAAA');
+	// 		// console.log(docSnap.data());
+	// 	};
+	// 	getComments();
+	// }, []);
 
 	////	console.log(allData);
 
@@ -105,11 +126,8 @@ const Post = ({ allData }) => {
 				<h3 class="text-success">Likes:</h3> <br></br>
 				<Like id={postId} className="post-iconItem" />
 				<br></br>
-
 				{/* End of Like Here*/}
-
-{/* -----------------------------------------------------------------------------------------------------*/}
-
+				{/* -----------------------------------------------------------------------------------------------------*/}
 				{/* Start of comments */}
 				<h3 class="text-success">Comments:</h3> <br></br>
 				{
