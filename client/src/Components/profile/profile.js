@@ -133,7 +133,7 @@ export default function Profile() {
 								</p>
 								<h4>
 									{userData && userData.result && userData.result.userfollowing
-										? userData.result.userfollowing.length
+										? userData.result.userfollowing.length - 1
 										: 0}
 								</h4>
 							</div>
