@@ -12,6 +12,7 @@ const Like = ({ id }) => {
 	const [liked, setLiked] = useState(false);
 	const [dataForLike, setdataForLike] = useState(undefined);
 
+
 	useEffect(() => {
 		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
 			setdataForLike(
@@ -26,6 +27,8 @@ const Like = ({ id }) => {
 			unsubscribe();
 		};
 	}, []);
+
+
 
 	// useEffect(async () => {
 	// 	let likeData = await getLikeData();
