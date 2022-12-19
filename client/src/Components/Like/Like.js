@@ -14,17 +14,17 @@ const Like = ({ id }) => {
 	//	const increment = 1;
 	//	const decrement = -1;
 	//	const [likes, setLikes] = useState([]);
-	const [liked, setLiked] = useState(undefined);
+	const [liked, setLiked] = useState(false);
 
-	useEffect(async () => {
-		let likeData = await getLikeData();
-		let lArray = likeData.likes;
-		if (lArray.includes(user.uid)) {
-			setLiked(true);
-		} else {
-			setLiked(false);
-		}
-	}, []);
+	// useEffect(async () => {
+	// 	let likeData = await getLikeData();
+	// 	let lArray = likeData.likes;
+	// 	if (lArray.includes(user.uid)) {
+	// 		setLiked(true);
+	// 	} else {
+	// 		setLiked(false);
+	// 	}
+	// }, []);
 
 	const changeLike = (likeStatus, LikeData) => {
 		const docRef = doc(db, 'Posts', id);

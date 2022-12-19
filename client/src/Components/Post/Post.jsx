@@ -16,7 +16,6 @@ import {
 	collection,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-
 import useUser from '../../hooks/useUser';
 
 const Post = ({ allData }) => {
@@ -45,8 +44,8 @@ const Post = ({ allData }) => {
 			let CommentPull = docSnap.data();
 
 			setComments(CommentPull.comments);
-			console.log('DATATAAA');
-			console.log(docSnap.data());
+			// console.log('DATATAAA');
+			// console.log(docSnap.data());
 		};
 		getComments();
 	}, []);
@@ -106,6 +105,11 @@ const Post = ({ allData }) => {
 				<h3 class="text-success">Likes:</h3> <br></br>
 				<Like id={postId} className="post-iconItem" />
 				<br></br>
+
+				{/* End of Like Here*/}
+
+{/* -----------------------------------------------------------------------------------------------------*/}
+
 				{/* Start of comments */}
 				<h3 class="text-success">Comments:</h3> <br></br>
 				{
