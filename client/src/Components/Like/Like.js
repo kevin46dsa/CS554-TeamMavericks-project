@@ -13,7 +13,6 @@ const Like = ({ id }) => {
 	const [dataForLike, setdataForLike] = useState(undefined);
 
 	useEffect(() => {
-		console.log('useeffect 1');
 		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
 			setdataForLike(
 				snapshot.docs.map((doc) => ({
@@ -29,7 +28,6 @@ const Like = ({ id }) => {
 	}, []);
 
 	useEffect(() => {
-		console.log('useeffect 2');
 		//let liket = dataForLike;
 		if (dataForLike) {
 			let likeStatus = dataForLike[0].data.likes.includes(user.uid);
