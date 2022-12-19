@@ -23,33 +23,40 @@ const Routesr = () => {
     <>
       
         <Switch>
-          
+         <Routing path="/" element={<PrivateRoute />} > 
           <Routing exact path="/" element={ <Home /> }/>
-          <Routing exact path="/login" element={<Login />} />
-          <Routing exact path="/signup" element={<Signup />} /> 
+          </Routing>
+          
+          <Routing path="/uploadimage" element={<PrivateRoute />} >  
           <Routing exact path="/uploadimage" element={<UploadImage />} /> 
+          </Routing>
+          
           <Routing path="/profile" element={<PrivateRoute />} >           
             <Routing exact path="/profile" element={<Profile />} />
           </Routing>
+          
+          <Routing path="/EditProfile" element={<PrivateRoute />} > 
           <Routing exact path="/EditProfile" element={<EditProfile />} />
+          </Routing>
           
           <Routing path="/createpost" element={<PrivateRoute />}>
             <Routing exact path="/createpost" element={<CreatePost setAlert={setAlert}/>} />
           </Routing>
-            <Routing exact path="/follow" element={<Follow/>}></Routing>
+          
+          <Routing path="/follow" element={<PrivateRoute />}>
+            <Routing exact path="/follow" element={<Follow/>}/>
+            </Routing>
           {/* <Routing exact path="/CreatePost" element={<CreatePost />} /> */}
+          
+          <Routing path="/Search" element={<PrivateRoute />}>
           <Routing exact path="/Search" element={<Search />} />
-
+          </Routing>
+          
+          <Routing path="/userPosts" element={<PrivateRoute />}>
           <Routing path='/userPosts' element={<UserPosts/>}/>
+          </Routing>
           
-          
-       
 
-          
-          
-          
-          
-          
           
           {/* Auth Routes */}
           <Routing path="/login" element={<DisableIfAuth />}> 
