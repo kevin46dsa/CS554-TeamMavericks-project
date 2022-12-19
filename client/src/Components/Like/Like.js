@@ -12,8 +12,8 @@ const Like = ({ id }) => {
 	const [liked, setLiked] = useState(false);
 	const [dataForLike, setdataForLike] = useState(undefined);
 
-
 	useEffect(() => {
+		console.log('useeffect 1');
 		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
 			setdataForLike(
 				snapshot.docs.map((doc) => ({
@@ -21,69 +21,25 @@ const Like = ({ id }) => {
 					data: doc.data(),
 				}))
 			);
-			console.log(dataForLike);
 		});
+
 		return () => {
 			unsubscribe();
 		};
 	}, []);
 
-
-
-	// useEffect(async () => {
-	// 	let likeData = await getLikeData();
-	// 	let lArray = likeData.likes;
-	// 	if (lArray.includes(user.uid)) {
-	// 		setLiked(true);
-	// 	} else {
-	// 		setLiked(false);
-	// 	}
-	// }, []);
-
-	// useEffect(() => {
-	// 	const unsubscribe = onAuthStateChanged(async (user) => {
-	// 		if (user) {
-	// 			const docRef = doc(db, 'Posts', id);
-	// 			const docSnap = await getDoc(docRef);
-	// 			let data;
-	// 			if (docSnap.exists()) {
-	// 				data = docSnap.data();
-	// 			}
-	// 			setdataForLike(data);
-	// 			console.log(data.likes);
-	// 		}
-
-	// 		});
-	// 	return unsubscribe;
-	// }, []);
-
-	// useEffect(() => {
-	// 	firebase.auth().onAuthStateChanged(function (user) {
-	// 	  if (user) {
-	// 		if (id) {
-	// 		  database
-	// 			.collection("posts")
-	// 			.doc(id)
-	// 			.collection("likes")
-	// 			.orderBy("timestamp", "asc")
-	// 			.onSnapshot((snapshot) => {
-	// 			  setLikes(
-	// 				snapshot.docs.map((doc) => ({
-	// 				  username: doc.data().username,
-	// 				  timestamp: doc.data().timestamp,
-	// 				}))
-	// 			  );
-	// 			});
-	// 		}
-	// 	  }
-	// 	});
-	// 	// eslint-disable-next-line
-	//   }, []);
+	useEffect(() => {
+		console.log('useeffect 2');
+		//let liket = dataForLike;
+		if (dataForLike) {
+			let likeStatus = dataForLike[0].data.likes.includes(user.uid);
+			setLiked(likeStatus);
+		}
+		//console.log(liket);
+		return () => {};
+	}, [dataForLike]);
 
 	const changeLike = (likeStatus, LikeData) => {
-		console.log('dataForLike');
-		console.log(dataForLike);
-		console.log('dataForLike');
 		const docRef = doc(db, 'Posts', id);
 		let likeArray = LikeData;
 		console.log(likeArray);
@@ -119,20 +75,17 @@ const Like = ({ id }) => {
 		// logic to come
 	};
 
-	const getLikeData = async () => {
-		const docRef = doc(db, 'Posts', id);
-		const docSnap = await getDoc(docRef);
-		let data;
-		if (docSnap.exists()) {
-			data = docSnap.data();
-		}
-		return data;
-	};
-
 	const handleLikeClick = async () => {
-		let likeData = await getLikeData();
-		console.log(likeData);
-		changeLike(liked, likeData.likes);
+		let likeData = dataForLike[0].data.likes;
+		// console.log(likeData);
+		// console.log(likeData.includes(user.uid));
+		// let likeData = await getLikeData();
+		changeLike(liked, likeData);
+
+		// console.log('dataForLike');
+		// console.log(dataForLike);
+		//  console.log(likeData);
+		// console.log('dataForLike');
 	};
 
 	return (
