@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 // import firebase from "firebase";
 
 const Like = ({ id }) => {
