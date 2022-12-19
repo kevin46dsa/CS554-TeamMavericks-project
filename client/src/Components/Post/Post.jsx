@@ -17,13 +17,13 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import useUser from '../../hooks/useUser';
-var moment = require('moment');
 
 const Post = ({ allData }) => {
 	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
 	const [comments, setComments] = useState(allData.data.comments);
 	const [testData, setTestData] = useState([]);
+	const [likeTruth, setLikeTruth] = useState(false);
 
 	//const [commentPull, setCommentPull] = useState([]);
 
@@ -32,7 +32,9 @@ const Post = ({ allData }) => {
 	let imageUrl = allData.data.imgURL;
 	let postId = allData.id;
 	let posterId = allData.data.userRef;
-
+	const handleLikeClick = () => {
+		setLikeTruth(!likeTruth);
+	};
 	let docRef;
 	useEffect(() => {
 		setComments(allData.data.comments);
@@ -42,14 +44,15 @@ const Post = ({ allData }) => {
 			let CommentPull = docSnap.data();
 
 			setComments(CommentPull.comments);
-			console.log(docSnap.data());
+			// console.log('DATATAAA');
+			// console.log(docSnap.data());
 		};
 		getComments();
-	}, [docRef]);
+	}, []);
 
 	////	console.log(allData);
 
-	console.log(testData);
+	//console.log(testData);
 	const postComment = (e) => {
 		e.preventDefault();
 
@@ -100,16 +103,7 @@ const Post = ({ allData }) => {
 				{/* <Like id={allData.id} /> */}
 				{/* Like Shit Here*/}
 				<h3 class="text-success">Likes:</h3> <br></br>
-				<FavoriteIcon
-					//   onClick={() => handleLikeClick()}
-					color="secondary"
-					style={{ marginRight: 8, width: 20, cursor: 'pointer' }}
-				/>
-				<FavoriteBorder
-					//   onClick={() => handleLikeClick()}
-
-					style={{ marginRight: 8, width: 20, cursor: 'pointer' }}
-				/>
+				<Like id={postId} className="post-iconItem" />
 				<br></br>
 
 				{/* End of Like Here*/}
