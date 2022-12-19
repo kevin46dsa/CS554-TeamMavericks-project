@@ -13,7 +13,6 @@ const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 
-
 var createPostUserData = undefined;
 const multer = require('multer');
 const Mstorage = multer.diskStorage({
@@ -62,7 +61,7 @@ router.post('/upload', async (req, res) => {
 				},
 			},
 		});
-		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`;
+		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-v2.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`;
 
 		data = {
 			userRef: user.uuid,
@@ -90,9 +89,9 @@ router.post('/upload', async (req, res) => {
 
 			// createdPostID gets the created post id will be used to add to user collection in the post feilds
 			let exists = await client.exists(user.uuid);
-			if(exists) await client.DEL(user.uuid)	
-			
-			res.status(200).json({ "data": createdPostID });
+			if (exists) await client.DEL(user.uuid);
+
+			res.status(200).json({ data: createdPostID });
 		} catch (e) {
 			res.status(404).json({ Error: e });
 		}
@@ -109,8 +108,6 @@ router.post('/upload2', async (req, res) => {
 
 router.get('/getAllUsers', async (req, res) => {
 	try {
-
-
 		let allUsers = {};
 		//get data from cloud firestore
 		const snapshot = await firestore.collection('users').get();
@@ -118,7 +115,7 @@ router.get('/getAllUsers', async (req, res) => {
 		snapshot.forEach((doc) => {
 			allUsers[`${doc.id}`] = doc.data();
 		});
-		
+
 		res.status(200).send({ data: allUsers });
 	} catch (e) {
 		res.status(404).json({ Error: e });
@@ -127,26 +124,27 @@ router.get('/getAllUsers', async (req, res) => {
 
 router.get('/getUserPosts', async (req, res) => {
 	try {
-
-		let uuid = req.body.uuid
+		let uuid = req.body.uuid;
 		let exists = await client.exists(uuid);
-		if(exists){
-			console.log('userPosts exists in cache')
+		if (exists) {
+			console.log('userPosts exists in cache');
 			let data = await client.get(uuid);
-      		let cacheData = JSON.parse(data) 
-			  
-			return res.status(200).json(cacheData);
-		}
-		else{
-			let ans = [];
-		//get data from cloud fianstore
-		//const snapshot = await firestore.collection('users').get();
-		let postsRef = firestore.collection("Posts");
+			let cacheData = JSON.parse(data);
 
-		// Create a query against the collection.
-		let snapshot = await postsRef.where("userRef", "==", uuid).orderBy("timestamp", "desc").get();
-		console.log(snapshot)
-		snapshot.forEach((doc) => {
+			return res.status(200).json(cacheData);
+		} else {
+			let ans = [];
+			//get data from cloud fianstore
+			//const snapshot = await firestore.collection('users').get();
+			let postsRef = firestore.collection('Posts');
+
+			// Create a query against the collection.
+			let snapshot = await postsRef
+				.where('userRef', '==', uuid)
+				.orderBy('timestamp', 'desc')
+				.get();
+			console.log(snapshot);
+			snapshot.forEach((doc) => {
 				return ans.push({
 					id: doc.id,
 					data: doc.data(),
@@ -154,16 +152,10 @@ router.get('/getUserPosts', async (req, res) => {
 			});
 
 			let acknowlwdge = await client.set(uuid, JSON.stringify(ans));
-			if(acknowlwdge = "OK"){
-				
+			if ((acknowlwdge = 'OK')) {
 				return res.status(200).json(ans);
-			} 
-			else throw "Error"
+			} else throw 'Error';
 		}
-		
-			
-		
-		
 	} catch (e) {
 		res.status(404).json({ Error: e });
 	}
