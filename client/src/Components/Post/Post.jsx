@@ -62,7 +62,7 @@ const Post = ({ allData }) => {
 			// console.log(user.uid);
 			// console.log(userIndex);
 			let comments = dataForComment[userIndex].data.comments;
-			console.log(comments);
+			// console.log(comments);
 			setUid(user.uid);
 			setComments(comments);
 		}
@@ -98,8 +98,8 @@ const Post = ({ allData }) => {
 			userId: user.uid,
 			username: user.displayName,
 		};
-		console.log('$$$$$');
-		console.log(currentComment);
+		// console.log('$$$$$');
+		// console.log(currentComment);
 		comments.push(currentComment);
 		const data = {
 			comments: comments,
@@ -147,7 +147,7 @@ const Post = ({ allData }) => {
 						{comments.map((comment) => (
 							<p class="meta">
 								<strong>{comment.username}</strong> {comment.comment}{' '}
-								{console.log(comment)}
+								{/* {console.log(comment)} */}
 								{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
 								{comment.userId == uid && (
 									<ClearIcon
