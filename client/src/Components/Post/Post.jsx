@@ -5,6 +5,8 @@ import { postCollection } from '../../firebase.collection';
 import { Timestamp } from '@firebase/firestore';
 import timeAgo from 'epoch-timeago';
 import Like from '../Like/Like';
+import ClearIcon from '@mui/icons-material/Clear';
+
 //import { db } from '../../App';
 import {
 	getDocs,
@@ -22,6 +24,7 @@ const Post = ({ allData }) => {
 	const [comments, setComments] = useState(allData.data.comments);
 	const [testData, setTestData] = useState([]);
 	const [dataForComment, setdataForComment] = useState(undefined);
+	const [uid, setUid] = useState(undefined);
 	//const [commentPull, setCommentPull] = useState([]);
 
 	let username = allData.data.ownerName;
@@ -53,44 +56,44 @@ const Post = ({ allData }) => {
 			let idArray = dataForComment.map((doc) => {
 				return doc.id;
 			});
+
 			let userIndex = idArray.indexOf(postId);
 			// console.log(dataForComment);
-
-			// console.log(idArray);
 			// console.log(user.uid);
 			// console.log(userIndex);
 			let comments = dataForComment[userIndex].data.comments;
+			console.log(comments);
+			setUid(user.uid);
 			setComments(comments);
 		}
 		//console.log(liket);
 		return () => {};
 	}, [dataForComment]);
 
-	// useEffect(() => {
-	// 	setComments(allData.data.comments);
-	// 	const getComments = async () => {
-	// 		docRef = onSnapshot(doc(db, 'Posts', postId));
-	// 		const docSnap = await getDocs(docRef);
-	// 		let CommentPull = docSnap.data();
+	const deleteComment = (comment) => {
+		const docRef = doc(db, 'Posts', postId);
+		const index = comments.indexOf(user.uid);
+		let newComments = comments;
+		newComments = newComments.splice(index, 1);
+		const data = {
+			comments: newComments,
+		};
+		updateDoc(docRef, data)
+			.then((docRef) => {
+				console.log('Comment Deleted Successfully');
+				//console.log(commentPull.comments);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
-	// 		setComments(CommentPull.comments);
-	// 		// console.log('DATATAAA');
-	// 		// console.log(docSnap.data());
-	// 	};
-	// 	getComments();
-	// }, []);
-
-	////	console.log(allData);
-
-	//console.log(testData);
 	const postComment = (e) => {
 		e.preventDefault();
 
 		const docRef = doc(db, 'Posts', postId);
-
 		let currentComment = {
 			comment: comment,
-			// timeStamp: moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a'),
 			timeStamp: Timestamp.fromDate(new Date()),
 			userId: user.uid,
 			username: user.displayName,
@@ -143,9 +146,18 @@ const Post = ({ allData }) => {
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (
 							<p class="meta">
-								<strong>{comment.username}</strong> {comment.comment} <br></br>
+								<strong>{comment.username}</strong> {comment.comment}{' '}
+								{console.log(comment)}
+								{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
+								{comment.userId == uid && (
+									<ClearIcon
+										onClick={() => deleteComment(comment.comment)}
+										fontSize="small"
+									/>
+								)}
+								<br></br>
 								{/* <p class="meta-2">{comment.timeStamp} </p> */}
-								<p class="meta-2">
+								<p className="meta-2">
 									{timeAgo(comment.timeStamp.seconds * 1000)}{' '}
 								</p>
 							</p>
