@@ -52,7 +52,7 @@ const Logout = (props) => {
 
 const Header = () => {
 	const { user, isLoading } = useUser();
-	console.log(user);
+
 	const auth = getAuth();
 	const navigate = useNavigate();
 

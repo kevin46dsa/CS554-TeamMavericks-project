@@ -14,6 +14,7 @@ import LostTrack from "../Components/LostTrack";
 import UploadImage from "../Components/Uploadimage/UploadImage";
 import UserPosts from "../Components/UserPosts/UserPosts";
 import Follow from "../Components/Follow/Follow";
+import PublicProfile from "../Components/PublicProfile/PublicProfile";
 
 const Routesr = () => {
 
@@ -23,9 +24,9 @@ const Routesr = () => {
     <>
       
         <Switch>
-         <Routing path="/" element={<PrivateRoute />} > 
+         
           <Routing exact path="/" element={ <Home /> }/>
-          </Routing>
+          
           
           <Routing path="/uploadimage" element={<PrivateRoute />} >  
           <Routing exact path="/uploadimage" element={<UploadImage />} /> 
@@ -56,7 +57,9 @@ const Routesr = () => {
           <Routing path='/userPosts' element={<UserPosts/>}/>
           </Routing>
           
-
+          <Routing path="/user/:id" element={<PrivateRoute />}>
+          <Routing path='/user/:id' element={<UserPosts/>}/>
+          </Routing>
           
           {/* Auth Routes */}
           <Routing path="/login" element={<DisableIfAuth />}> 
