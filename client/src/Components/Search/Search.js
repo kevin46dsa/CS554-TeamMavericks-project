@@ -44,7 +44,7 @@ export default function Search() {
             <Form.Control
               type="text"
               onInput={handleInp}
-              placeholder="Search Here"
+              placeholder="Searching Someone...."
             />
           </Form.Group>
           {/* <Button variant="primary" onClick={search}>
