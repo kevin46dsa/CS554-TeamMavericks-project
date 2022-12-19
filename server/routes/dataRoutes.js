@@ -9,6 +9,10 @@ var imagefilename = undefined;
 //const dataVal = require('../data/dataValidation');
 //var xss = require('xss');
 const { v4: uuidv4 } = require('uuid');
+const redis = require('redis');
+const client = redis.createClient();
+client.connect().then(() => {});
+
 
 var createPostUserData = undefined;
 const multer = require('multer');
@@ -85,8 +89,10 @@ router.post('/upload', async (req, res) => {
 				});
 
 			// createdPostID gets the created post id will be used to add to user collection in the post feilds
-
-			res.status(200).json({ data: createdPostID });
+			let exists = await client.exists(user.uuid);
+			if(exists) await client.DEL(user.uuid)	
+			
+			res.status(200).json({ "data": createdPostID });
 		} catch (e) {
 			res.status(404).json({ Error: e });
 		}
@@ -103,6 +109,8 @@ router.post('/upload2', async (req, res) => {
 
 router.get('/getAllUsers', async (req, res) => {
 	try {
+
+
 		let allUsers = {};
 		//get data from cloud firestore
 		const snapshot = await firestore.collection('users').get();
@@ -110,11 +118,58 @@ router.get('/getAllUsers', async (req, res) => {
 		snapshot.forEach((doc) => {
 			allUsers[`${doc.id}`] = doc.data();
 		});
+		
 		res.status(200).send({ data: allUsers });
 	} catch (e) {
 		res.status(404).json({ Error: e });
 	}
 });
+
+router.get('/getUserPosts', async (req, res) => {
+	try {
+
+		let uuid = req.body.uuid
+		let exists = await client.exists(uuid);
+		if(exists){
+			console.log('userPosts exists in cache')
+			let data = await client.get(uuid);
+      		let cacheData = JSON.parse(data) 
+			  
+			return res.status(200).json(cacheData);
+		}
+		else{
+			let ans = [];
+		//get data from cloud fianstore
+		//const snapshot = await firestore.collection('users').get();
+		let postsRef = firestore.collection("Posts");
+
+		// Create a query against the collection.
+		let snapshot = await postsRef.where("userRef", "==", uuid).orderBy("timestamp", "desc").get();
+		console.log(snapshot)
+		snapshot.forEach((doc) => {
+				return ans.push({
+					id: doc.id,
+					data: doc.data(),
+				});
+			});
+
+			let acknowlwdge = await client.set(uuid, JSON.stringify(ans));
+			if(acknowlwdge = "OK"){
+				
+				return res.status(200).json(ans);
+			} 
+			else throw "Error"
+		}
+		
+			
+		
+		
+	} catch (e) {
+		res.status(404).json({ Error: e });
+	}
+});
+
+// *****************
 
 router.get('/getSearchUser/:search', async (req, res) => {
 	try {
@@ -138,7 +193,7 @@ router.get('/getSearchUser/:search', async (req, res) => {
 	}
 });
 
-// *************************************************
+// *****************
 
 data = {
 	userRef: 'testuser3',
@@ -158,7 +213,7 @@ router.get('/createpost', async (req, res) => {
 	}
 });
 
-// *************************************************
+// *****************
 
 router.get('/uploadImage', async (req, res) => {
 	//let imageFileNames={};
