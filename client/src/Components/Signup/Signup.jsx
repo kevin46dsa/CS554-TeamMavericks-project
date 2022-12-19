@@ -9,7 +9,8 @@ import {
 	createUserWithEmailAndPassword,
 	updateProfile,
   } from "firebase/auth";
-import SignUp from './Signup.avif'
+// import SignUp from './Signup.avif'
+import SignUp from './Signup.webp'
 
 
 const Signup = () => {
