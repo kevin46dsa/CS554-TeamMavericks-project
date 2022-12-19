@@ -9,7 +9,8 @@ import { postCollection } from '../../firebase.collection';
 
 const Like = ({ id }) => {
 	const { user, isLoading } = useUser();
-	const [liked, setLiked] = useState(false);
+	const [liked, setLiked] = useState(undefined);
+	const [likeArray, setLikeArray] = useState(undefined);
 	const [dataForLike, setdataForLike] = useState(undefined);
 
 	useEffect(() => {
@@ -30,22 +31,29 @@ const Like = ({ id }) => {
 	useEffect(() => {
 		//let liket = dataForLike;
 		if (dataForLike) {
-			let likeStatus = dataForLike[0].data.likes.includes(user.uid);
+			let idArray = dataForLike.map((doc) => {
+				return doc.id;
+			});
+			let userIndex = idArray.indexOf(id);
+			let likeArray = dataForLike[userIndex].data.likes;
+			setLikeArray(likeArray);
+			let likeStatus = likeArray.includes(user.uid);
 			setLiked(likeStatus);
 		}
 		//console.log(liket);
 		return () => {};
 	}, [dataForLike]);
 
-	const changeLike = (likeStatus, LikeData) => {
+	const changeLike = (likeStatus) => {
 		const docRef = doc(db, 'Posts', id);
-		let likeArray = LikeData;
+		//let likeArray2 = LikeData;
 		console.log(likeArray);
 		if (likeStatus) {
 			if (likeArray.includes(user.uid)) {
 				console.log('Inside Unlike');
 				const index = likeArray.indexOf(user.uid);
 				likeArray.splice(index, 1);
+				setLikeArray(likeArray);
 				console.log(likeArray);
 				console.log('Unlike Success');
 			}
@@ -53,6 +61,7 @@ const Like = ({ id }) => {
 			if (!likeArray.includes(user.uid)) {
 				console.log('Inside Like');
 				likeArray.push(user.uid);
+				setLikeArray(likeArray);
 				console.log(likeArray);
 				console.log('like Success');
 			}
@@ -74,11 +83,11 @@ const Like = ({ id }) => {
 	};
 
 	const handleLikeClick = async () => {
-		let likeData = dataForLike[0].data.likes;
+		// let likeData = dataForLike[0].data.likes;
 		// console.log(likeData);
 		// console.log(likeData.includes(user.uid));
 		// let likeData = await getLikeData();
-		changeLike(liked, likeData);
+		changeLike(liked);
 
 		// console.log('dataForLike');
 		// console.log(dataForLike);
