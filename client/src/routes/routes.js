@@ -16,6 +16,7 @@ import UserPosts from '../Components/UserPosts/UserPosts';
 import Follow from '../Components/Follow/Follow';
 import PublicProfile from '../Components/PublicProfile/PublicProfile';
 import Edit from '../Components/Edit/Edit';
+import PostElement from '../Components/PostElement/PostElement';
 
 const Routesr = () => {
 	const [alert, setAlert] = useState(null);
@@ -60,6 +61,10 @@ const Routesr = () => {
 
 				<Routing path="/user/:id" element={<PrivateRoute />}>
 					<Routing path="/user/:id" element={<PublicProfile />} />
+				</Routing>
+
+				<Routing path="/post/:id" element={<PrivateRoute />}>
+					<Routing path="/post/:id" element={<PostElement />} />
 				</Routing>
 
 				{/* Auth Routes */}

@@ -4,8 +4,10 @@ import { Form, Button, ListGroup, Card } from "react-bootstrap";
 import ProfileItem from "../ProfileItem/ProfileItem";
 import "../Search/Search.css";
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Search() {
+  const navigate = useNavigate();
   const [searchText, updateSearchText] = useState("");
   const [searchResults, updateSearchResults] = useState([]);
 
@@ -26,6 +28,7 @@ export default function Search() {
       await axios.get(url)
       .then(async (data)=>{
         let d = data.data.data
+       
         updateSearchResults(d)
       })
       .catch((err)=>{
@@ -57,8 +60,7 @@ export default function Search() {
             <Card style={{ width: "100%" }}>
               <ListGroup variant="flush" className='list'>
                 {searchResults.map((item, idx) => (
-                  // <ProfileItem {...item} idx={idx} />
-                  <li>{item.name}</li>
+                  <li onClick={() => navigate(`/user/${item.id}`)}>{item.name}</li>
                 ))}
               </ListGroup>
             </Card>
