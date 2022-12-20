@@ -131,14 +131,14 @@ const Post = ({ allData }) => {
 					{/* Header: avatar with username */}
 					<Avatar alt={username} src="/static/images/avatar/1.jpg" />
 
-					<h3>{username}</h3>
+					<h1>{username}</h1>
 				</div>
 				{/* Image */}
 				<img className="post__image" src={imageUrl} alt="" />
 				{/* Username + caption */}
-				<h4 className="post__text">
+				<h2 className="post__text">
 					<strong>{username}</strong> {caption}
-				</h4>
+				</h2>
 				{/* <Like></Like> */}
 				{/* <Like id={allData.id} /> */}
 				{/* Like Shit Here*/}

@@ -77,26 +77,30 @@ const Signup = () => {
             <h2>Hello, Friend!</h2> <br></br>
 			<h3>Signup to start journey with us</h3>
 			<br></br>
+          <label for='name'>Full Name</label>
             <input
               id="name"
               type="text"
-              placeholder="Full Name"
+              placeholder="Enter your Full Name"
               onChange={onChange}
               value={name}
               className={styles.input}
             />
+         
+         <label for='email'>Email</label>
             <input
               id="email"
               type="email"
-              placeholder="Email"
+              placeholder="Enter your email"
               onChange={onChange}
               value={email}
               className={styles.input}
             />
+            <label for='password'>Password</label>
             <input
               id="password"
               type="password"
-              placeholder="Password"
+              placeholder="Enter your password"
               onChange={onChange}
               value={password}
               className={styles.input}
@@ -112,7 +116,7 @@ const Signup = () => {
               <p className="text-center fw-bold mx-3 mb-0">Have an account?</p>
             </div>
             <button className="primary__button">
-              <Link to="/login" style={{ textDecoration: "none" }}>
+              <Link to="/login" style={{ textDecoration: "none", color: '#fff' }}>
                 Login
               </Link>
             </button>
