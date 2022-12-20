@@ -126,9 +126,9 @@ const Home = () => {
 						))}
 					</>
 				)}
-				{userFollowingPosts.map((post) => (
+				{/* {userFollowingPosts.map((post) => (
 					<Post allData={post} />
-				))}
+				))} */}
 			</div>
 		</>
 	);
