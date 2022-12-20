@@ -85,3 +85,17 @@
 	width: 30%;
 	text-align: center;
 }
+
+.set-btn:focus{
+	outline-width: 0 !important;
+}
+
+.set-p-comment{
+	width: 100% !important;
+}
+
+.set-icon-clear{
+	position: absolute;
+	right: 0;
+	margin-right: -5em;
+}

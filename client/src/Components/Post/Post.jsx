@@ -153,16 +153,18 @@ const Post = ({ allData }) => {
 				{
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (
-							<p class="meta">
+							<p className="meta set-p-comment" >
 								{/* {console.log(comment)} */}
 								<strong>{comment.username}</strong> {comment.comment}{' '}
 								{/* {console.log(comment)} */}
 								{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
 								{comment.userId === uid && (
-									<ClearIcon
-										onClick={() => deleteComment(comment)}
-										fontSize="small"
-									/>
+									<span className='set-icon-clear'>
+										<ClearIcon
+											onClick={() => deleteComment(comment)}
+											fontSize="small"
+										/>
+									</span>
 								)}
 								<br></br>
 								{/* <p class="meta-2">{comment.timeStamp} </p> */}
@@ -176,7 +178,7 @@ const Post = ({ allData }) => {
 				<form className="comment__form">
 					<div className="comment__wrapper">
 						<input
-							className="comment__Input"
+							className="comment__Input set-btn"
 							type="text"
 							placeholder="Add a comment..."
 							value={comment}
