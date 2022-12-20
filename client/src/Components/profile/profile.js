@@ -173,8 +173,8 @@ export default function Profile() {
 										// onClick={followClick}
 									></Button>
 								) : null}
-								{user && owner ? (
-									<Button variant="primary" onClick={() => setEditing(true)}>
+								{user ? (
+									<Button variant="primary" onClick={() => navigate('/edit-profile')}>
 										Edit
 									</Button>
 								) : null}
