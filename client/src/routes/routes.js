@@ -74,7 +74,7 @@ const Routesr = () => {
 				<Routing path="/signup" element={<DisableIfAuth />}>
 					<Routing exact path="/signup" element={<Signup />} />
 				</Routing>
-
+				<Routing exact path="/error" element={<LostTrack />} />
 				<Routing exact path="*" element={<LostTrack />} />
 			</Switch>
 		</>
