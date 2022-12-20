@@ -44,6 +44,11 @@
     flex-direction: column;
 }
 
+.profile-text {
+    position: absolute;
+	
+}
+
 .profile-posts-wrapper {
     min-width: 30%;
     max-width: 500px;
