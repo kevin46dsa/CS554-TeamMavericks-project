@@ -39,7 +39,7 @@ const App = () => {
 					axios
 						.post(' http://localhost:8000/data/upload', image)
 						.then((res) => {
-							console.log('done');
+							console.log(res);
 						});
 				})
 				.catch((e) => {
