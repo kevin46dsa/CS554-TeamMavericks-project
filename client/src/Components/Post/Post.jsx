@@ -129,12 +129,12 @@ const Post = ({ allData }) => {
 			<div className="post" key={allData.id}>
 				<div className="post__header">
 					{/* Header: avatar with username */}
-					<Avatar alt={username} src="/static/images/avatar/1.jpg" />
+					<Avatar alt={username} src="/static/images/avatar/1.jpg"  style={{backgroundColor:'#767676'}}/>
 
 					<h1>{username}</h1>
 				</div>
 				{/* Image */}
-				<img className="post__image" src={imageUrl} alt="" />
+				<img className="post__image" src={imageUrl} alt={username} />
 				{/* Username + caption */}
 				<h2 className="post__text">
 					<strong>{username}</strong> {caption}
@@ -177,7 +177,8 @@ const Post = ({ allData }) => {
 				}
 				<form className="comment__form">
 					<div className="comment__wrapper">
-						<input
+						<label for='comment'/><input
+							id='comment'
 							className="comment__Input set-btn"
 							type="text"
 							placeholder="Add a comment..."

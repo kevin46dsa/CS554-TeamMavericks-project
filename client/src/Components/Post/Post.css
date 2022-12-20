@@ -9,8 +9,6 @@
 }
 .post__image {
 	width: 100%;
-	/* width: 3rem;
-	height: 3rem; */
 	object-fit: contain;
 	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
@@ -86,17 +84,19 @@
 .comment__wrapper button {
 	width: 30%;
 	text-align: center;
+	color: #0077c6;
+	background-color: #fafafa;
 }
 
-.set-btn:focus {
+.set-btn:focus{
 	outline-width: 0 !important;
 }
 
-.set-p-comment {
+.set-p-comment{
 	width: 100% !important;
 }
 
-.set-icon-clear {
+.set-icon-clear{
 	position: absolute;
 	right: 0;
 	margin-right: -5em;
