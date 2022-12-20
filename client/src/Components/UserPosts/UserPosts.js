@@ -85,14 +85,17 @@ const UserPosts = ({ alluserPosts }) => {
 		// console.log(post);
 		return (
 			<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={post.id}>
-				<Card sx={useStyles.card} variant="outlined">
+				<Card
+					sx={useStyles.card}
+					variant="outlined"
+					onClick={() => {
+						navigate('/post/' + post.id);
+					}}
+				>
 					<CardActionArea>
 						<CardContent>
 							<br />
 							<CardMedia
-								onClick={() => {
-									navigate('/post/' + post.id);
-								}}
 								sx={useStyles.media}
 								component="img"
 								image={post.data.imgURL}
