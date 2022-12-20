@@ -15,8 +15,16 @@
   
 .search-field {
     width: 100%;
+    
 }
   
+.searchtype{
+    border-radius: 25px;
+    border: 2px solid ;
+    padding: 20px;
+    width: 500px;
+    height: 10px;
+}
 .search-form {
     display: flex;
     margin-top: 2em;
@@ -28,4 +36,13 @@
     margin-top: 2em;
     flex-direction: column;
     width: 100%;
+    list-style-type:circle;
+     padding-left: .8em;     
+      
+
+}
+
+.list{
+    font-size:50px;
+
 }
