@@ -101,36 +101,6 @@ const UserPosts = ({ alluserPosts }) => {
 								image={post.data.imgURL}
 							/>
 
-							{/* <Modal
-								open={open}
-								onClose={closePost}
-								aria-labelledby="modal-modal-title"
-								aria-describedby="modal-modal-description"
-							>
-								<Box sx={style} key={post.id}>
-									<CardMedia
-										id="modal-modal-title"
-										variant="h6"
-										component="img"
-										image={post.data.imgURL}
-									/>
-									<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-										{post.data.ownerName}: {post.data.caption}
-									</Typography>
-									<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-										{post && post.data && post.data.likes.length
-											? post.data.likes.length
-											: 'Huh! No likes?'}
-										<br />
-
-										<br />
-										{post && post.data && post.data.comments.length
-											? post.data.comments.length
-											: 'No comments yet!'}
-									</Typography>
-								</Box>
-							</Modal> */}
-
 							<br />
 							{post.data.caption}
 						</CardContent>
