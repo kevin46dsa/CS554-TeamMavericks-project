@@ -50,7 +50,7 @@ router.post('/upload', async (req, res) => {
 		// let imageFilepath = `${dir}/public/${imagefilename}`;
 		let imageFilepath = `${diri}/public/${imagefilename}`;
 		let imageUID = uuidv4();
-		//imageMagicFunction.ImageMagic(imageFilepath, imagefilename)
+		imageMagicFunction.ImageMagicResize(imageFilepath)
 		console.log('Here ==>', imageFilepath, user);
 		let item = await bucket.upload(imageFilepath, {
 			metadata: {
