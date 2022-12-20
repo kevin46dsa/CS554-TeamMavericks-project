@@ -15,6 +15,7 @@ import UploadImage from '../Components/Uploadimage/UploadImage';
 import UserPosts from '../Components/UserPosts/UserPosts';
 import Follow from '../Components/Follow/Follow';
 import PublicProfile from '../Components/PublicProfile/PublicProfile';
+import Edit from '../Components/Edit/Edit';
 
 const Routesr = () => {
 	const [alert, setAlert] = useState(null);
@@ -32,8 +33,8 @@ const Routesr = () => {
 					<Routing exact path="/profile" element={<Profile />} />
 				</Routing>
 
-				<Routing path="/EditProfile" element={<PrivateRoute />}>
-					<Routing exact path="/EditProfile" element={<EditProfile />} />
+				<Routing path="/edit-profile" element={<PrivateRoute />}>
+					<Routing exact path="/edit-profile" element={<Edit />} />
 				</Routing>
 
 				<Routing path="/createpost" element={<PrivateRoute />}>

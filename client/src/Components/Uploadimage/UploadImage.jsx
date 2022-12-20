@@ -84,27 +84,27 @@ const App = () => {
 				.catch((e) => {
 					console.log(e);
 				});
+
+			if (postsData) {
+				const docRef = doc(db, 'users', user.uid);
+				let newUser = postsData;
+				newUser.posts.push(postId);
+				setPostsData(newUser);
+				const data = {
+					posts: newUser.posts,
+				};
+				updateDoc(docRef, data)
+					.then((docRef) => {
+						console.log('Post Uploaded to User');
+						alert('Post created!');
+						navigate('/profile');
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
 		} else {
 			alert('Upload an Image to create new post');
-		}
-
-		if (postsData) {
-			const docRef = doc(db, 'users', user.uid);
-			let newUser = postsData;
-			newUser.posts.push(postId);
-			setPostsData(newUser);
-			const data = {
-				posts: newUser.posts,
-			};
-			updateDoc(docRef, data)
-				.then((docRef) => {
-					console.log('Post Uploaded to User');
-					alert('Post created!');
-					navigate('/profile');
-				})
-				.catch((error) => {
-					console.log(error);
-				});
 		}
 	};
 

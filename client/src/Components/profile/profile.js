@@ -133,7 +133,11 @@ export default function Profile() {
 						<div className="profile-data">
 							<Avatar
 								alt="Remy Sharp"
-								src={profileData.photo ? profileData.photo.asset.url : null}
+								src={
+									snapUserData && snapUserData.displayPicture
+										? snapUserData.displayPicture
+										: null
+								}
 								sx={{ width: 100, height: 100 }}
 							/>
 							<div className="vertical-data">
@@ -173,22 +177,20 @@ export default function Profile() {
 										// onClick={followClick}
 									></Button>
 								) : null}
-								{user && owner ? (
-									<Button variant="primary" onClick={() => setEditing(true)}>
+								{user ? (
+									<Button
+										variant="primary"
+										onClick={() => navigate('/edit-profile')}
+									>
 										Edit
 									</Button>
 								) : null}
 							</div>
 						</div>
 						<div className="profile-bio">
-							<div className="profile-name">
-								<strong>
-									{(profileData.first_name ? profileData.first_name : '') +
-										' ' +
-										(profileData.last_name ? profileData.last_name : '')}
-								</strong>
+							<div className="profile-text">
+								{snapUserData && snapUserData.bio ? snapUserData.bio : null}
 							</div>
-							<div className="profile-text">{profileData.bio}</div>
 						</div>
 					</div>
 					<div className="break"></div>
