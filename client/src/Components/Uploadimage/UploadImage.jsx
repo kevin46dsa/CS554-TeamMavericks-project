@@ -135,12 +135,6 @@ const App = () => {
 						ref={imageInputRef}
 						multiple
 					/>
-
-					{/* ------------------------------------ */}
-
-
-
-					{/* --------------------------- */}
 					<button className="post-button" type="submit">
 						Post
 					</button>
