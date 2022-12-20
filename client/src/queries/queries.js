@@ -1,12 +1,12 @@
 import {
-	collection,
-	getDoc,
-	getDocs,
+  collection,
+  getDoc,
+  getDocs,
     doc,
-	limit,
-	orderBy,
-	query,
-	where,
+  limit,
+  orderBy,
+  query,
+  where,
   } from "firebase/firestore";
   import { db } from "../firebase";
   const postCollectionRef = collection(db, "Posts");
@@ -66,9 +66,9 @@ import {
     
     
     //const querySnapshot = await getDocs(queries.userFollowingPostsHome);
-				
-				//Calling the clean function for all the data
-				//const userFollowingPostsData = cleanData(querySnapshot);
+        
+        //Calling the clean function for all the data
+        //const userFollowingPostsData = cleanData(querySnapshot);
     
 
 
@@ -78,6 +78,16 @@ import {
         orderBy("timestamp", "desc")
       );
     } 
+
+    const mostLikedPosts = (userFollowing) =>{
+      
+    
+        return query(
+          postCollectionRef,
+          where("userRef","in",userFollowing),
+          orderBy("likes", "desc")
+        );
+      } 
     
   //} 
   /*
@@ -101,6 +111,7 @@ import {
   const queries = {
     
     userFollowingPostsHome,
+    mostLikedPosts
     //getCurrentUserPosts
     
     
