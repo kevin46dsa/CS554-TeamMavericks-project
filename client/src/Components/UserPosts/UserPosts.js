@@ -18,6 +18,8 @@ import { db } from '../../firebase';
 import queries from '../../queries/queries';
 import { getDocs, doc, getDoc } from 'firebase/firestore';
 import useUser from '../../hooks/useUser';
+import { useNavigate } from 'react-router-dom';
+// import { post } from '../../../../server/routes/authRoutes';
 const style = {
 	position: 'absolute',
 	top: '55%',
@@ -61,6 +63,7 @@ const useStyles = {
 };
 
 const UserPosts = ({ alluserPosts }) => {
+	const navigate = useNavigate();
 	const regex = /(<([^>]+)>)/gi;
 	// const classes = useStyles();
 	const [loading, setLoading] = useState(true);
@@ -76,8 +79,7 @@ const UserPosts = ({ alluserPosts }) => {
 	let card = null;
 	const [data, setData] = useState(null);
 
-	const openPost = () => setOpen(true);
-	const closePost = () => setOpen(false);
+	// const closePost = () => setOpen(false);
 
 	const buildCard = (post) => {
 		// console.log(post);
@@ -88,13 +90,15 @@ const UserPosts = ({ alluserPosts }) => {
 						<CardContent>
 							<br />
 							<CardMedia
-								onClick={openPost}
+								onClick={() => {
+									navigate('/post/' + post.id);
+								}}
 								sx={useStyles.media}
 								component="img"
 								image={post.data.imgURL}
 							/>
 
-							<Modal
+							{/* <Modal
 								open={open}
 								onClose={closePost}
 								aria-labelledby="modal-modal-title"
@@ -122,7 +126,7 @@ const UserPosts = ({ alluserPosts }) => {
 											: 'No comments yet!'}
 									</Typography>
 								</Box>
-							</Modal>
+							</Modal> */}
 
 							<br />
 							{post.data.caption}
