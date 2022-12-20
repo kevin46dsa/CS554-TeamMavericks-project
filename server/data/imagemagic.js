@@ -6,24 +6,51 @@ const im = require('imagemagick')
 //     console.log(output)
 // })
 
-const ImageMagic=(path, filename) =>{
-    let img = path
-    let updtImg
-    // im.identify(img, function(err, features){
-    //     if (err) throw err;
-    //     console.log("features=>",features);
-    //     // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
-    //   });
+const ImageMagicResize=(path) =>{
     
-    im.crop({srcPath: img, width: 500, height: 500},
+    
+    im.resize({
+        srcPath:  path,
+        dstPath:  path ,
+        width:500,
+        height:500
+      }, function(err, stdout, stderr){
+        if (err) {
+            console.log('error while resizing images' + stderr);
+        };
+        console.log( path + 'has been resized and replaced')
+      });
+
+    
+
+
+/*
+    im.crop({srcPath:  path,
+        dstPath:  path , width: 25, height: 25},
     function(err, stdout){
         if(err)
             throw err
         console.log("Success")
         console.log("stdout=>",stdout)
     })
+    */
 }
 
+const ImageMagicFeatures=(path) =>{
+    
+    //let updtImg
+     im.identify(path, function(err, features){
+         if (err) throw err;
+         console.log("OLD features=>",features);
+         // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
+      });
+    
+    
+}
+
+
+
 module.exports = {
-    ImageMagic
+    ImageMagicFeatures,
+    ImageMagicResize
 }
