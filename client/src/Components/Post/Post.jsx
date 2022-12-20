@@ -142,14 +142,14 @@ const Post = ({ allData }) => {
 				{/* <Like></Like> */}
 				{/* <Like id={allData.id} /> */}
 				{/* Like Shit Here*/}
-				<h3 class="text-success">Likes:{likeArray && likeArray.length}</h3>{' '}
+				<h3 class="text">Likes:{likeArray && likeArray.length}</h3>{' '}
 				<br></br>
 				<Like id={postId} className="post-iconItem" />
 				<br></br>
 				{/* End of Like Here*/}
 				{/* ----------------------------------------------------------------------------------------------------------------*/}
 				{/* Start of comments */}
-				<h3 class="text-success">Comments:</h3> <br></br>
+				<h3 class="text">Comments:</h3> <br></br>
 				{
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (

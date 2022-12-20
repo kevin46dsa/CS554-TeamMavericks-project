@@ -115,12 +115,15 @@ const App = () => {
 
 			<form className="post-form" onSubmit={uploadHandle}>
 				<div className="create-post">
-					<input
-						type="text"
-						placeholder="Enter a Caption"
-						value={caption}
-						onChange={(e) => setCaption(e.target.value)}
-					/>
+					<label>
+						<input 
+							className="form-control"
+							type="text" 
+							placeholder="Enter a Caption" 
+							value={caption}
+							onChange={(e) => setCaption(e.target.value)}
+						/><br></br>
+					</label>
 					{/* <input
 						type="file"
 						name="file"
@@ -128,14 +131,29 @@ const App = () => {
 						onChange={setImage}
 						ref={imageInputRef}
 					/> */}
-					<input 
+					{/* <input 
 						type="file"
 						accept=".jpg,.png,.jpeg,.webp"
 						onChange={setImage}
 						ref={imageInputRef}
 						multiple
-					/>
-					<button className="post-button" type="submit">
+					/> */}
+					{/* -------------------------------------- */}
+
+					<div class="input-group mb-3">
+						<input 
+						type="file" 
+						accept=".jpg,.png,.jpeg,.webp"
+						className="form-control set-file-div" 
+						onChange={setImage}
+						multiple
+						i/>
+					
+					</div>
+
+
+					{/* ---------------------------------- */}
+					<button className="btn btn-primary post-button" type="submit">
 						Post
 					</button>
 					{image && (
