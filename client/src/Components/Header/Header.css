@@ -38,22 +38,41 @@ body {
 	display: flex;
 	column-gap: 15px;
 }
-button {
+/* button {
 	font-size: 14px;
 	line-height: 18px;
 	cursor: pointer;
+	color: #fff;
 	border: 1px solid transparent;
-}
-.primary__button {
 	background-color: #007acb;
+
+} */
+.primary__button, .navlink {
+	background-color: #007acb;
+
 	border-radius: 4px;
 	color: #fff;
 	padding: 5px 9px;
 	font-weight: 600;
 	text-align: center;
+	/* text-decoration: none; */
+	
+}
+
+
+.primary__button1{
+	background-color: #007acb;
+
+	border-radius: 4px;
+	color: #fff;
+	padding: 5px 9px;
+	font-weight: 600;
+	text-align: center;
+	/* text-decoration: none; */
+	text-decoration-color: #fff;
 }
 .text__button {
-	color: #0095f6;
+	color: #fafafa;
 	font-weight: 600;
 	line-height: 28px;
 	background-color: transparent;
@@ -63,4 +82,8 @@ button {
 	flex-direction: column;
 	margin: 28px 0;
 	row-gap: 15px;
+	color: #fff;
+	/* text-decoration-color: #fff; */
+
+
 }

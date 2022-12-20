@@ -56,6 +56,7 @@ const Login = () => {
 			<br></br>
             <h3>Login to Your Account to see activities</h3>
             <br></br>
+            <label for='email'>Email</label>
             <input
               id="email"
               type="email"
@@ -64,6 +65,7 @@ const Login = () => {
               value={email}
               className={styles.input}
             />
+            <label for='password'>Password</label>
             <input
               id="password"
               type="password"
@@ -88,7 +90,7 @@ const Login = () => {
               </p>
             </div>
             <button className="primary__button">
-              <Link to="/Signup" style={{ textDecoration: "none" }}>
+              <Link to="/Signup"  style={{ textDecoration: "none", color: '#fff' }}>
                 Signup
               </Link>
             </button>
