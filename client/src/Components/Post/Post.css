@@ -8,9 +8,9 @@
 	margin-top: 1%;
 }
 .post__image {
-	/* width: 100%; */
-	width: 29rem;
-	height: 24rem;
+	width: 100%;
+	/* width: 3rem;
+	height: 3rem; */
 	object-fit: contain;
 	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;

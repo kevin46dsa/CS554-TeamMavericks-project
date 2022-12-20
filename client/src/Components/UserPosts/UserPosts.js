@@ -52,10 +52,10 @@ const useStyles = {
 		flexDirection: 'row',
 	},
 	media: {
-		// height: '100%',
-		// width: '100%',
-		height: 167.14,
-		width: 130,
+		height: '100%',
+		width: '100%',
+		// height: 167.14,
+		// width: 130,
 	},
 	button: {
 		color: '#1e8678',
