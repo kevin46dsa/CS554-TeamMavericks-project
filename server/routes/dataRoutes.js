@@ -50,7 +50,7 @@ router.post('/upload', async (req, res) => {
 		// let imageFilepath = `${dir}/public/${imagefilename}`;
 		let imageFilepath = `${diri}/public/${imagefilename}`;
 		let imageUID = uuidv4();
-		imageMagicFunction.ImageMagicResize(imageFilepath)
+		imageMagicFunction.ImageMagicResize(imageFilepath);
 		console.log('Here ==>', imageFilepath, user);
 		let item = await bucket.upload(imageFilepath, {
 			metadata: {
@@ -61,8 +61,8 @@ router.post('/upload', async (req, res) => {
 				},
 			},
 		});
-		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-v2.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`;
-
+		const publicUrl = `https://firebasestorage.googleapis.com/v0/b/instabuzz-v3.appspot.com/o/${imagefilename}?alt=media&token=${imageUID}`;
+		//dd
 		data = {
 			userRef: user.uuid,
 			ownerName: user.name,
@@ -84,13 +84,13 @@ router.post('/upload', async (req, res) => {
 					console.log(createdPostID);
 					let exists = await client.exists(user.uuid);
 					if (exists) await client.DEL(user.uuid);
-					
+
 					res.status(200).send(createdPostID);
 				})
 				.catch(function (error) {
 					console.error('Error adding document: ', error);
 				});
-				
+
 			// createdPostID gets the created post id will be used to add to user collection in the post feilds
 		} catch (e) {
 			res.status(404).json({ Error: e });
@@ -235,9 +235,9 @@ router.get('/uploadImage', async (req, res) => {
 router.get('/flushRedis', async (req, res) => {
 	//let imageFileNames={};
 	console.log('request recieved');
-	let data = await client.flushAll('ASYNC')
-	if(data != 'OK') res.status(400).json({"message":"Error Flush all did not work"})
-	return res.status(200).json({"message":data})
-
+	let data = await client.flushAll('ASYNC');
+	if (data != 'OK')
+		res.status(400).json({ message: 'Error Flush all did not work' });
+	return res.status(200).json({ message: data });
 });
 module.exports = router;
