@@ -7,13 +7,18 @@ import timeAgo from 'epoch-timeago';
 import Like from '../Like/Like';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useParams } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Link, useNavigate } from 'react-router-dom';
 
 //import { db } from '../../App';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc,deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import useUser from '../../hooks/useUser';
+import LostTrack from '../LostTrack';
 
 const PostElement = () => {
+	const navigate = useNavigate();
 	let { id } = useParams();
 
 	// ID Params is here
@@ -139,8 +144,24 @@ const PostElement = () => {
 		setComment('');
 		// logic to come
 	};
-	if (postData)
-		return (
+
+	async function onDelete(PostId) {
+		
+        if (window.confirm("Are you sure you want to delete?")){
+			await deleteDoc(doc(db, "Posts", PostId)); 
+			//navigate("/profile")
+			
+		} 
+        
+        // remove post id from user collection 
+
+		// there is a bug here needs attention 
+        // onSnapshot or set state
+    }
+
+
+
+	if (postData){ return (
 			<>
 				<div className="post" key={allData.id}>
 					<div className="post__header">
@@ -151,6 +172,11 @@ const PostElement = () => {
 						/>
 
 						<h3>{postData.ownerName}</h3>
+						
+						{ postData.userRef === user.uid ? <><EditIcon onClick={()=>{console.log("Delete button clicked")}}/><DeleteIcon onClick={()=>{onDelete(id)}}/></>: null}
+							
+						
+
 					</div>
 					{/* Image */}
 					<img className="post__image" src={postData.imgURL} alt="" />
@@ -219,6 +245,8 @@ const PostElement = () => {
 				</div>
 			</>
 		);
+		}
+		//else navigate("/error")
 };
 
 export default PostElement;
