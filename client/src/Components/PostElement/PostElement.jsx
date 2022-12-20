@@ -9,48 +9,41 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useParams } from 'react-router-dom';
 
 //import { db } from '../../App';
-import {
-	getDocs,
-	doc,
-	onSnapshot,
-	updateDoc,
-	collection,
-} from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import useUser from '../../hooks/useUser';
 
 const PostElement = () => {
-    let { id } = useParams();
-    
-    // ID Params is here
-    console.log(id)
-    
-    
-    
-    let allData = {
-        id:"PCXOj062mepUYbLow1dL",
-        data:{
-            userRef: "",
-			ownerName: "",
+	let { id } = useParams();
+
+	// ID Params is here
+	//console.log(id);
+
+	let allData = {
+		id: 'PCXOj062mepUYbLow1dL',
+		data: {
+			userRef: '',
+			ownerName: '',
 			likes: [],
-			imgURL: "",
-			caption: "",
+			imgURL: '',
+			caption: '',
 			comments: [],
-			timestamp: "",
-        }
-    }
+			timestamp: '',
+		},
+	};
 	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
 	const [comments, setComments] = useState(allData.data.comments);
 	const [likeArray, setLikeArray] = useState(undefined);
 	const [dataForComment, setdataForComment] = useState(undefined);
 	const [uid, setUid] = useState(undefined);
+	const [postData, setPostData] = useState(undefined);
 	//const [commentPull, setCommentPull] = useState([]);
 
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
 	let imageUrl = allData.data.imgURL;
-	let postId = allData.id;
+	let postId = id;
 	let posterId = allData.data.userRef;
 
 	let docRef;
@@ -77,12 +70,15 @@ const PostElement = () => {
 				return doc.id;
 			});
 
-			let userIndex = idArray.indexOf(postId);
+			let userIndex = idArray.indexOf(id);
 			// console.log(dataForComment);
 			// console.log(user.uid);
 			// console.log(userIndex);
 			let comments = dataForComment[userIndex].data.comments;
 			let likeArray = dataForComment[userIndex].data.likes;
+			let u = dataForComment[userIndex].data;
+			setPostData(dataForComment[userIndex].data);
+			console.log(u);
 			// console.log(comments);
 			setUid(user.uid);
 			setComments(comments);
@@ -143,81 +139,86 @@ const PostElement = () => {
 		setComment('');
 		// logic to come
 	};
-
-	return (
-		<>
-			<div className="post" key={allData.id}>
-				<div className="post__header">
-					{/* Header: avatar with username */}
-					<Avatar alt={username} src="/static/images/avatar/1.jpg" />
-
-					<h3>{username}</h3>
-				</div>
-				{/* Image */}
-				<img className="post__image" src={imageUrl} alt="" />
-				{/* Username + caption */}
-				<h4 className="post__text">
-					<strong>{username}</strong> {caption}
-				</h4>
-				{/* <Like></Like> */}
-				{/* <Like id={allData.id} /> */}
-				{/* Like Shit Here*/}
-				<h3 class="text-success">Likes:{likeArray && likeArray.length}</h3>{' '}
-				<br></br>
-				<Like id={postId} className="post-iconItem" />
-				<br></br>
-				{/* End of Like Here*/}
-				{/* ----------------------------------------------------------------------------------------------------------------*/}
-				{/* Start of comments */}
-				<h3 class="text-success">Comments:</h3> <br></br>
-				{
-					<div className={comments.length > 0 ? 'post__comments' : ''}>
-						{comments.map((comment) => (
-							<p className="meta set-p-comment" >
-								{/* {console.log(comment)} */}
-								<strong>{comment.username}</strong> {comment.comment}{' '}
-								{/* {console.log(comment)} */}
-								{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
-								{comment.userId === uid && (
-									<span className='set-icon-clear'>
-										<ClearIcon
-											onClick={() => deleteComment(comment)}
-											fontSize="small"
-										/>
-									</span>
-								)}
-								<br></br>
-								{/* <p class="meta-2">{comment.timeStamp} </p> */}
-								<p className="meta-2">
-									{timeAgo(comment.timeStamp.seconds * 1000)}{' '}
-								</p>
-							</p>
-						))}
-					</div>
-				}
-				<form className="comment__form">
-					<div className="comment__wrapper">
-						<input
-							className="comment__Input set-btn"
-							type="text"
-							placeholder="Add a comment..."
-							value={comment}
-							onChange={(e) => setComment(e.target.value)}
+	if (postData)
+		return (
+			<>
+				<div className="post" key={allData.id}>
+					<div className="post__header">
+						{/* Header: avatar with username */}
+						<Avatar
+							alt={postData.ownerName}
+							src="/static/images/avatar/1.jpg"
 						/>
-						<button
-							className="comment__button text__button"
-							disabled={!comment}
-							onClick={postComment}
-							type="submit"
-						>
-							Post
-						</button>
+
+						<h3>{postData.ownerName}</h3>
 					</div>
-				</form>
-				{/* End of comments */}
-			</div>
-		</>
-	);
+					{/* Image */}
+					<img className="post__image" src={postData.imgURL} alt="" />
+					{/* Username + caption */}
+					<h4 className="post__text">
+						<strong>{postData.ownerName}</strong> {postData.caption}
+					</h4>
+					{/* <Like></Like> */}
+					{/* <Like id={allData.id} /> */}
+					{/* Like Shit Here*/}
+					<h3 class="text-success">
+						Likes:{likeArray && likeArray.length}
+					</h3>{' '}
+					<br></br>
+					<Like id={postId} className="post-iconItem" />
+					<br></br>
+					{/* End of Like Here*/}
+					{/* ----------------------------------------------------------------------------------------------------------------*/}
+					{/* Start of comments */}
+					<h3 class="text-success">Comments:</h3> <br></br>
+					{
+						<div className={comments.length > 0 ? 'post__comments' : ''}>
+							{comments.map((comment) => (
+								<p className="meta set-p-comment">
+									{/* {console.log(comment)} */}
+									<strong>{comment.username}</strong> {comment.comment}{' '}
+									{/* {console.log(comment)} */}
+									{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
+									{comment.userId === uid && (
+										<span className="set-icon-clear">
+											<ClearIcon
+												onClick={() => deleteComment(comment)}
+												fontSize="small"
+											/>
+										</span>
+									)}
+									<br></br>
+									{/* <p class="meta-2">{comment.timeStamp} </p> */}
+									<p className="meta-2">
+										{timeAgo(comment.timeStamp.seconds * 1000)}{' '}
+									</p>
+								</p>
+							))}
+						</div>
+					}
+					<form className="comment__form">
+						<div className="comment__wrapper">
+							<input
+								className="comment__Input set-btn"
+								type="text"
+								placeholder="Add a comment..."
+								value={comment}
+								onChange={(e) => setComment(e.target.value)}
+							/>
+							<button
+								className="comment__button text__button"
+								disabled={!comment}
+								onClick={postComment}
+								type="submit"
+							>
+								Post
+							</button>
+						</div>
+					</form>
+					{/* End of comments */}
+				</div>
+			</>
+		);
 };
 
 export default PostElement;
