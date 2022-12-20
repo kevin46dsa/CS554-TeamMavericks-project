@@ -1,14 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useUserData from '../../hooks/useUserData';
 import { Timestamp } from '@firebase/firestore';
+import useUser from '../../hooks/useUser';
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { userCollection } from '../../firebase.collection';
+import { db } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
+
 const App = () => {
 	const [image, uploadImage] = useState('');
 	const [caption, setCaption] = useState('');
 	const [preview, setPreview] = useState('');
+	const [postId, setPostId] = useState('');
+	const [snapUser, setSnapUser] = useState(undefined);
+	const [postsData, setPostsData] = useState(undefined);
 	const { userData, isUserDataLoading } = useUserData();
-
+	const { user, isLoading } = useUser();
 	const imageInputRef = React.useRef();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const unsubscribe = onSnapshot(userCollection, (snapshot) => {
+			setSnapUser(
+				snapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
+	useEffect(() => {
+		if (snapUser) {
+			let idArray = snapUser.map((doc) => {
+				return doc.id;
+			});
+			let userIndex = idArray.indexOf(user.uid);
+			//let postArray = snapUser[userIndex].data.posts;
+			let postData = snapUser[userIndex].data;
+			setPostsData(postData);
+		}
+		//console.log(liket);
+		return () => {};
+	}, [snapUser]);
 
 	const setImage = (event) => {
 		setPreview(event.target.files[0]);
@@ -39,7 +77,7 @@ const App = () => {
 					axios
 						.post(' http://localhost:8000/data/upload', image)
 						.then((res) => {
-							console.log(res);
+							setPostId(res.data);
 						});
 				})
 				.catch((e) => {
@@ -47,6 +85,25 @@ const App = () => {
 				});
 		} else {
 			alert('Upload an Image to create new post');
+		}
+
+		if (postsData) {
+			const docRef = doc(db, 'users', user.uid);
+			let newUser = postsData;
+			newUser.posts.push(postId);
+			setPostsData(newUser);
+			const data = {
+				posts: newUser.posts,
+			};
+			updateDoc(docRef, data)
+				.then((docRef) => {
+					console.log('Post Uploaded to User');
+					alert('Post created!');
+					navigate('/profile');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		}
 	};
 
