@@ -42,19 +42,26 @@ export default function Search() {
   return (
     <div className="search">
       <div className="search-wrapper">
+        
         <Form className="search-form">
+          <label>
           <Form.Group className="search-field">
+
             <Form.Control
               type="text"
               onInput={handleInp}
               placeholder="Searching Someone...."
               className='searchtype'
             />
+
           </Form.Group>
           {/* <Button variant="primary" onClick={search}>
             Search
           </Button> */}
+          </label>
         </Form>
+
+
         {searchResults.length > 0 ? (
           <div className="search-results-wrapper">
             <Card style={{ width: "100%" }}>
