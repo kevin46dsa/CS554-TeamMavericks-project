@@ -18,6 +18,8 @@ import { db } from '../../firebase';
 import queries from '../../queries/queries';
 import { getDocs, doc, getDoc } from 'firebase/firestore';
 import useUser from '../../hooks/useUser';
+import { useNavigate } from 'react-router-dom';
+// import { post } from '../../../../server/routes/authRoutes';
 const style = {
 	position: 'absolute',
 	top: '55%',
@@ -50,8 +52,10 @@ const useStyles = {
 		flexDirection: 'row',
 	},
 	media: {
-		height: '100%',
-		width: '100%',
+		// height: '100%',
+		// width: '100%',
+		height: 167.14,
+		width: 130,
 	},
 	button: {
 		color: '#1e8678',
@@ -61,6 +65,7 @@ const useStyles = {
 };
 
 const UserPosts = ({ alluserPosts }) => {
+	const navigate = useNavigate();
 	const regex = /(<([^>]+)>)/gi;
 	// const classes = useStyles();
 	const [loading, setLoading] = useState(true);
@@ -76,56 +81,28 @@ const UserPosts = ({ alluserPosts }) => {
 	let card = null;
 	const [data, setData] = useState(null);
 
-	const openPost = () => setOpen(true);
-	const closePost = () => setOpen(false);
+	// const closePost = () => setOpen(false);
 
 	const buildCard = (post) => {
 		// console.log(post);
 		return (
 			<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={post.id}>
-				<Card sx={useStyles.card} variant="outlined">
+				<Card
+					sx={useStyles.card}
+					variant="outlined"
+					onClick={() => {
+						navigate('/post/' + post.id);
+					}}
+				>
 					<CardActionArea>
 						<CardContent>
 							<br />
 							<CardMedia
-								onClick={openPost}
 								sx={useStyles.media}
 								component="img"
 								image={post.data.imgURL}
 							/>
-
-							<Modal
-								open={open}
-								onClose={closePost}
-								aria-labelledby="modal-modal-title"
-								aria-describedby="modal-modal-description"
-							>
-								<Box sx={style} key={post.id}>
-									<CardMedia
-										id="modal-modal-title"
-										variant="h6"
-										component="img"
-										image={post.data.imgURL}
-									/>
-									<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-										{post.data.ownerName}: {post.data.caption}
-									</Typography>
-									<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-										{post && post.data && post.data.likes.length
-											? post.data.likes.length
-											: 'Huh! No likes?'}
-										<br />
-
-										<br />
-										{post && post.data && post.data.comments.length
-											? post.data.comments.length
-											: 'No comments yet!'}
-									</Typography>
-								</Box>
-							</Modal>
-
 							<br />
-							{post.data.caption}
 						</CardContent>
 					</CardActionArea>
 				</Card>
@@ -141,6 +118,9 @@ const UserPosts = ({ alluserPosts }) => {
 
 	return (
 		<div>
+			<h2>POST:</h2>
+			<br />
+			<hr />
 			<Grid container sx={useStyles.grid} spacing={0.5}>
 				{card}
 			</Grid>
