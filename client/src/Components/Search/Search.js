@@ -45,6 +45,7 @@ export default function Search() {
               type="text"
               onInput={handleInp}
               placeholder="Searching Someone...."
+              className='searchtype'
             />
           </Form.Group>
           {/* <Button variant="primary" onClick={search}>
@@ -54,7 +55,7 @@ export default function Search() {
         {searchResults.length > 0 ? (
           <div className="search-results-wrapper">
             <Card style={{ width: "100%" }}>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush" className='list'>
                 {searchResults.map((item, idx) => (
                   // <ProfileItem {...item} idx={idx} />
                   <li>{item.name}</li>
