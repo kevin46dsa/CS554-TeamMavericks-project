@@ -231,4 +231,13 @@ router.get('/uploadImage', async (req, res) => {
 	//https://firebasestorage.googleapis.com/v0/b/instabuzz-325f2.appspot.com/o/1671336395686-instaBuzz(1).png?alt=media&token=ce6dea92-ce20-4864-9d84-7438f2a8ba81
 	//console.log(publicUrl)
 });
+
+router.get('/flushRedis', async (req, res) => {
+	//let imageFileNames={};
+	console.log('request recieved');
+	let data = await client.flushAll('ASYNC')
+	if(data != 'OK') res.status(400).json({"message":"Error Flush all did not work"})
+	return res.status(200).json({"message":data})
+
+});
 module.exports = router;
