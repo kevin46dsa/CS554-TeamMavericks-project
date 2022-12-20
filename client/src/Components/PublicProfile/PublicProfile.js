@@ -35,7 +35,8 @@ export default function PublicProfile() {
 	const [following, setFollowing] = useState(false);
 	const [owner, setOwner] = useState(false);
 	const [editing, setEditing] = useState(false);
-
+	const [numUser, setNumUser] = useState(0);
+	const [numPost, setNumPost] = useState(0);
 	//const [userData, setUserData] = useState({});
 	const { user, isLoading } = useUser();
 	const [userFollowingPosts, setUserFollowingPosts] = useState([]);
@@ -59,6 +60,7 @@ export default function PublicProfile() {
 				);
 
 				setPosts(data);
+			
 			} catch (e) {
 				console.log(e);
 			}
@@ -67,6 +69,7 @@ export default function PublicProfile() {
 	}, [id]);
 
 	//snapshot user
+	
 	useEffect(() => {
 		const unsubscribe = onSnapshot(userCollection, (snapshot) => {
 			setSnapUser(
@@ -75,12 +78,23 @@ export default function PublicProfile() {
 					data: doc.data(),
 				}))
 			);
-			flushRedis();
+			setNumUser(numUser++)
 		});
 		return () => {
 			unsubscribe();
 		};
 	}, []);
+
+	useEffect(() => {
+		if(snapUser){
+			if(numUser > 1)flushRedis()
+
+		}
+		return () => {
+			
+		};
+	}, [snapUser,numUser]);
+
 	useEffect(() => {
 		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
 			setSnapPosts(
@@ -89,12 +103,21 @@ export default function PublicProfile() {
 					data: doc.data(),
 				}))
 			);
-			flushRedis();
+			setNumPost(numPost++)
 		});
 		return () => {
 			unsubscribe();
 		};
 	}, []);
+
+	useEffect(() => {
+		if(snapPosts){
+			if(numPost > 1)flushRedis()
+		}
+		return () => {
+			
+		};
+	}, [snapPosts,numPost]);
 
 	useEffect(() => {
 		//let liket = dataForLike;
