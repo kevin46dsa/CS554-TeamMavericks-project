@@ -33,8 +33,8 @@ export default function PublicProfile() {
 	const auth = getAuth();
 
 	const [snapUser, setSnapUser] = useState(undefined);
-	const [snapPosts, setSnapPosts] = useState(undefined);
 	const [snapUserData, setSnapUserData] = useState(undefined);
+	const [snapPosts, setSnapPosts] = useState(undefined);
 	const [snapCurrentUserData, setSnapCurrentUserData] = useState(undefined);
 	const [followStatus, setFollowStatus] = useState();
 	const navigate = useNavigate();
@@ -120,27 +120,6 @@ export default function PublicProfile() {
 			unsubscribe();
 		};
 	}, []);
-
-	// useEffect(() => {
-	// 	if(snapPosts){
-	// 		if(numPost > 1)flushRedis()
-	// 	}
-	// 	return () => {
-
-	// 	};
-	// }, [snapPosts,numPost]);
-
-	// const flushRedis = async () => {
-	// 	try {
-	// 		const { data } = await axios.get(
-	// 			` http://localhost:8000/data/flushRedis`
-	// 		);
-
-	// 		console.log('Redis Flushed');
-	// 	} catch (e) {
-	// 		console.log(e);
-	// 	}
-	// };
 
 	const followHandle = () => {
 		if (followStatus === false) {

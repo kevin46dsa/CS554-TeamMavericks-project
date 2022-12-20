@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../Post/Post.css';
 import { Avatar } from '@mui/material';
-import { postCollection } from '../../firebase.collection';
+import { postCollection, userCollection } from '../../firebase.collection';
 import { Timestamp } from '@firebase/firestore';
 import timeAgo from 'epoch-timeago';
 import Like from '../Like/Like';
@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Link, useNavigate } from 'react-router-dom';
 
 //import { db } from '../../App';
-import { doc, onSnapshot, updateDoc,deleteDoc } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import useUser from '../../hooks/useUser';
 import LostTrack from '../LostTrack';
@@ -20,10 +20,6 @@ import LostTrack from '../LostTrack';
 const PostElement = () => {
 	const navigate = useNavigate();
 	let { id } = useParams();
-
-	// ID Params is here
-	//console.log(id);
-
 	let allData = {
 		id: 'PCXOj062mepUYbLow1dL',
 		data: {
@@ -36,6 +32,8 @@ const PostElement = () => {
 			timestamp: '',
 		},
 	};
+	// ID Params is here
+	//console.log(id);
 	const { user, isLoading } = useUser();
 	const [comment, setComment] = useState('');
 	const [comments, setComments] = useState(allData.data.comments);
@@ -43,7 +41,9 @@ const PostElement = () => {
 	const [dataForComment, setdataForComment] = useState(undefined);
 	const [uid, setUid] = useState(undefined);
 	const [postData, setPostData] = useState(undefined);
-	//const [commentPull, setCommentPull] = useState([]);
+	const [snapUser, setSnapUser] = useState(undefined);
+	const [liked, setLiked] = useState(undefined);
+	const [snapUserData, setSnapUserData] = useState(undefined);
 
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
@@ -52,6 +52,7 @@ const PostElement = () => {
 	let posterId = allData.data.userRef;
 
 	let docRef;
+	//const [commentPull, setCommentPull] = useState([]);
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
@@ -93,13 +94,40 @@ const PostElement = () => {
 		return () => {};
 	}, [dataForComment]);
 
+	useEffect(() => {
+		const unsubscribe = onSnapshot(userCollection, (snapshot) => {
+			setSnapUser(
+				snapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
+	useEffect(() => {
+		if (snapUser) {
+			let idArray = snapUser.map((doc) => {
+				return doc.id;
+			});
+			let userIndex = idArray.indexOf(user.uid);
+			let userData = snapUser[userIndex].data;
+
+			setSnapUserData(userData);
+		}
+		return () => {};
+	}, [snapUser]);
+
 	const deleteComment = (comment) => {
 		const docRef = doc(db, 'Posts', postId);
 		const index = comments.indexOf(comment);
 		let newComments = comments;
-		console.log(newComments);
-		console.log(comment);
-		console.log(index);
+		// console.log(newComments);
+		// console.log(comment);
+		// console.log(index);
 		let newComments2 = newComments.splice(index, 1);
 		console.log('newComments2');
 		console.log(newComments);
@@ -146,22 +174,39 @@ const PostElement = () => {
 	};
 
 	async function onDelete(PostId) {
-		
-        if (window.confirm("Are you sure you want to delete?")){
-			await deleteDoc(doc(db, "Posts", PostId)); 
-			//navigate("/profile")
-			
-		} 
-        
-        // remove post id from user collection 
+		if (window.confirm('Are you sure you want to delete?')) {
+			navigate('/profile');
 
-		// there is a bug here needs attention 
-        // onSnapshot or set state
-    }
+			const docRef = doc(db, 'users', user.uid);
+			let post = snapUserData.posts;
+			const index = post.indexOf(PostId);
+			post.splice(index, 1);
 
+			const data = {
+				posts: post,
+			};
+			updateDoc(docRef, data)
+				.then((docRef) => {
+					console.log('Value of an Existing Document Field has been updated');
+					//console.log(commentPull.comments);
+					setLiked(!liked);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 
+			await deleteDoc(doc(db, 'Posts', PostId));
+			//setPostDeleted(true);
+		}
 
-	if (postData){ return (
+		// remove post id from user collection
+
+		// there is a bug here needs attention
+		// onSnapshot or set state
+	}
+
+	if (postData) {
+		return (
 			<>
 				<div className="post" key={allData.id}>
 					<div className="post__header">
@@ -172,11 +217,21 @@ const PostElement = () => {
 						/>
 
 						<h3>{postData.ownerName}</h3>
-						
-						{ postData.userRef === user.uid ? <><EditIcon onClick={()=>{console.log("Delete button clicked")}}/><DeleteIcon onClick={()=>{onDelete(id)}}/></>: null}
-							
-						
 
+						{postData.userRef === user.uid ? (
+							<>
+								<EditIcon
+									onClick={() => {
+										console.log('Delete button clicked');
+									}}
+								/>
+								<DeleteIcon
+									onClick={() => {
+										onDelete(id);
+									}}
+								/>
+							</>
+						) : null}
 					</div>
 					{/* Image */}
 					<img className="post__image" src={postData.imgURL} alt="" />
@@ -245,8 +300,9 @@ const PostElement = () => {
 				</div>
 			</>
 		);
-		}
-		//else navigate("/error")
+	}
+
+	//else navigate("/error")
 };
 
 export default PostElement;

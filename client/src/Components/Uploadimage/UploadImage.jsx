@@ -7,8 +7,7 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { userCollection } from '../../firebase.collection';
 import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
-import "../Uploadimage/UploadImage.css"
-
+import '../Uploadimage/UploadImage.css';
 
 const App = () => {
 	const [image, uploadImage] = useState('');
@@ -128,7 +127,7 @@ const App = () => {
 						onChange={setImage}
 						ref={imageInputRef}
 					/> */}
-					<input 
+					<input
 						type="file"
 						accept=".jpg,.png,.jpeg,.webp"
 						onChange={setImage}
