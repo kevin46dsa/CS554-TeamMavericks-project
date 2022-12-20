@@ -3,16 +3,15 @@ import './Header.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
 import { getAuth } from 'firebase/auth';
-import Search from '../Search/Search';
 
 const Login = () => {
 	return (
 		<>
 			<NavLink className="navlink" to="/login">
-				<button className="primary__button" >Log in</button>
+				<button className="primary__button">Log in</button>
 			</NavLink>
 			<NavLink className="navlink" to="/signup">
-				<button className="primary__button" >Sign up</button>
+				<button className="primary__button">Sign up</button>
 			</NavLink>
 		</>
 	);
