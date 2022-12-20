@@ -9,6 +9,7 @@ import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import "../Uploadimage/UploadImage.css"
 
+
 const App = () => {
 	const [image, uploadImage] = useState('');
 	const [caption, setCaption] = useState('');
@@ -127,13 +128,19 @@ const App = () => {
 						onChange={setImage}
 						ref={imageInputRef}
 					/> */}
-					<input
+					<input 
 						type="file"
 						accept=".jpg,.png,.jpeg,.webp"
 						onChange={setImage}
 						ref={imageInputRef}
 						multiple
 					/>
+
+					{/* ------------------------------------ */}
+
+
+
+					{/* --------------------------- */}
 					<button className="post-button" type="submit">
 						Post
 					</button>
