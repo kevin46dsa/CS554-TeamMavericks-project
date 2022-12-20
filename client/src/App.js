@@ -24,8 +24,6 @@ initializeApp(firebaseConfig);
 
 export const db = getFirestore();
 
-//////// end of temp code
-
 function App() {
 	return (
 		<BrowserRouter>

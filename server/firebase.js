@@ -26,7 +26,7 @@ var serviceAccount = {
 		'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-vgdiz%40instabuzz-v3.iam.gserviceaccount.com',
 };
 
-// Initialize the app with a service account, granting admin privileges
+//Initialize the app with a service account, granting admin privileges
 admin.initializeApp({
 	//credential: admin.credential.cert(JSON.parse(serviceAccount)),
 	credential: admin.credential.cert(serviceAccount),
