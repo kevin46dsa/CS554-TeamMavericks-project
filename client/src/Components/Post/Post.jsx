@@ -129,12 +129,12 @@ const Post = ({ allData }) => {
 			<div className="post" key={allData.id}>
 				<div className="post__header">
 					{/* Header: avatar with username */}
-					<Avatar alt={username} src="/static/images/avatar/1.jpg" />
+					<Avatar alt={username} src="/static/images/avatar/1.jpg"  style={{backgroundColor:'#767676'}}/>
 
 					<h1>{username}</h1>
 				</div>
 				{/* Image */}
-				<img className="post__image" src={imageUrl} alt="" />
+				<img className="post__image" src={imageUrl} alt={username} />
 				{/* Username + caption */}
 				<h2 className="post__text">
 					<strong>{username}</strong> {caption}
@@ -142,14 +142,14 @@ const Post = ({ allData }) => {
 				{/* <Like></Like> */}
 				{/* <Like id={allData.id} /> */}
 				{/* Like Shit Here*/}
-				<h3 class="text-success">Likes:{likeArray && likeArray.length}</h3>{' '}
+				<h3 class="text">Likes:{likeArray && likeArray.length}</h3>{' '}
 				<br></br>
 				<Like id={postId} className="post-iconItem" />
 				<br></br>
 				{/* End of Like Here*/}
 				{/* ----------------------------------------------------------------------------------------------------------------*/}
 				{/* Start of comments */}
-				<h3 class="text-success">Comments:</h3> <br></br>
+				<h3 class="text">Comments:</h3> <br></br>
 				{
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (
@@ -177,7 +177,8 @@ const Post = ({ allData }) => {
 				}
 				<form className="comment__form">
 					<div className="comment__wrapper">
-						<input
+						<label for='comment'/><input
+							id='comment'
 							className="comment__Input set-btn"
 							type="text"
 							placeholder="Add a comment..."

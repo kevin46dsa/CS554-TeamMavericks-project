@@ -188,8 +188,8 @@ export default function Profile() {
 							</div>
 						</div>
 						<div className="profile-bio">
-							<div className="profile-text">
-								{snapUserData && snapUserData.bio ? snapUserData.bio : null}
+							<div className="profile-text set-bio">
+								<span>{snapUserData && snapUserData.bio ? snapUserData.bio : null}</span>
 							</div>
 						</div>
 					</div>
