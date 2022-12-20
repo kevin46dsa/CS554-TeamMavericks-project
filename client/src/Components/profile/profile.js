@@ -26,7 +26,7 @@ import {
 	where,
 } from 'firebase/firestore';
 import { Avatar } from '@mui/material';
-import { userCollection } from '../../firebase.collection';
+import { userCollection, postCollection } from '../../firebase.collection';
 import { onSnapshot } from 'firebase/firestore';
 
 export default function Profile() {
@@ -45,6 +45,8 @@ export default function Profile() {
 	const { userData, isUserDataLoading } = useUserData();
 	const [snapUser, setSnapUser] = useState(undefined);
 	const [snapUserData, setSnapUserData] = useState(undefined);
+	const [postArray, setPostArray] = useState(undefined);
+	const [postArrayData, setPostData] = useState(undefined);
 
 	const navigate = useNavigate();
 	//Custom Hook
@@ -72,6 +74,35 @@ export default function Profile() {
 
 		fetchUserListings();
 	}, [userData]);
+
+	// useEffect(() => {
+	// 	const unsubscribe = onSnapshot(postCollection, (snapshot) => {
+	// 		setPostArray(
+	// 			snapshot.docs.map((doc) => ({
+	// 				id: doc.id,
+	// 				data: doc.data(),
+	// 			}))
+	// 		);
+	// 	});
+
+	// 	return () => {
+	// 		unsubscribe();
+	// 	};
+	// }, []);
+
+	// useEffect(() => {
+	// 	//let liket = dataForLike;
+	// 	console.log(postArray);
+	// 	if (postArray) {
+	// 		let parray = postArray.map((doc) => {
+	// 			if (user.uid === doc.data.userRef) return doc;
+	// 		});
+	// 		console.log(parray);
+	// 		setPostData(parray[0] === undefined ? [] : parray);
+	// 	}
+	// 	//console.log(liket);
+	// 	return () => {};
+	// }, [postArray]);
 
 	//snapshot user
 	useEffect(() => {
@@ -203,6 +234,7 @@ export default function Profile() {
               : null} */}
 						</div>
 
+						{/* <UserPosts alluserPosts={posts} /> */}
 						<UserPosts alluserPosts={posts} />
 					</div>
 				</div>

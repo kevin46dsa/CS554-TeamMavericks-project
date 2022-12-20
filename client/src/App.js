@@ -12,12 +12,12 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyB_s7JDsdkw8FSFt-NwadQAFZHsDx2BNvw',
-	authDomain: 'instabuzz-v2.firebaseapp.com',
-	projectId: 'instabuzz-v2',
-	storageBucket: 'instabuzz-v2.appspot.com',
-	messagingSenderId: '309544446406',
-	appId: '1:309544446406:web:c383a2fe62de8cbe89aac7',
+	apiKey: 'AIzaSyBLv75hzypiA82e6G_uk0KgVtsyl8t0eyA',
+	authDomain: 'instabuzz-v3.firebaseapp.com',
+	projectId: 'instabuzz-v3',
+	storageBucket: 'instabuzz-v3.appspot.com',
+	messagingSenderId: '382916130080',
+	appId: '1:382916130080:web:56dfbce26d08da12b39345',
 };
 // Initialize Firebase
 initializeApp(firebaseConfig);
