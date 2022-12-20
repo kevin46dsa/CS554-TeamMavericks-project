@@ -75,3 +75,8 @@
     width: 300px;
     height: 300px;
 }
+
+.set-bio{
+    text-align: center !important;
+    margin-left: 15%;
+}
