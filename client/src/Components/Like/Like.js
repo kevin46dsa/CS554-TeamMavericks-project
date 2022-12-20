@@ -35,6 +35,8 @@ const Like = ({ id }) => {
 				return doc.id;
 			});
 			let userIndex = idArray.indexOf(id);
+			console.log('dataForLike');
+			console.log(dataForLike);
 			let likeArray = dataForLike[userIndex].data.likes;
 			setLikeArray(likeArray);
 			let likeStatus = likeArray.includes(user.uid);

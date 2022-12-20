@@ -7,8 +7,7 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { userCollection } from '../../firebase.collection';
 import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
-import "../Uploadimage/UploadImage.css"
-
+import '../Uploadimage/UploadImage.css';
 
 const App = () => {
 	const [image, uploadImage] = useState('');
@@ -115,15 +114,12 @@ const App = () => {
 
 			<form className="post-form" onSubmit={uploadHandle}>
 				<div className="create-post">
-					<label>
-						<input 
-							className="form-control"
-							type="text" 
-							placeholder="Enter a Caption" 
-							value={caption}
-							onChange={(e) => setCaption(e.target.value)}
-						/><br></br>
-					</label>
+					<input
+						type="text"
+						placeholder="Enter a Caption"
+						value={caption}
+						onChange={(e) => setCaption(e.target.value)}
+					/>
 					{/* <input
 						type="file"
 						name="file"
@@ -131,29 +127,14 @@ const App = () => {
 						onChange={setImage}
 						ref={imageInputRef}
 					/> */}
-					{/* <input 
+					<input
 						type="file"
 						accept=".jpg,.png,.jpeg,.webp"
 						onChange={setImage}
 						ref={imageInputRef}
 						multiple
-					/> */}
-					{/* -------------------------------------- */}
-
-					<div class="input-group mb-3">
-						<input 
-						type="file" 
-						accept=".jpg,.png,.jpeg,.webp"
-						className="form-control set-file-div" 
-						onChange={setImage}
-						multiple
-						i/>
-					
-					</div>
-
-
-					{/* ---------------------------------- */}
-					<button className="btn btn-primary post-button" type="submit">
+					/>
+					<button className="post-button" type="submit">
 						Post
 					</button>
 					{image && (
