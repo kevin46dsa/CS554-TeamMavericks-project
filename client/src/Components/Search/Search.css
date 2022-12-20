@@ -34,15 +34,31 @@
   
 .search-results-wrapper {
     margin-top: 2em;
-    flex-direction: column;
+    
     width: 100%;
     list-style-type:circle;
      padding-left: .8em;     
-      
+     
+     margin-bottom: 20px;  
+   
+  
 
 }
 
-.list{
-    font-size:50px;
+.list1{
+    font-size:25px;
+    
+    list-style-type: none;
+    display: flexbox;
+    margin-bottom: 20px;  
+    text-decoration: underline;
+   
+
+}
+
+.list1 ::before{
+    
+    content: '\A'; white-space: pre; 
+    display: block;
 
 }

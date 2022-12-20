@@ -58,9 +58,9 @@ export default function Search() {
         {searchResults.length > 0 ? (
           <div className="search-results-wrapper">
             <Card style={{ width: "100%" }}>
-              <ListGroup variant="flush" className='list'>
+              <ListGroup variant="flush" className='list1'>
                 {searchResults.map((item, idx) => (
-                  <li onClick={() => navigate(`/user/${item.id}`)}>{item.name}</li>
+                  <li  onClick={() => navigate(`/user/${item.id}`)}>{item.name}</li>
                 ))}
               </ListGroup>
             </Card>
