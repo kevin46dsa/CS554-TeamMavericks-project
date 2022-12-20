@@ -76,9 +76,9 @@ const Post = ({ allData }) => {
 		const docRef = doc(db, 'Posts', postId);
 		const index = comments.indexOf(comment);
 		let newComments = comments;
-		console.log(newComments);
-		console.log(comment);
-		console.log(index);
+		// console.log(newComments);
+		// console.log(comment);
+		// console.log(index);
 		let newComments2 = newComments.splice(index, 1);
 		console.log('newComments2');
 		console.log(newComments);
@@ -153,13 +153,13 @@ const Post = ({ allData }) => {
 				{
 					<div className={comments.length > 0 ? 'post__comments' : ''}>
 						{comments.map((comment) => (
-							<p className="meta set-p-comment" >
+							<p className="meta set-p-comment">
 								{/* {console.log(comment)} */}
 								<strong>{comment.username}</strong> {comment.comment}{' '}
 								{/* {console.log(comment)} */}
 								{/* {comment.userId == uid ? <h1>can delete</h1> : null}{' '} */}
 								{comment.userId === uid && (
-									<span className='set-icon-clear'>
+									<span className="set-icon-clear">
 										<ClearIcon
 											onClick={() => deleteComment(comment)}
 											fontSize="small"

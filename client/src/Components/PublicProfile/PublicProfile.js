@@ -13,24 +13,12 @@ import { getAuth, updateProfile } from 'firebase/auth';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
-import useUserData from '../../hooks/useUserData';
-import {
-	collection,
-	deleteDoc,
-	doc,
-	getDoc,
-	getDocs,
-	orderBy,
-	query,
-	updateDoc,
-	where,
-} from 'firebase/firestore';
+
 import { Avatar } from '@mui/material';
 import { postCollection, userCollection } from '../../firebase.collection';
-import { onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 
 export default function PublicProfile() {
-	const [profileData, setProfileData] = useState({});
 	const [posts, setPosts] = useState(null);
 	const [following, setFollowing] = useState(false);
 	const [owner, setOwner] = useState(false);
@@ -43,11 +31,12 @@ export default function PublicProfile() {
 	const [udata2, setUdata2] = useState([]);
 
 	const auth = getAuth();
-	const { userData, isUserDataLoading } = useUserData();
+
 	const [snapUser, setSnapUser] = useState(undefined);
 	const [snapPosts, setSnapPosts] = useState(undefined);
 	const [snapUserData, setSnapUserData] = useState(undefined);
-
+	const [snapCurrentUserData, setSnapCurrentUserData] = useState(undefined);
+	const [followStatus, setFollowStatus] = useState();
 	const navigate = useNavigate();
 	//Custom Hook
 	let { id } = useParams();
@@ -58,9 +47,7 @@ export default function PublicProfile() {
 				const { data } = await axios.get(
 					` http://localhost:8000/data/getUserPosts/${id}`
 				);
-
 				setPosts(data);
-			
 			} catch (e) {
 				console.log(e);
 			}
@@ -69,7 +56,7 @@ export default function PublicProfile() {
 	}, [id]);
 
 	//snapshot user
-	
+
 	useEffect(() => {
 		const unsubscribe = onSnapshot(userCollection, (snapshot) => {
 			setSnapUser(
@@ -78,7 +65,7 @@ export default function PublicProfile() {
 					data: doc.data(),
 				}))
 			);
-			setNumUser(numUser++)
+			// setNumUser(numUser++);
 		});
 		return () => {
 			unsubscribe();
@@ -86,14 +73,38 @@ export default function PublicProfile() {
 	}, []);
 
 	useEffect(() => {
-		if(snapUser){
-			if(numUser > 1)flushRedis()
+		//let liket = dataForLike;
+		if (snapUser) {
+			let idArray = snapUser.map((doc) => {
+				return doc.id;
+			});
+			let userIndex = idArray.indexOf(id);
+			let CurrentuserIndex = idArray.indexOf(user.uid);
+			let userData = snapUser[userIndex].data;
 
+			let CurrentuserData = snapUser[CurrentuserIndex].data;
+			setSnapUserData(userData);
+			setSnapCurrentUserData(CurrentuserData);
+
+			//setting follow status
+			if (snapCurrentUserData) {
+				let following = snapCurrentUserData.userfollowing.includes(id); // Data of current user
+				setFollowStatus(following ? true : false);
+			}
+
+			//		console.log(snapUserData);
 		}
-		return () => {
-			
-		};
-	}, [snapUser,numUser]);
+		return () => {};
+	}, [snapUser, snapCurrentUserData]);
+	// useEffect(() => {
+	// 	if(snapUser){
+	// 		if(numUser > 1)flushRedis()
+
+	// 	}
+	// 	return () => {
+
+	// 	};
+	// }, [snapUser,numUser]);
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(postCollection, (snapshot) => {
@@ -103,80 +114,126 @@ export default function PublicProfile() {
 					data: doc.data(),
 				}))
 			);
-			setNumPost(numPost++)
+			// setNumPost(numPost++);
 		});
 		return () => {
 			unsubscribe();
 		};
 	}, []);
 
-	useEffect(() => {
-		if(snapPosts){
-			if(numPost > 1)flushRedis()
-		}
-		return () => {
-			
-		};
-	}, [snapPosts,numPost]);
+	// useEffect(() => {
+	// 	if(snapPosts){
+	// 		if(numPost > 1)flushRedis()
+	// 	}
+	// 	return () => {
 
-	useEffect(() => {
-		//let liket = dataForLike;
-		if (snapUser) {
-			let idArray = snapUser.map((doc) => {
-				return doc.id;
-			});
-			let userIndex = idArray.indexOf(user.uid);
-			let userData = snapUser[userIndex].data;
-			setSnapUserData(userData);
-			//		console.log(snapUserData);
-		}
-		return () => {};
-	}, [snapUser]);
+	// 	};
+	// }, [snapPosts,numPost]);
 
-	const flushRedis = async () => {
-		try {
-			const { data } = await axios.get(
-				` http://localhost:8000/data/flushRedis`
-			);
+	// const flushRedis = async () => {
+	// 	try {
+	// 		const { data } = await axios.get(
+	// 			` http://localhost:8000/data/flushRedis`
+	// 		);
 
-			console.log('Redis Flushed');
-		} catch (e) {
-			console.log(e);
+	// 		console.log('Redis Flushed');
+	// 	} catch (e) {
+	// 		console.log(e);
+	// 	}
+	// };
+
+	const followHandle = () => {
+		if (followStatus === false) {
+			//logic to follow
+			//currentuser - logged in      ------> user.uid
+			//otheruser - profile we are on -----> id
+
+			let currentUser = snapCurrentUserData;
+
+			currentUser.userfollowing.push(id);
+			// console.log(currentUser.userfollowing);
+			//setSnapCurrentUserData(currentUser);
+			let docRef = doc(db, 'users', user.uid);
+			let data = {
+				userfollowing: currentUser.userfollowing,
+			};
+			updateDoc(docRef, data)
+				.then((docRef) => {
+					console.log('following +1');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
+			let otherUser = snapUserData;
+			// console.log(otherUser);
+			console.log(otherUser.userfollowers);
+			otherUser.userfollowers.push(user.uid);
+			console.log(otherUser.userfollowers);
+			let docRef2 = doc(db, 'users', id);
+			data = {
+				userfollowers: otherUser.userfollowers,
+			};
+			updateDoc(docRef2, data)
+				.then((docRef) => {
+					console.log('follower +1');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			//logic to unfollow
+			let currentUser = snapCurrentUserData.userfollowing;
+			let index = currentUser.indexOf(id);
+			currentUser.splice(index, 1);
+			// console.log(currentUser.userfollowing);
+			//setSnapCurrentUserData(currentUser);
+			let docRef = doc(db, 'users', user.uid);
+			let data = {
+				userfollowing: currentUser,
+			};
+			updateDoc(docRef, data)
+				.then((docRef) => {
+					console.log('following +1');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
+			let otherUser = snapUserData.userfollowers;
+			index = otherUser.indexOf(user.uid);
+			otherUser.splice(index, 1);
+			let docRef2 = doc(db, 'users', id);
+			data = {
+				userfollowers: otherUser,
+			};
+			updateDoc(docRef2, data)
+				.then((docRef) => {
+					console.log('follower +1');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		}
 	};
-
-	function updateFollowing(profile) {
-		for (let follower of profile.followers) {
-			if (follower.email === user) {
-				setFollowing(true);
-				return userData.following;
-			}
-		}
-		setFollowing(false);
-	}
-
-	if (profileData == {}) return null;
 
 	return (
 		<div>
 			{
 				<div className="profile">
-					{/* <EditProfile
-          user={user}
-          show={editing}
-          hideCallback={hideEditCallback}
-          profileData={profileData}
-          setAlert={setAlert}
-        /> */}
 					<div className="profile-banner">
 						{/*Change this to User Name*/}
-						{user ? <h1>{user.displayName}</h1> : null}
+						{user ? <h1>{snapUserData && snapUserData.name}</h1> : null}
 						<br />
 
 						<div className="profile-data">
 							<Avatar
 								alt="Remy Sharp"
-								src={profileData.photo ? profileData.photo.asset.url : null}
+								src={
+									snapUserData && snapUserData.displayPicture
+										? snapUserData.displayPicture
+										: null
+								}
 								sx={{ width: 100, height: 100 }}
 							/>
 							<div className="vertical-data">
@@ -210,28 +267,15 @@ export default function PublicProfile() {
 								</h4>
 							</div>
 							<div className="follow-button">
-								{user && !owner ? (
-									<Button
-										variant={following ? 'danger' : 'success'}
-										// onClick={followClick}
-									></Button>
-								) : null}
-								{user && owner ? (
-									<Button variant="primary" onClick={() => setEditing(true)}>
-										Edit
-									</Button>
-								) : null}
+								<button onClick={followHandle}>
+									{followStatus ? 'Unfollow' : 'Follow'}
+								</button>
 							</div>
 						</div>
 						<div className="profile-bio">
-							<div className="profile-name">
-								<strong>
-									{(profileData.first_name ? profileData.first_name : '') +
-										' ' +
-										(profileData.last_name ? profileData.last_name : '')}
-								</strong>
+							<div className="profile-text">
+								{snapUserData && snapUserData.bio ? snapUserData.bio : null}
 							</div>
-							<div className="profile-text">{profileData.bio}</div>
 						</div>
 					</div>
 					<div className="break"></div>
