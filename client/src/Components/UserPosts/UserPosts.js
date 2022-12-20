@@ -52,8 +52,10 @@ const useStyles = {
 		flexDirection: 'row',
 	},
 	media: {
-		height: '100%',
-		width: '100%',
+		// height: '100%',
+		// width: '100%',
+		height: 167.14,
+		width: 130,
 	},
 	button: {
 		color: '#1e8678',
@@ -100,9 +102,7 @@ const UserPosts = ({ alluserPosts }) => {
 								component="img"
 								image={post.data.imgURL}
 							/>
-
 							<br />
-							{post.data.caption}
 						</CardContent>
 					</CardActionArea>
 				</Card>
@@ -118,6 +118,9 @@ const UserPosts = ({ alluserPosts }) => {
 
 	return (
 		<div>
+			<h2>POST:</h2>
+			<br />
+			<hr />
 			<Grid container sx={useStyles.grid} spacing={0.5}>
 				{card}
 			</Grid>

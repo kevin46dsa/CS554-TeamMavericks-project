@@ -8,7 +8,9 @@
 	margin-top: 1%;
 }
 .post__image {
-	width: 100%;
+	/* width: 100%; */
+	width: 29rem;
+	height: 24rem;
 	object-fit: contain;
 	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
@@ -86,15 +88,15 @@
 	text-align: center;
 }
 
-.set-btn:focus{
+.set-btn:focus {
 	outline-width: 0 !important;
 }
 
-.set-p-comment{
+.set-p-comment {
 	width: 100% !important;
 }
 
-.set-icon-clear{
+.set-icon-clear {
 	position: absolute;
 	right: 0;
 	margin-right: -5em;
