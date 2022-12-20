@@ -202,12 +202,6 @@ export default function Profile() {
 								</h4>
 							</div>
 							<div className="follow-button">
-								{user && !owner ? (
-									<Button
-										variant={following ? 'danger' : 'success'}
-										// onClick={followClick}
-									></Button>
-								) : null}
 								{user ? (
 									<Button
 										variant="primary"
@@ -220,19 +214,15 @@ export default function Profile() {
 						</div>
 						<div className="profile-bio">
 							<div className="profile-text set-bio">
-								<span>{snapUserData && snapUserData.bio ? snapUserData.bio : null}</span>
+								<span>
+									{snapUserData && snapUserData.bio ? snapUserData.bio : null}
+								</span>
 							</div>
 						</div>
 					</div>
 					<div className="break"></div>
 					<div className="profile-posts-wrapper">
-						<div className="profile-posts">
-							{/* {posts && posts.length > 0
-              ? posts.map((post, idx) => {
-                  return <img src={post.photo.asset.url} key={idx} />;
-                })
-              : null} */}
-						</div>
+						<div className="profile-posts"></div>
 
 						{/* <UserPosts alluserPosts={posts} /> */}
 						<UserPosts alluserPosts={posts} />
