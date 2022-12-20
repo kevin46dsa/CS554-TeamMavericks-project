@@ -267,9 +267,11 @@ export default function PublicProfile() {
 								</h4>
 							</div>
 							<div className="follow-button">
-								<button onClick={followHandle}>
-									{followStatus ? 'Unfollow' : 'Follow'}
-								</button>
+								{user && id == user.uid ? null : (
+									<button onClick={followHandle}>
+										{followStatus ? 'Unfollow' : 'Follow'}
+									</button>
+								)}
 							</div>
 						</div>
 						<div className="profile-bio">
