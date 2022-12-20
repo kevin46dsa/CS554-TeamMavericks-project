@@ -51,6 +51,7 @@ const Login = () => {
           </div>
           <form className={styles.form_container} onSubmit={onSubmit}>
             {" "}
+            <h1></h1>
             <h2>Welcome Back to instaBuzz!</h2>
 			<br></br>
             <h3>Login to Your Account to see activities</h3>
