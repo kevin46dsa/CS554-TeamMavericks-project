@@ -47,7 +47,8 @@ body {
 	background-color: #007acb;
 
 } */
-.primary__button, .navlink {
+.primary__button,
+.navlink {
 	background-color: #007acb;
 
 	border-radius: 4px;
@@ -56,11 +57,9 @@ body {
 	font-weight: 600;
 	text-align: center;
 	/* text-decoration: none; */
-	
 }
 
-
-.primary__button1{
+.primary__button1 {
 	background-color: #007acb;
 
 	border-radius: 4px;
@@ -72,7 +71,7 @@ body {
 	text-decoration-color: #fff;
 }
 .text__button {
-	color: #fafafa;
+	color: #000000;
 	font-weight: 600;
 	line-height: 28px;
 	background-color: transparent;
@@ -84,6 +83,4 @@ body {
 	row-gap: 15px;
 	color: #fff;
 	/* text-decoration-color: #fff; */
-
-
 }
