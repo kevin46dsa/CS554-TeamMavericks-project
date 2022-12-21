@@ -170,34 +170,33 @@ const PostElement = () => {
 
 	const postComment = (e) => {
 		e.preventDefault();
-		if(comment && comment.trim().length === 0){
-			alert("Comment cannot contain just spaces")
-		}
-		else {
-		const docRef = doc(db, 'Posts', postId);
-		let currentComment = {
-			comment: comment,
-			timeStamp: Timestamp.fromDate(new Date()),
-			userId: user.uid,
-			username: user.displayName,
-		};
-		// console.log('$$$$$');
-		// console.log(currentComment);
-		comments.push(currentComment);
-		const data = {
-			comments: comments,
-		};
-		updateDoc(docRef, data)
-			.then((docRef) => {
-				console.log('Value of an Existing Document Field has been updated');
-				//console.log(commentPull.comments);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		if (comment && comment.trim().length === 0) {
+			alert('Comment cannot contain just spaces');
+		} else {
+			const docRef = doc(db, 'Posts', postId);
+			let currentComment = {
+				comment: comment,
+				timeStamp: Timestamp.fromDate(new Date()),
+				userId: user.uid,
+				username: user.displayName,
+			};
+			// console.log('$$$$$');
+			// console.log(currentComment);
+			comments.push(currentComment);
+			const data = {
+				comments: comments,
+			};
+			updateDoc(docRef, data)
+				.then((docRef) => {
+					console.log('Value of an Existing Document Field has been updated');
+					//console.log(commentPull.comments);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 
-		setComment('');
-		// logic to come
+			setComment('');
+			// logic to come
 		}
 	};
 
@@ -265,10 +264,10 @@ const PostElement = () => {
 							src={postUser && postUser.displayPicture}
 						/>
 
-						<h3>{postData.ownerName}</h3>
+						<h1>{postData.ownerName}</h1>
 
 						{postData.userRef === user.uid ? (
-							<span className='set-edit'>
+							<span className="set-edit">
 								<EditIcon onClick={() => setEditting(!editting)} />
 								<DeleteIcon
 									onClick={() => {
@@ -281,7 +280,7 @@ const PostElement = () => {
 					{/* Image */}
 					<img className="post__image" src={imageURI} alt="" />
 					{/* Username + caption */}
-					<h4 className="post__text">
+					<h2 className="post__text">
 						<strong>{postData.ownerName}</strong>{' '}
 						{editting ? (
 							<>
@@ -300,7 +299,7 @@ const PostElement = () => {
 						) : (
 							postData.caption
 						)}
-					</h4>
+					</h2>
 					{/* <Like></Like> */}
 					{/* <Like id={allData.id} /> */}
 					{/* Like Shit Here*/}
@@ -338,13 +337,15 @@ const PostElement = () => {
 					}
 					<form className="comment__form">
 						<div className="comment__wrapper">
-							<input
-								className="comment__Input set-btn"
-								type="text"
-								placeholder="Add a comment..."
-								value={comment}
-								onChange={(e) => setComment(e.target.value)}
-							/>
+							<label>
+								<input
+									className="comment__Input set-btn"
+									type="text"
+									placeholder="Add a comment..."
+									value={comment}
+									onChange={(e) => setComment(e.target.value)}
+								/>
+							</label>
 							<button
 								className="comment_button text_button"
 								disabled={!comment}
