@@ -1,3 +1,6 @@
+//Profile
+
+
 import React from 'react';
 import { useState, useEffect } from 'react';
 
@@ -175,31 +178,31 @@ export default function Profile() {
 								<p>
 									<strong>Posts</strong>
 								</p>
-								<h4>
+								<h2>
 									{snapUserData && snapUserData.posts
 										? snapUserData.posts.length
 										: 0}
-								</h4>
+								</h2>
 							</div>
 							<div className="vertical-data">
 								<p>
 									<strong>Followers</strong>
 								</p>
-								<h4>
+								<h2>
 									{snapUserData && snapUserData.userfollowers
 										? snapUserData.userfollowers.length
 										: 0}
-								</h4>
+								</h2>
 							</div>
 							<div className="vertical-data">
 								<p>
 									<strong>Following</strong>
 								</p>
-								<h4>
+								<h2>
 									{snapUserData && snapUserData.userfollowing
 										? snapUserData.userfollowing.length - 1
 										: 0}
-								</h4>
+								</h2>
 							</div>
 							<div className="follow-button">
 								{user ? (
