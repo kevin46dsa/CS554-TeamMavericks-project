@@ -268,14 +268,14 @@ const PostElement = () => {
 						<h3>{postData.ownerName}</h3>
 
 						{postData.userRef === user.uid ? (
-							<>
+							<span className='set-edit'>
 								<EditIcon onClick={() => setEditting(!editting)} />
 								<DeleteIcon
 									onClick={() => {
 										onDelete(id);
 									}}
 								/>
-							</>
+							</span>
 						) : null}
 					</div>
 					{/* Image */}
