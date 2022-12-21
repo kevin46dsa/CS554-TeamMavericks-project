@@ -70,9 +70,6 @@ const Login = () => {
 							className={styles.input}
 						/>
 						<br></br>
-						<Link to="/forgot-password" className="">
-							Forgot password?
-						</Link>
 						<button className="primary__button">
 							<span>Login</span>
 						</button>
