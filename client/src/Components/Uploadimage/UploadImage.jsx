@@ -114,12 +114,14 @@ const App = () => {
 
 			<form className="post-form" onSubmit={uploadHandle}>
 				<div className="create-post">
+					<label alt=''>
 					<input
 						type="text"
 						placeholder="Enter a Caption"
 						value={caption}
 						onChange={(e) => setCaption(e.target.value)}
 					/>
+					</label>
 					{/* <input
 						type="file"
 						name="file"
@@ -127,6 +129,7 @@ const App = () => {
 						onChange={setImage}
 						ref={imageInputRef}
 					/> */}
+					<label>
 					<input
 						type="file"
 						accept=".jpg,.png,.jpeg,.webp"
@@ -134,6 +137,7 @@ const App = () => {
 						ref={imageInputRef}
 						multiple
 					/>
+					</label>
 					<button className="post-button" type="submit">
 						Post
 					</button>
