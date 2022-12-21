@@ -101,3 +101,9 @@
 	right: 0;
 	margin-right: -5em;
 }
+
+.set-edit{
+	position: absolute;
+	right: 0;
+	margin-right: 34%;
+}

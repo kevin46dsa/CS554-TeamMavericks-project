@@ -61,12 +61,13 @@ const App = () => {
 		let data = {
 			uuid: userData.uid,
 			name: userData.result.name,
-			caption: caption,
+			caption: caption.trim(),
 			timestamp: Timestamp.fromDate(new Date()),
 		};
 
 		console.log(data);
-		if (image) {
+		if(caption.length !== data.caption.length) alert("Caption cannot be empty")
+		else if (image) {
 			axios
 				.post(' http://localhost:8000/data/upload2', data)
 				.then((res) => {
@@ -84,8 +85,9 @@ const App = () => {
 				.catch((e) => {
 					console.log(e);
 				});
+			
+			if (postsData && data.caption.length !== 0) {
 
-			if (postsData) {
 				const docRef = doc(db, 'users', user.uid);
 				let newUser = postsData;
 				newUser.posts.push(postId);
@@ -106,6 +108,7 @@ const App = () => {
 		} else {
 			alert('Upload an Image to create new post');
 		}
+	
 	};
 
 	return (

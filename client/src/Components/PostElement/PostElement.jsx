@@ -170,7 +170,10 @@ const PostElement = () => {
 
 	const postComment = (e) => {
 		e.preventDefault();
-
+		if(comment && comment.trim().length === 0){
+			alert("Comment cannot contain just spaces")
+		}
+		else {
 		const docRef = doc(db, 'Posts', postId);
 		let currentComment = {
 			comment: comment,
@@ -195,6 +198,7 @@ const PostElement = () => {
 
 		setComment('');
 		// logic to come
+		}
 	};
 
 	async function onDelete(PostId) {
@@ -264,14 +268,14 @@ const PostElement = () => {
 						<h3>{postData.ownerName}</h3>
 
 						{postData.userRef === user.uid ? (
-							<>
+							<span className='set-edit'>
 								<EditIcon onClick={() => setEditting(!editting)} />
 								<DeleteIcon
 									onClick={() => {
 										onDelete(id);
 									}}
 								/>
-							</>
+							</span>
 						) : null}
 					</div>
 					{/* Image */}
@@ -342,7 +346,7 @@ const PostElement = () => {
 								onChange={(e) => setComment(e.target.value)}
 							/>
 							<button
-								className="comment__button text__button"
+								className="comment_button text_button"
 								disabled={!comment}
 								onClick={postComment}
 								type="submit"

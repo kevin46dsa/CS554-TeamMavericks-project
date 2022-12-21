@@ -46,6 +46,8 @@
 
 .profile-text {
     position: absolute;
+    inline-size: 500px;
+    display: contents;
 	
 }
 

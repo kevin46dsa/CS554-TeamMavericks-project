@@ -99,6 +99,8 @@ const Edit = () => {
 				);
 			});
 		}
+
+
 		if (image) {
 			imgUrls = await storeImage(image).catch((error) => {
 				alert('Images not uploaded');
@@ -124,7 +126,10 @@ const Edit = () => {
 		} else {
 			data = null;
 		}
-		if (data) {
+		if(data.bio && data.bio.trim().length === 0){
+			alert("Bio cannot contain just spaces")
+		}
+		else if (data) {
 			updateDoc(docRef, data)
 				.then((docRef) => {
 					console.log('Display picture updated');
