@@ -46,6 +46,8 @@ const PostElement = () => {
 	const [liked, setLiked] = useState(undefined);
 	const [snapUserData, setSnapUserData] = useState(undefined);
 	const [imageURI, setImageURL] = useState(undefined);
+	const [editting, setEditting] = useState(false);
+	const [newCaption, setNewCaption] = useState(false);
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
 	let imageUrl = allData.data.imgURL;
@@ -220,8 +222,25 @@ const PostElement = () => {
 		// onSnapshot or set state
 	}
 
-	const editProfile = () => {
+	const editProfile = (e) => {
+		e.preventDefault();
+		let caption = newCaption;
 		console.log('Start Editting');
+		const docRef = doc(db, 'Posts', id);
+
+		const data = {
+			caption: caption,
+		};
+		updateDoc(docRef, data)
+			.then((docRef) => {
+				console.log('Value of an Existing Document Field has been updated');
+				//console.log(commentPull.comments);
+				setLiked(!liked);
+				setEditting(!editting);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	if (postData) {
@@ -239,7 +258,7 @@ const PostElement = () => {
 
 						{postData.userRef === user.uid ? (
 							<>
-								<EditIcon onClick={editProfile} />
+								<EditIcon onClick={() => setEditting(!editting)} />
 								<DeleteIcon
 									onClick={() => {
 										onDelete(id);
@@ -252,7 +271,24 @@ const PostElement = () => {
 					<img className="post__image" src={imageURI} alt="" />
 					{/* Username + caption */}
 					<h4 className="post__text">
-						<strong>{postData.ownerName}</strong> {postData.caption}
+						<strong>{postData.ownerName}</strong>{' '}
+						{editting ? (
+							<>
+								<form onSubmit={editProfile}>
+									<input
+										type="text"
+										name="caption"
+										placeholder={postData.caption}
+										onChange={(e) => {
+											setNewCaption(e.target.value);
+										}}
+									/>
+									<button type="submit">Submit</button>
+								</form>
+							</>
+						) : (
+							postData.caption
+						)}
 					</h4>
 					{/* <Like></Like> */}
 					{/* <Like id={allData.id} /> */}
