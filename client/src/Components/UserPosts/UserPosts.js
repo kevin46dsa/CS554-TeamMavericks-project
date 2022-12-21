@@ -126,7 +126,6 @@ const UserPosts = ({ alluserPosts }) => {
 	return (
 		<div>
 			<h2>POSTS</h2>
-			<br />
 			<hr />
 			<Grid container sx={useStyles.grid} spacing={0.5}>
 				{card}
