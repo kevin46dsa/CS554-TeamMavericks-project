@@ -4,7 +4,6 @@ We created this project because we wanted to create something we were passionate
 sharing platform and showcase talent. Where the user posts an image or multiple images with an added description and location of the image taken. The user will
 also be able to view Pictures of other users who wish to set their profile as Public. users will also be able to comment and like other users' posts.
 
-
 # Setup Guide
 
 # SERVER
@@ -46,7 +45,6 @@ Run the following command
 npm install
 ```
 
-
 # SERVER
 
 Now , go to the client folder
@@ -61,7 +59,8 @@ npm install
 
 ## .Env File for Firebase:
 
-Please add the .env.local file in the code under client folder for Firebase integration with the code(We are providing the .env file in our zip code which might be hidden if you are viewing it via file viewer. Please make sure to unhide the hidden files according to your operating system).
+Rename the env file to .env (while cloning)
+correct location -> Server folder
 
 ## Running instructions for both CLIENT and SERVER:
 
@@ -74,11 +73,8 @@ npm start
 Access the frontend at:
 http://localhost:3000/
 
-
 Access the backend at:
 http://localhost:8000/
-
-
 
 # Technologies used:
 
