@@ -48,6 +48,7 @@ const PostElement = () => {
 	const [imageURI, setImageURL] = useState(undefined);
 	const [editting, setEditting] = useState(false);
 	const [newCaption, setNewCaption] = useState(false);
+	const [postUser, setPostUser] = useState(undefined);
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
 	let imageUrl = allData.data.imgURL;
@@ -87,7 +88,7 @@ const PostElement = () => {
 			let likeArray = dataForComment[userIndex].data.likes;
 			let u = dataForComment[userIndex].data;
 			setPostData(dataForComment[userIndex].data);
-			console.log(u);
+			//	console.log(u);
 			// console.log(comments);
 			setUid(user.uid);
 			setComments(comments);
@@ -118,11 +119,17 @@ const PostElement = () => {
 			});
 			let userIndex = idArray.indexOf(user.uid);
 			let userData = snapUser[userIndex].data;
+			if (postData) {
+				let userIndex2 = idArray.indexOf(postData.userRef);
+				let userData2 = snapUser[userIndex2].data;
+				setPostUser(userData2);
+				//	console.log(postUser);
+			}
 
 			setSnapUserData(userData);
 		}
 		return () => {};
-	}, [snapUser]);
+	}, [snapUser, postData]);
 
 	useEffect(() => {
 		axios
@@ -251,7 +258,7 @@ const PostElement = () => {
 						{/* Header: avatar with username */}
 						<Avatar
 							alt={postData.ownerName}
-							src="/static/images/avatar/1.jpg"
+							src={postUser && postUser.displayPicture}
 						/>
 
 						<h3>{postData.ownerName}</h3>
