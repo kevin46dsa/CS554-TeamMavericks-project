@@ -24,8 +24,9 @@ const Routesr = () => {
 	return (
 		<>
 			<Switch>
-				<Routing exact path="/" element={<Home />} />
-
+				<Routing path="/" element={<PrivateRoute />}>
+					<Routing exact path="/" element={<Home />} />
+				</Routing>
 				<Routing path="/uploadimage" element={<PrivateRoute />}>
 					<Routing exact path="/uploadimage" element={<UploadImage />} />
 				</Routing>
@@ -36,14 +37,6 @@ const Routesr = () => {
 
 				<Routing path="/edit-profile" element={<PrivateRoute />}>
 					<Routing exact path="/edit-profile" element={<Edit />} />
-				</Routing>
-
-				<Routing path="/createpost" element={<PrivateRoute />}>
-					<Routing
-						exact
-						path="/createpost"
-						element={<CreatePost setAlert={setAlert} />}
-					/>
 				</Routing>
 
 				<Routing path="/follow" element={<PrivateRoute />}>
