@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 //import { db } from '../../App';
 import { doc, onSnapshot, updateDoc, deleteDoc } from 'firebase/firestore';
@@ -44,7 +45,7 @@ const PostElement = () => {
 	const [snapUser, setSnapUser] = useState(undefined);
 	const [liked, setLiked] = useState(undefined);
 	const [snapUserData, setSnapUserData] = useState(undefined);
-
+	const [imageURI, setImageURL] = useState(undefined);
 	let username = allData.data.ownerName;
 	let caption = allData.data.caption;
 	let imageUrl = allData.data.imgURL;
@@ -120,6 +121,20 @@ const PostElement = () => {
 		}
 		return () => {};
 	}, [snapUser]);
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:8000/data/getpost/' + id)
+			.then((res) => {
+				let image = res.data.imgURL;
+				setImageURL(image);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+
+		return () => {};
+	}, []);
 
 	const deleteComment = (comment) => {
 		const docRef = doc(db, 'Posts', postId);
@@ -205,6 +220,10 @@ const PostElement = () => {
 		// onSnapshot or set state
 	}
 
+	const editProfile = () => {
+		console.log('Start Editting');
+	};
+
 	if (postData) {
 		return (
 			<>
@@ -220,11 +239,7 @@ const PostElement = () => {
 
 						{postData.userRef === user.uid ? (
 							<>
-								<EditIcon
-									onClick={() => {
-										console.log('Delete button clicked');
-									}}
-								/>
+								<EditIcon onClick={editProfile} />
 								<DeleteIcon
 									onClick={() => {
 										onDelete(id);
@@ -234,7 +249,7 @@ const PostElement = () => {
 						) : null}
 					</div>
 					{/* Image */}
-					<img className="post__image" src={postData.imgURL} alt="" />
+					<img className="post__image" src={imageURI} alt="" />
 					{/* Username + caption */}
 					<h4 className="post__text">
 						<strong>{postData.ownerName}</strong> {postData.caption}
@@ -242,10 +257,7 @@ const PostElement = () => {
 					{/* <Like></Like> */}
 					{/* <Like id={allData.id} /> */}
 					{/* Like Shit Here*/}
-					<h3 class="text">
-						Likes:{likeArray && likeArray.length}
-					</h3>{' '}
-					<br></br>
+					<h3 class="text">Likes:{likeArray && likeArray.length}</h3> <br></br>
 					<Like id={postId} className="post-iconItem" />
 					<br></br>
 					{/* End of Like Here*/}
