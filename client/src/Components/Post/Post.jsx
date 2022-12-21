@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Post.css';
 import { Avatar } from '@mui/material';
-import { postCollection } from '../../firebase.collection';
+import { postCollection, userCollection } from '../../firebase.collection';
 import { Timestamp } from '@firebase/firestore';
 import timeAgo from 'epoch-timeago';
 import Like from '../Like/Like';
@@ -25,6 +25,8 @@ const Post = ({ allData }) => {
 	const [likeArray, setLikeArray] = useState(undefined);
 	const [dataForComment, setdataForComment] = useState(undefined);
 	const [uid, setUid] = useState(undefined);
+	const [snapUser, setSnapUser] = useState(undefined);
+	const [postUser, setPostUser] = useState(undefined);
 	//const [commentPull, setCommentPull] = useState([]);
 
 	let username = allData.data.ownerName;
@@ -71,6 +73,36 @@ const Post = ({ allData }) => {
 		//console.log(liket);
 		return () => {};
 	}, [dataForComment]);
+
+	useEffect(() => {
+		const unsubscribe = onSnapshot(userCollection, (snapshot) => {
+			setSnapUser(
+				snapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
+	useEffect(() => {
+		if (snapUser) {
+			let idArray = snapUser.map((doc) => {
+				return doc.id;
+			});
+
+			if (posterId) {
+				let userIndex2 = idArray.indexOf(posterId);
+				let userData2 = snapUser[userIndex2].data;
+				setPostUser(userData2);
+				//console.log(postUser);
+			}
+		}
+		return () => {};
+	}, [snapUser, posterId]);
 
 	const deleteComment = (comment) => {
 		const docRef = doc(db, 'Posts', postId);
@@ -129,7 +161,11 @@ const Post = ({ allData }) => {
 			<div className="post" key={allData.id}>
 				<div className="post__header">
 					{/* Header: avatar with username */}
-					<Avatar alt={username} src="/static/images/avatar/1.jpg"  style={{backgroundColor:'#767676'}}/>
+					<Avatar
+						alt={username}
+						src={postUser && postUser.displayPicture}
+						style={{ backgroundColor: '#767676' }}
+					/>
 
 					<h1>{username}</h1>
 				</div>
@@ -142,8 +178,7 @@ const Post = ({ allData }) => {
 				{/* <Like></Like> */}
 				{/* <Like id={allData.id} /> */}
 				{/* Like Shit Here*/}
-				<h3 class="text">Likes:{likeArray && likeArray.length}</h3>{' '}
-				<br></br>
+				<h3 class="text">Likes:{likeArray && likeArray.length}</h3> <br></br>
 				<Like id={postId} className="post-iconItem" />
 				<br></br>
 				{/* End of Like Here*/}
@@ -177,8 +212,9 @@ const Post = ({ allData }) => {
 				}
 				<form className="comment__form">
 					<div className="comment__wrapper">
-						<label for='comment'/><input
-							id='comment'
+						<label for="comment" />
+						<input
+							id="comment"
 							className="comment__Input set-btn"
 							type="text"
 							placeholder="Add a comment..."
