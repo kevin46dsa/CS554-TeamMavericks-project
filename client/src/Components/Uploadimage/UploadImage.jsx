@@ -66,7 +66,8 @@ const App = () => {
 		};
 
 		console.log(data);
-		if(caption.length !== data.caption.length) alert("Caption cannot be empty")
+		if (caption.length !== data.caption.length)
+			alert('Caption cannot be empty');
 		else if (image) {
 			axios
 				.post(' http://localhost:8000/data/upload2', data)
@@ -85,9 +86,9 @@ const App = () => {
 				.catch((e) => {
 					console.log(e);
 				});
-			
-			if (postsData && data.caption.length !== 0) {
-
+			if (caption && caption.trim().length === 0) {
+				alert('caption cannot contain just spaces');
+			} else if (postsData) {
 				const docRef = doc(db, 'users', user.uid);
 				let newUser = postsData;
 				newUser.posts.push(postId);
@@ -108,7 +109,6 @@ const App = () => {
 		} else {
 			alert('Upload an Image to create new post');
 		}
-	
 	};
 
 	return (
@@ -135,7 +135,6 @@ const App = () => {
 						accept=".jpg,.png,.jpeg,.webp"
 						onChange={setImage}
 						ref={imageInputRef}
-						multiple
 					/>
 					<button className="post-button" type="submit">
 						Post
