@@ -50,7 +50,7 @@ export default function Search() {
             <Form.Control
               type="text"
               onInput={handleInp}
-              placeholder="Searching Someone...."
+              placeholder="Search Someone...."
               className='searchtype'
             />
 
@@ -60,7 +60,6 @@ export default function Search() {
           </Button> */}
           </label>
         </Form>
-
 
         {searchResults.length > 0 ? (
           <div className="search-results-wrapper">
@@ -73,7 +72,7 @@ export default function Search() {
             </Card>
           </div>
         ) : (
-          <p>No Search Results</p>
+          <p>No Search Results</p>   
         )}
       </div>
     </div>
