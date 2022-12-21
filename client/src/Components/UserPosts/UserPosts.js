@@ -1,3 +1,5 @@
+//UserPosts
+
 import React, { useState, useEffect } from 'react';
 
 import {
@@ -97,11 +99,16 @@ const UserPosts = ({ alluserPosts }) => {
 					<CardActionArea>
 						<CardContent>
 							<br />
+              <label for='image1'>
 							<CardMedia
+                 alt={post.data.caption}
 								sx={useStyles.media}
 								component="img"
 								image={post.data.imgURL}
+                
 							/>
+
+              </label>
 							<br />
 						</CardContent>
 					</CardActionArea>
@@ -118,7 +125,7 @@ const UserPosts = ({ alluserPosts }) => {
 
 	return (
 		<div>
-			<h2>POSTS:</h2>
+			<h2>POSTS</h2>
 			<br />
 			<hr />
 			<Grid container sx={useStyles.grid} spacing={0.5}>
