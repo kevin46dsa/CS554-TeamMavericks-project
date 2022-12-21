@@ -63,7 +63,7 @@ npm install
 
 Please add the .env.local file in the code under client folder for Firebase integration with the code(We are providing the .env file in our zip code which might be hidden if you are viewing it via file viewer. Please make sure to unhide the hidden files according to your operating system).
 
-## Running instructions:
+## Running instructions for both CLIENT and SERVER:
 
 ```
 npm start
