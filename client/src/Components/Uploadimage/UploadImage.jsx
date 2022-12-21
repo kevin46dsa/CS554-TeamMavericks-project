@@ -86,8 +86,9 @@ const App = () => {
 				.catch((e) => {
 					console.log(e);
 				});
-
-			if (postsData && data.caption.length !== 0) {
+			if (caption && caption.trim().length === 0) {
+				alert('caption cannot contain just spaces');
+			} else if (postsData) {
 				const docRef = doc(db, 'users', user.uid);
 				let newUser = postsData;
 				newUser.posts.push(postId);
