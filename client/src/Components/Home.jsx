@@ -65,7 +65,7 @@ const Home = () => {
 
 
 	return (
-		<> {userFollowingPosts.length === 0 ? <h1>You feed looks kinda dry, either Upload a post or Follow Some one using Search</h1>:
+		<> {userFollowingPosts.length === 0 ? <h1>Your feed looks kinda dry, either Upload a post or Follow Some one using Search</h1>:
 		<div className="timeline">
 				{userFollowingPosts.map((post) => (
 					<Post allData={post} />
