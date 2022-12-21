@@ -129,7 +129,10 @@ const Post = ({ allData }) => {
 
 	const postComment = (e) => {
 		e.preventDefault();
-
+		if(comment && comment.trim().length === 0){
+			alert("Comment cannot contain just spaces")
+		}
+		else {
 		const docRef = doc(db, 'Posts', postId);
 		let currentComment = {
 			comment: comment,
@@ -154,6 +157,7 @@ const Post = ({ allData }) => {
 
 		setComment('');
 		// logic to come
+		}
 	};
 
 	return (
@@ -222,7 +226,7 @@ const Post = ({ allData }) => {
 							onChange={(e) => setComment(e.target.value)}
 						/>
 						<button
-							className="comment__button text__button"
+							className="comment_button text_button"
 							disabled={!comment}
 							onClick={postComment}
 							type="submit"

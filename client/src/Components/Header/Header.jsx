@@ -33,18 +33,20 @@ const Logout = (props) => {
 
 	return (
 		<>
-			<button className="text__button" onClick={onLogout}>
-				Logout
-			</button>
-			<NavLink className="navlink" to="/profile">
-				<button className="text__button">Profile</button>
+			<NavLink className="navlink" to="/Search">
+				<button className="text__button">Search</button>
 			</NavLink>
 			<NavLink className="navlink" to="/UploadImage">
 				<button className="text__button">Upload</button>
 			</NavLink>
-			<NavLink className="navlink" to="/Search">
-				<button className="text__button">Search</button>
+			
+			<NavLink className="navlink" to="/profile">
+				<button className="text__button">Profile</button>
 			</NavLink>
+			
+			<button className="text__button" onClick={onLogout}>
+				Logout
+			</button>
 		</>
 	);
 };

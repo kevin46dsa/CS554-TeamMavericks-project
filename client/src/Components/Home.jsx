@@ -60,76 +60,19 @@ const Home = () => {
 		fetchUserFollowingPosts();
 	}, [user]);
 
-	useEffect(() => {
-		async function fetchMostLikedPosts() {
-			try {
-				// execute the query
-				// create query to get user following array of this specific user.uid
-				if (user.uid) {
-					const docRef = doc(db, 'users', user.uid);
-					const docSnap = await getDoc(docRef);
-					let userFollowing = [];
-					if (docSnap.exists()) {
-						let userData = docSnap.data();
-						userFollowing = userData.userfollowing;
-					} else {
-						console.log('docSnap Does not exist');
-					}
-					if (userFollowing.length == 0)
-						console.log('No User Data user following lenght 0');
-					const querySnapshot = await getDocs(
-						queries.mostLikedPosts(userFollowing)
-					);
 
-					//Calling the clean function for all the data
-					const mostLikedPosts = cleanData(querySnapshot);
 
-					setMostLiked(mostLikedPosts);
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		}
-		fetchMostLikedPosts();
-	}, [user]);
 
-	const setONHandle = () => {
-		//fetch data
-
-		//set state of userfoll
-		setON(!on);
-	};
 
 	return (
-		<>
-			{/* <div>{user ? <h1>Home user logged in {data}</h1> : <h1>No user</h1>}</div> */}
-			{user ? (
-				<button
-					onClick={() => {
-						setON(!on);
-					}}
-				>
-					Most Liked Posts {on ? <p>true</p> : null}
-				</button>
-			) : null}
-			<div className="timeline">
-				{on ? (
-					<>
-						{mostLiked.map((post) => (
-							<Post allData={post} />
-						))}
-					</>
-				) : (
-					<>
-						{userFollowingPosts.map((post) => (
-							<Post allData={post} />
-						))}
-					</>
-				)}
-				{/* {userFollowingPosts.map((post) => (
+		<> {userFollowingPosts.length === 0 ? <h1>You feed looks kinda dry, either Upload a post or Follow Some one using Search</h1>:
+		<div className="timeline">
+				{userFollowingPosts.map((post) => (
 					<Post allData={post} />
-				))} */}
-			</div>
+				))} 
+			</div>}
+			{/* <div>{user ? <h1>Home user logged in {data}</h1> : <h1>No user</h1>}</div> */}
+			
 		</>
 	);
 };
